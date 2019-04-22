@@ -1,0 +1,310 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (c) 2019. http://devonline.academy
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<!DOCTYPE module PUBLIC "-//Puppy Crawl//DTD Check Configuration 1.2//EN"
+        "http://www.puppycrawl.com/dtds/configuration_1_2.dtd">
+<module name="Checker">
+
+    <!--        http://checkstyle.sourceforge.net/config.html#Checker_Properties            -->
+    <property name="charset" value="UTF-8"/>
+    <property name="fileExtensions" value="java, xml, properties"/>
+    <property name="severity" value="warning"/>
+
+    <module name="SuppressWarningsFilter"/>
+
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Checker Config ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+    <!--             http://checkstyle.sourceforge.net/config_misc.html                     -->
+    <module name="NewlineAtEndOfFile"/>
+    <module name="Translation"/>
+    <module name="UniqueProperties"/>
+    <!--            http://checkstyle.sourceforge.net/config_sizes.html                     -->
+    <module name="FileLength"/>
+    <!--         http://checkstyle.sourceforge.net/config_whitespace.html                   -->
+    <module name="FileTabCharacter">
+        <property name="eachLine" value="true"/>
+    </module>
+    <!--           http://checkstyle.sourceforge.net/config_header.html                     -->
+    <!--                              empty config                                          -->
+
+    <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ TreeWalker Config ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+    <!--                 http://checkstyle.sourceforge.net/checks.html                      -->
+    <module name="TreeWalker">
+
+        <module name="SuppressWarningsHolder"/>
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~ Checks for annotations ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+        <!--           http://checkstyle.sourceforge.net/config_annotation.html             -->
+        <module name="AnnotationLocation">
+            <property name="allowSamelineSingleParameterlessAnnotation" value="false"/>
+            <property name="tokens" value="
+                    CLASS_DEF, INTERFACE_DEF, PACKAGE_DEF,
+                    ENUM_CONSTANT_DEF, ENUM_DEF, METHOD_DEF,
+                    CTOR_DEF, VARIABLE_DEF, PARAMETER_DEF,
+                    ANNOTATION_DEF, ANNOTATION_FIELD_DEF
+            "/>
+        </module>
+        <module name="AnnotationUseStyle"/>
+        <module name="MissingDeprecated"/>
+        <module name="MissingOverride"/>
+        <module name="SuppressWarnings"/>
+
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~ Checks for blocks ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+        <!--             http://checkstyle.sourceforge.net/config_blocks.html               -->
+        <module name="AvoidNestedBlocks"/>
+        <module name="EmptyBlock"/>
+        <module name="EmptyCatchBlock">
+            <property name="exceptionVariableName" value="expected|ignore"/>
+            <property name="commentFormat" value="do nothing"/>
+        </module>
+        <module name="LeftCurly">
+            <property name="ignoreEnums" value="false"/>
+        </module>
+        <module name="NeedBraces">
+            <property name="tokens" value="
+                     LITERAL_DO, LITERAL_ELSE, LITERAL_FOR, LITERAL_IF, LITERAL_WHILE, LITERAL_CASE
+            "/>
+        </module>
+        <module name="RightCurly"/>
+
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~ Checks for class design ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+        <!--            http://checkstyle.sourceforge.net/config_design.html                -->
+        <!--module name="DesignForExtension">
+            <property name="ignoredAnnotations" value="Override"/>
+        </module-->
+        <module name="FinalClass"/>
+        <module name="HideUtilityClassConstructor"/>
+        <module name="InnerTypeLast"/>
+        <module name="InterfaceIsType"/>
+        <module name="MutableException"/>
+        <module name="OneTopLevelClass"/>
+        <module name="ThrowsCount"/>
+        <module name="VisibilityModifier">
+            <property name="packageAllowed" value="true"/>
+            <property name="protectedAllowed" value="true"/>
+        </module>
+
+        <!-- ~~~~~~~~~~~~~~~~~~~ Checks for common coding problems ~~~~~~~~~~~~~~~~~~~~~~~~ -->
+        <!--          http://checkstyle.sourceforge.net/config_coding.html                  -->
+        <module name="CovariantEquals"/>
+        <module name="DeclarationOrder"/>
+        <module name="DefaultComesLast"/>
+        <module name="EmptyStatement"/>
+        <module name="EqualsAvoidNull"/>
+        <module name="EqualsHashCode"/>
+        <module name="ExplicitInitialization"/>
+        <module name="FallThrough"/>
+        <module name="FinalLocalVariable"/>
+        <module name="HiddenField">
+            <property name="ignoreConstructorParameter" value="true"/>
+            <property name="ignoreSetter" value="true"/>
+            <property name="setterCanReturnItsClass" value="true"/>
+            <property name="ignoreAbstractMethods" value="true"/>
+        </module>
+        <module name="IllegalCatch"/>
+        <module name="IllegalInstantiation">
+            <property name="classes" value="java.lang.Boolean, java.lang.Integer"/>
+        </module>
+        <module name="IllegalThrows"/>
+        <module name="IllegalToken">
+            <property name="tokens"
+                      value="LITERAL_NATIVE, LABELED_STAT, LITERAL_ASSERT, LITERAL_SWITCH, STRICTFP"/>
+        </module>
+        <module name="IllegalTokenText">
+            <property name="tokens" value="NUM_INT,NUM_LONG"/>
+            <property name="format" value="^0[^lx]"/>
+            <property name="ignoreCase" value="true"/>
+        </module>
+        <module name="IllegalType">
+            <property name="tokens" value="ANNOTATION_FIELD_DEF, METHOD_DEF, METHOD_REF, PARAMETER_DEF, VARIABLE_DEF"/>
+        </module>
+        <module name="InnerAssignment"/>
+        <module name="MagicNumber">
+            <property name="ignoreNumbers" value="-1, 0, 1, 2, 3, 4, 5"/>
+            <property name="ignoreHashCodeMethod" value="true"/>
+        </module>
+        <module name="ModifiedControlVariable"/>
+        <module name="MultipleStringLiterals">
+            <property name="allowedDuplicates" value="2"/>
+        </module>
+        <module name="MultipleVariableDeclarations"/>
+        <module name="NestedForDepth">
+            <property name="max" value="2"/>
+        </module>
+        <module name="NestedIfDepth">
+            <property name="max" value="2"/>
+        </module>
+        <module name="NestedTryDepth">
+            <property name="max" value="2"/>
+        </module>
+        <module name="NoClone"/>
+        <module name="NoFinalizer"/>
+        <module name="OneStatementPerLine"/>
+        <module name="OverloadMethodsDeclarationOrder"/>
+        <module name="PackageDeclaration"/>
+        <module name="ParameterAssignment"/>
+        <module name="RequireThis"/>
+        <module name="ReturnCount">
+            <property name="max" value="4"/>
+            <property name="maxForVoid" value="2"/>
+        </module>
+        <module name="SimplifyBooleanExpression"/>
+        <module name="SimplifyBooleanReturn"/>
+        <module name="StringLiteralEquality"/>
+        <module name="UnnecessaryParentheses"/>
+        <module name="VariableDeclarationUsageDistance"/>
+
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~ Checks for imports ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+        <!--           http://checkstyle.sourceforge.net/config_imports.html            -->
+        <module name="AvoidStarImport"/>
+        <module name="CustomImportOrder">
+            <property name="customImportOrderRules"
+                      value="THIRD_PARTY_PACKAGE###SPECIAL_IMPORTS###STANDARD_JAVA_PACKAGE###STATIC"/>
+            <property name="specialImportsRegExp" value="^javax\."/>
+            <property name="standardPackageRegExp" value="^java\."/>
+            <property name="sortImportsInGroupAlphabetically" value="true"/>
+            <property name="separateLineBetweenGroups" value="false"/>
+        </module>
+        <module name="IllegalImport">
+            <property name="illegalClasses" value="java.util.Date, java.util.Enumeration"/>
+        </module>
+        <module name="RedundantImport"/>
+        <module name="UnusedImports"/>
+
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~ Checks for Javadoc comments ~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+        <!--               http://checkstyle.sourceforge.net/config_javadoc.html            -->
+        <!--                        Javadoc rules disabled                                  -->
+
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~ Checks for metrics ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+        <!--               http://checkstyle.sourceforge.net/config_metrics.html            -->
+        <module name="BooleanExpressionComplexity"/>
+
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~ Miscellaneous other checks ~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+        <!--                http://checkstyle.sourceforge.net/config_misc.html              -->
+        <module name="ArrayTypeStyle"/>
+        <module name="AvoidEscapedUnicodeCharacters"/>
+        <module name="CommentsIndentation"/>
+        <module name="FinalParameters">
+            <property name="tokens" value="METHOD_DEF, CTOR_DEF, LITERAL_CATCH, FOR_EACH_CLAUSE"/>
+        </module>
+        <module name="Indentation"/>
+        <module name="OuterTypeFilename"/>
+        <module name="TodoComment">
+            <property name="format" value="(TODO)|(FIXME)"/>
+        </module>
+        <module name="TrailingComment"/>
+        <module name="UncommentedMain">
+            <property name="excludedClasses" value="(JmmVm)|(JavammIDEApplication)"/>
+        </module>
+        <module name="UpperEll"/>
+
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Modifier Checks ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+        <!--         http://checkstyle.sourceforge.net/config_modifier.html               -->
+        <module name="ModifierOrder"/>
+        <module name="RedundantModifier"/>
+
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~ Checks for Naming Conventions ~~~~~~~~~~~~~~~~~~~~~~~ -->
+        <!--           http://checkstyle.sourceforge.net/config_naming.html               -->
+        <module name="AbbreviationAsWordInName">
+            <property name="allowedAbbreviationLength" value="5"/>
+            <property name="ignoreFinal" value="false"/>
+            <property name="ignoreStatic" value="true"/>
+            <property name="tokens" value="
+                CLASS_DEF, INTERFACE_DEF, ENUM_DEF, ANNOTATION_DEF, ANNOTATION_FIELD_DEF,
+                PARAMETER_DEF, VARIABLE_DEF, METHOD_DEF
+            "/>
+        </module>
+        <module name="AbstractClassName">
+            <property name="ignoreName" value="true"/>
+        </module>
+        <module name="CatchParameterName">
+            <property name="format" value="^(e|t|th|ex|[a-z][a-z][a-zA-Z]+)$"/>
+        </module>
+        <module name="ClassTypeParameterName"/>
+        <module name="ConstantName"/>
+        <module name="InterfaceTypeParameterName"/>
+        <module name="LambdaParameterName"/>
+        <module name="LocalFinalVariableName"/>
+        <module name="LocalVariableName">
+            <property name="allowOneCharVarInForLoop" value="true"/>
+        </module>
+        <module name="MemberName"/>
+        <module name="MethodName"/>
+        <module name="MethodTypeParameterName"/>
+        <module name="PackageName"/>
+        <module name="ParameterName"/>
+        <module name="StaticVariableName"/>
+        <module name="TypeName"/>
+
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~ Checks for Size Violations ~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+        <!--             http://checkstyle.sourceforge.net/config_sizes.html                -->
+        <module name="AnonInnerLength">
+            <property name="max" value="20"/>
+        </module>
+        <module name="ExecutableStatementCount">
+            <property name="max" value="60"/>
+            <property name="tokens" value="STATIC_INIT"/>
+        </module>
+        <module name="LineLength">
+            <property name="max" value="120"/>
+            <property name="ignorePattern" value="^ *\* *[^ ]+$"/>
+        </module>
+        <module name="MethodCount">
+            <property name="maxTotal" value="50"/>
+            <property name="maxPrivate" value="49"/>
+            <property name="maxPackage" value="50"/>
+            <property name="maxProtected" value="50"/>
+            <property name="maxPublic" value="50"/>
+        </module>
+        <module name="MethodLength">
+            <property name="max" value="35"/>
+        </module>
+        <module name="OuterTypeNumber"/>
+        <module name="ParameterNumber">
+            <property name="max" value="5"/>
+            <property name="ignoreOverriddenMethods" value="true"/>
+        </module>
+
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Checks for whitespace ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+        <!--            http://checkstyle.sourceforge.net/config_whitespace.html             -->
+        <module name="EmptyForInitializerPad"/>
+        <module name="EmptyForIteratorPad"/>
+        <module name="EmptyLineSeparator"/>
+        <module name="GenericWhitespace"/>
+        <module name="MethodParamPad"/>
+        <module name="NoLineWrap">
+            <property name="tokens" value="IMPORT, STATIC_IMPORT, PACKAGE_DEF, ENUM_DEF"/>
+        </module>
+        <module name="NoWhitespaceAfter"/>
+        <module name="NoWhitespaceBefore"/>
+        <module name="OperatorWrap">
+            <property name="option" value="eol"/>
+        </module>
+        <module name="ParenPad"/>
+        <module name="SeparatorWrap">
+            <property name="tokens" value="DOT"/>
+            <property name="option" value="nl"/>
+        </module>
+        <module name="SeparatorWrap">
+            <property name="tokens" value="COMMA, SEMI, ELLIPSIS, METHOD_REF"/>
+            <property name="option" value="eol"/>
+        </module>
+        <module name="SingleSpaceSeparator">
+            <property name="validateComments" value="true"/>
+        </module>
+        <module name="TypecastParenPad"/>
+        <module name="WhitespaceAfter"/>
+        <module name="WhitespaceAround"/>
+    </module>
+</module>
