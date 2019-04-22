@@ -23,7 +23,8 @@
 
     <name>Javamm project</name>
     <description>Compiler, interpreter, standard library, virtual machine, console launcher
-        and simple IDE for javamm programming language</description>
+        and simple IDE for javamm programming language
+    </description>
     <url>http://devonline.academy/javamm/maven-docs</url>
     <organization>
         <name>DevOnline Academy</name>
@@ -143,4 +144,11 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <distributionManagement>
+        <site>
+            <id>devonline.academy</id>
+            <url>scp://devonline.academy/javamm/maven-docs</url>
+        </site>
+    </distributionManagement>
 </project>
