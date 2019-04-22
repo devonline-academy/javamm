@@ -8,9 +8,11 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
     <artifactId>release</artifactId>
     <packaging>pom</packaging>
+
+    <name>Release aggregator</name>
+    <description>Release aggregator for javamm project</description>
 
     <dependencies>
         <dependency>

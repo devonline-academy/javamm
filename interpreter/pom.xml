@@ -8,8 +8,10 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
     <artifactId>interpreter</artifactId>
+
+    <name>Javamm interpreter</name>
+    <description>Default interpreter for javamm programming language</description>
 
     <dependencies>
         <dependency>
