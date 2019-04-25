@@ -28,12 +28,12 @@ public final class Example03ComplexMain {
 
     public static void main(final String[] args) {
         final Example03Complex example = new Example03Complex.Builder()
-                .setParam1(2)
-                .setParam2("string")
-                .setParam3(true)
-                .setParam4(null)
-                .setParam5(0)
-                .build();
+            .setParam1(2)
+            .setParam2("string")
+            .setParam3(true)
+            .setParam4(null)
+            .setParam5(0)
+            .build();
         System.out.println(example.getParam1());
         System.out.println(example.getParam2());
         System.out.println(example.getParam3());

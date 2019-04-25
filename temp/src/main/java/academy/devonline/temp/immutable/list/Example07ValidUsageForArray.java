@@ -32,10 +32,10 @@ public final class Example07ValidUsageForArray {
         println(2, 3, 4);
         println(5, "hello", true);
 
-        println(new Object[]{null});
+        println(new Object[] {null});
         //println(null);
 
-        println2(new Object[]{null});
+        println2(new Object[] {null});
         //println2(null);
     }
 

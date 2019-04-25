@@ -14,25 +14,33 @@
  * limitations under the License.
  */
 
-package academy.devonline.temp.immutable.list;
+package academy.devonline.temp.nullobject;
 
-import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
 @SuppressWarnings("CheckStyle")
-public final class Example01ArrayMainProblem {
+public final class Example01ReturnValueMain {
 
-    private Example01ArrayMainProblem() {
+    private Example01ReturnValueMain() {
     }
 
     public static void main(final String[] args) {
-        final Example01Array example = new Example01Array(new int[] {1, 2, 3, 4, 5});
-        System.out.println(Arrays.toString(example.getParams()));
+        final Example01ReturnValue example = new Example01ReturnValue();
+        System.out.println(example.getRequiredObject());
+        System.out.println(example.getOptionalObject().toString());
+        System.out.println(example.getRequiredList().toString());
+        System.out.println(example.getOptionalList().toString());
 
-        example.getParams()[0] = -1;
-        System.out.println(Arrays.toString(example.getParams()));
+        final List<String> optional = example.getOptionalList();
+        // Not necessary:
+        if (optional != null) {
+            System.out.println(example.getOptionalList().toString());
+        } else {
+            System.out.println("null");
+        }
     }
 }

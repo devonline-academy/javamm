@@ -30,12 +30,12 @@ public class Example03UnmodifiableList {
 
     private final List<Integer> list = new ArrayList<>();
 
-    public void add(final int value) {
-        list.add(value);
-    }
-
     public Example03UnmodifiableList(final List<Integer> params) {
         this.params = List.copyOf(params);
+    }
+
+    public void add(final int value) {
+        list.add(value);
     }
 
     public List<Integer> getParams() {

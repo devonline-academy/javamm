@@ -14,25 +14,19 @@
  * limitations under the License.
  */
 
-package academy.devonline.temp.immutable.list;
-
-import java.util.Arrays;
+package academy.devonline.temp.nullobject;
 
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-@SuppressWarnings("CheckStyle")
-public final class Example01ArrayMainProblem {
+public class Example03MethodArgument {
 
-    private Example01ArrayMainProblem() {
+    public void method(final String required) {
+        System.out.println(required + " null");
     }
 
-    public static void main(final String[] args) {
-        final Example01Array example = new Example01Array(new int[] {1, 2, 3, 4, 5});
-        System.out.println(Arrays.toString(example.getParams()));
-
-        example.getParams()[0] = -1;
-        System.out.println(Arrays.toString(example.getParams()));
+    public void method(final String required, final String optional) {
+        System.out.println(required + " " + optional);
     }
 }
