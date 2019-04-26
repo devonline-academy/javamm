@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,14 +14,17 @@
  * limitations under the License.
  */
 
+package academy.devonline.javamm.compiler;
+
+import academy.devonline.javamm.code.exception.JavammError;
+
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-module javamm.compiler {
-    requires javamm.code;
+public abstract class JavammSyntaxError extends JavammError {
 
-    exports academy.devonline.javamm.compiler;
-    exports academy.devonline.javamm.compiler.model;
-    exports academy.devonline.javamm.compiler.component;
+    protected JavammSyntaxError(final String message) {
+        super(message);
+    }
 }
