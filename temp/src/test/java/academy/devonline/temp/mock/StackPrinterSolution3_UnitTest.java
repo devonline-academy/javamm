@@ -38,6 +38,11 @@ class StackPrinterSolution3_UnitTest {
 
     private final ByteArrayOutputStream memory = new ByteArrayOutputStream();
 
+    @AfterAll
+    static void afterAll() {
+        System.setOut(OUT);
+    }
+
     @BeforeEach
     void beforeEach() {
         System.setOut(new PrintStream(memory));
@@ -53,11 +58,6 @@ class StackPrinterSolution3_UnitTest {
                 .collect(Collectors.joining(System.lineSeparator())),
 
             new String(memory.toByteArray(), StandardCharsets.UTF_8));
-    }
-
-    @AfterAll
-    static void afterAll() {
-        System.setOut(OUT);
     }
 
     /**
