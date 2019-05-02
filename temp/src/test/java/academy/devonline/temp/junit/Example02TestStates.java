@@ -26,6 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @link http://devonline.academy/javamm
  * @link https://junit.org/junit5/docs/current/user-guide
  */
+@Disabled
 class Example02TestStates {
 
     private final BinaryCalculator binaryCalculator = new DivBinaryCalculator();

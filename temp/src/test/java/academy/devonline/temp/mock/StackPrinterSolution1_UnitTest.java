@@ -16,12 +16,14 @@
 
 package academy.devonline.temp.mock;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
+@Disabled
 class StackPrinterSolution1_UnitTest {
 
     @Test

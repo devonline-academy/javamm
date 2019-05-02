@@ -16,6 +16,7 @@
 
 package academy.devonline.temp.mockito;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -42,7 +43,7 @@ import static org.mockito.quality.Strictness.LENIENT;
  */
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = LENIENT)
-    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+@Disabled
 class Example03_DefineCode {
 
     @Mock

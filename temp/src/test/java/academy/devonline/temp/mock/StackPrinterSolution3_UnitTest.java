@@ -18,6 +18,7 @@ package academy.devonline.temp.mock;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
@@ -32,6 +33,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author devonline
  * @link http://devonline.academy/javamm
  */
+@Disabled
 class StackPrinterSolution3_UnitTest {
 
     private static final PrintStream OUT = System.out;

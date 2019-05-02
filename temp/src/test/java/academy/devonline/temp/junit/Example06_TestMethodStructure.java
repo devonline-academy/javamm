@@ -16,6 +16,7 @@
 
 package academy.devonline.temp.junit;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @link http://devonline.academy/javamm
  * @link https://junit.org/junit5/docs/current/user-guide/
  */
+@Disabled
 class Example06_TestMethodStructure {
 
     private final List<Integer> list = new ArrayList<>();

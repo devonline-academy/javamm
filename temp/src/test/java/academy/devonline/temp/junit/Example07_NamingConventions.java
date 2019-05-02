@@ -16,6 +16,7 @@
 
 package academy.devonline.temp.junit;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
@@ -25,6 +26,7 @@ import org.junit.jupiter.api.Test;
  * @link http://devonline.academy/javamm
  * @link https://dzone.com/articles/7-popular-unit-test-naming
  */
+@Disabled
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class Example07_NamingConventions {
 

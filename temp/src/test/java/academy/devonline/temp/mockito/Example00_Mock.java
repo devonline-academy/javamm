@@ -16,6 +16,7 @@
 
 package academy.devonline.temp.mockito;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -31,6 +32,7 @@ import java.util.ListIterator;
  * @link http://devonline.academy/javamm
  * @link https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/Mockito.html
  */
+@Disabled
 @ExtendWith(MockitoExtension.class)
 class Example00_Mock {
 

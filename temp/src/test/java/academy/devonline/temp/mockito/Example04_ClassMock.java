@@ -16,6 +16,7 @@
 
 package academy.devonline.temp.mockito;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -34,6 +35,7 @@ import static org.mockito.Mockito.verify;
  * @link https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/Mockito.html
  */
 @ExtendWith(MockitoExtension.class)
+@Disabled
 class Example04_ClassMock {
 
     @Mock
