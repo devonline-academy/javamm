@@ -21,6 +21,15 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
+/**
+ * println ('HelloWorld')
+ * println ('HelloWorld'
+ * println 'HelloWorld')
+ * unsupported
+ *
+ * @author devonline
+ * @link http://devonline.academy/javamm
+ */
 public final class JavammSimpleVmVersion {
 
     private JavammSimpleVmVersion() {
@@ -46,6 +55,10 @@ public final class JavammSimpleVmVersion {
         }
     }
 
+    /**
+     * @author devonline
+     * @link http://devonline.academy/javamm
+     */
     private static final class SyntaxErrorException extends IllegalArgumentException {
         private SyntaxErrorException(final String s) {
             super(s);
