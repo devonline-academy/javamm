@@ -171,7 +171,7 @@ class SourceLineReaderImpl_UnitTest {
         assertEquals(new SourceLine(MODULE_NAME, 2, List.of("var", "a", "=", "5")), sourceLines.get(0));
         assertEquals(new SourceLine(MODULE_NAME, 3, List.of("a", "=", "4")), sourceLines.get(1));
         assertEquals(new SourceLine(MODULE_NAME, 5, List.of("println", "(", "a", ")")), sourceLines.get(2));
-        verify(tokenParser, times(3)).parseLine(anyString(), anyBoolean());
+        verify(tokenParser, times(5)).parseLine(anyString(), anyBoolean());
         verify(sourceCode, atLeastOnce()).getModuleName();
     }
 }
