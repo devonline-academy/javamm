@@ -14,24 +14,12 @@
  * limitations under the License.
  */
 
-package academy.devonline.javamm.interpreter.component.impl.operation.simple;
-
-import academy.devonline.javamm.code.fragment.operation.PrintlnOperation;
-import academy.devonline.javamm.interpreter.component.impl.operation.AbstractOperationInterpreter;
+package academy.devonline.javamm.compiler.component;
 
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-public final class PrintlnOperationInterpreter extends AbstractOperationInterpreter<PrintlnOperation> {
+public interface SingleTokenExpressionBuilder extends ExpressionBuilder {
 
-    @Override
-    public Class<PrintlnOperation> getOperationClass() {
-        return PrintlnOperation.class;
-    }
-
-    @Override
-    protected void interpretOperation(final PrintlnOperation operation) {
-        System.out.println(operation.getExpression());
-    }
 }

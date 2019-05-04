@@ -17,11 +17,16 @@
 package academy.devonline.javamm.compiler;
 
 import academy.devonline.javamm.compiler.component.BlockOperationReader;
+import academy.devonline.javamm.compiler.component.ExpressionBuilder;
+import academy.devonline.javamm.compiler.component.ExpressionResolver;
 import academy.devonline.javamm.compiler.component.OperationReader;
+import academy.devonline.javamm.compiler.component.SingleTokenExpressionBuilder;
 import academy.devonline.javamm.compiler.component.SourceLineReader;
 import academy.devonline.javamm.compiler.component.TokenParser;
 import academy.devonline.javamm.compiler.component.impl.BlockOperationReaderImpl;
 import academy.devonline.javamm.compiler.component.impl.CompilerImpl;
+import academy.devonline.javamm.compiler.component.impl.ExpressionResolverImpl;
+import academy.devonline.javamm.compiler.component.impl.SingleTokenExpressionBuilderImpl;
 import academy.devonline.javamm.compiler.component.impl.SourceLineReaderImpl;
 import academy.devonline.javamm.compiler.component.impl.TokenParserImpl;
 import academy.devonline.javamm.compiler.component.impl.operation.simple.PrintlnOperationReader;
@@ -38,8 +43,16 @@ public class CompilerConfigurator {
 
     private SourceLineReader sourceLineReader = new SourceLineReaderImpl(tokenParser);
 
+    private SingleTokenExpressionBuilder singleTokenExpressionBuilder = new SingleTokenExpressionBuilderImpl();
+
+    private Set<ExpressionBuilder> expressionBuilders = Set.of(
+        singleTokenExpressionBuilder
+    );
+
+    private ExpressionResolver expressionResolver = new ExpressionResolverImpl(expressionBuilders);
+
     private Set<OperationReader> operationReaders = Set.of(
-        new PrintlnOperationReader()
+        new PrintlnOperationReader(expressionResolver)
     );
 
     private BlockOperationReader blockOperationReader = new BlockOperationReaderImpl(operationReaders);

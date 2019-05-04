@@ -61,7 +61,7 @@ class ConstantExpression_UnitTest {
     @Order(1)
     void valueOf_should_throw_IllegalArgumentException_if_value_is_null() {
         final IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
-                ConstantExpression.valueOf(null));
+            ConstantExpression.valueOf(null));
         assertEquals("null value is not allowed. Use NullValueExpression instead", exception.getMessage());
     }
 
@@ -69,13 +69,13 @@ class ConstantExpression_UnitTest {
     @Order(2)
     void valueOf_should_throw_IllegalArgumentException_if_value_has_the_unsupported_class() {
         final IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
-                ConstantExpression.valueOf(Integer.class));
+            ConstantExpression.valueOf(Integer.class));
         assertEquals("Unsupported value type: java.lang.Class", exception.getMessage());
     }
 
     @ParameterizedTest
     @Order(3)
-    @CsvSource({"true", "false"})
+    @CsvSource( {"true", "false"})
     void valueOf_should_return_static_instances_for_boolean_types(final boolean value) {
         assertSame(ConstantExpression.valueOf(value), ConstantExpression.valueOf(value));
     }
@@ -126,14 +126,14 @@ class ConstantExpression_UnitTest {
         @Override
         public Stream<? extends Arguments> provideArguments(final ExtensionContext context) {
             return Stream.of(
-                    // boolean
-                    of(true),
-                    // integer
-                    of(2),
-                    // double
-                    of(2.2),
-                    // string
-                    of("text")
+                // boolean
+                of(true),
+                // integer
+                of(2),
+                // double
+                of(2.2),
+                // string
+                of("text")
             );
         }
     }
@@ -147,11 +147,11 @@ class ConstantExpression_UnitTest {
         @Override
         public Stream<? extends Arguments> provideArguments(final ExtensionContext context) {
             return Stream.of(
-                    of(true, "true"),
-                    of(false, "false"),
-                    of(2, "2"),
-                    of(2.2, "2.2"),
-                    of("text", "text")
+                of(true, "true"),
+                of(false, "false"),
+                of(2, "2"),
+                of(2.2, "2.2"),
+                of("text", "text")
             );
         }
     }

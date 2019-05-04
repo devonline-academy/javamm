@@ -1,3 +1,19 @@
+/*
+ * Copyright (c) 2019. http://devonline.academy
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package academy.devonline.javamm.code.fragment.expression;
 
 import academy.devonline.javamm.code.component.ExpressionContext;
@@ -45,11 +61,11 @@ class TypeExpression_UnitTest {
     @ParameterizedTest
     @Order(1)
     @ValueSource(strings = {
-            Keywords.INTEGER,
-            Keywords.DOUBLE,
-            Keywords.BOOLEAN,
-            Keywords.STRING,
-            // TODO Add ARRAY
+        Keywords.INTEGER,
+        Keywords.DOUBLE,
+        Keywords.BOOLEAN,
+        Keywords.STRING,
+        // TODO Add ARRAY
     })
     void is_should_return_true(final String keyword) {
         assertTrue(TypeExpression.is(keyword));
@@ -58,11 +74,11 @@ class TypeExpression_UnitTest {
     @ParameterizedTest
     @Order(2)
     @ValueSource(strings = {
-            Keywords.INTEGER,
-            Keywords.DOUBLE,
-            Keywords.BOOLEAN,
-            Keywords.STRING,
-            // TODO Add ARRAY
+        Keywords.INTEGER,
+        Keywords.DOUBLE,
+        Keywords.BOOLEAN,
+        Keywords.STRING,
+        // TODO Add ARRAY
     })
     void of_should_support_all_type(final String keyword) {
         assertDoesNotThrow(() -> TypeExpression.of(keyword));
@@ -79,7 +95,7 @@ class TypeExpression_UnitTest {
     @Order(4)
     @EnumSource(TypeExpression.class)
     void getValue_should_return_lower_cased_type_name_without_interaction_with_expressionContext(
-            final TypeExpression typeExpression) {
+        final TypeExpression typeExpression) {
         assertEquals(typeExpression, typeExpression.getValue(expressionContext));
         verify(expressionContext, never()).getValue(any());
     }
@@ -108,10 +124,10 @@ class TypeExpression_UnitTest {
         @Override
         public Stream<? extends Arguments> provideArguments(final ExtensionContext context) {
             return Stream.of(
-                    arguments(TypeExpression.INTEGER, Integer.class),
-                    arguments(TypeExpression.DOUBLE, Double.class),
-                    arguments(TypeExpression.STRING, String.class),
-                    arguments(TypeExpression.BOOLEAN, Boolean.class)
+                arguments(TypeExpression.INTEGER, Integer.class),
+                arguments(TypeExpression.DOUBLE, Double.class),
+                arguments(TypeExpression.STRING, String.class),
+                arguments(TypeExpression.BOOLEAN, Boolean.class)
             );
         }
     }
