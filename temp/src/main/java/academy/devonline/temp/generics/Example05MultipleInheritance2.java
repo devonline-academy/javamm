@@ -14,58 +14,55 @@
  * limitations under the License.
  */
 
-package academy.devonline.temp.to_string;
+package academy.devonline.temp.generics;
+
+import java.io.Serializable;
 
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-public final class Example00Problem {
+@SuppressWarnings("CheckStyle")
+public final class Example05MultipleInheritance2 {
 
-    private Example00Problem() {
+    private Example05MultipleInheritance2() {
     }
 
     public static void main(final String[] args) {
-        final Class1 class1 = new Class1("test");
-        System.out.println(class1);
-
-        final Class2 class2 = new Class2("test");
-        System.out.println(class2);
-
-        // debug
+        final IntegerProvider integerProvider = new IntegerProvider();
+        final NumberAndComparableProvider<Integer> numberAndComparableProvider = integerProvider;
     }
 
     /**
      * @author devonline
      * @link http://devonline.academy/javamm
      */
-    private static class Class1 {
+    private interface NumberAndComparableProvider<T extends Number & Comparable<T> & Serializable> {
 
-        private final String value;
-
-        private Class1(final String value) {
-            this.value = value;
-        }
+        T getValue();
     }
-
 
     /**
      * @author devonline
      * @link http://devonline.academy/javamm
      */
-    private static class Class2 {
-
-        private final String value;
-
-        private Class2(final String value) {
-            this.value = value;
-        }
+    private static final class IntegerProvider implements NumberAndComparableProvider<Integer> {
 
         @Override
-        public String toString() {
-            return "Class2{" +
-                "value='" + value + '\'' +
-                '}';
+        public Integer getValue() {
+            return 12;
         }
     }
+
+    /**
+     * @author devonline
+     * @link http://devonline.academy/javamm
+     */
+    /*private static final class BooleanProvider implements NumberAndComparableProvider<Boolean> {
+
+        @Override
+        public Boolean getValue() {
+            return true;
+        }
+    }*/
 }
