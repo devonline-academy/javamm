@@ -19,5 +19,5 @@
  * @link http://devonline.academy/javamm
  */
 module temp {
-
+    requires javamm.code;
 }
