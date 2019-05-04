@@ -21,7 +21,8 @@
                     <argLine>
                         @{argLine}
                         --add-opens javamm.interpreter/academy.devonline.javamm.interpreter.component.impl=ALL-UNNAMED
-                        --add-opens javamm.interpreter/academy.devonline.javamm.interpreter.component.impl.operation=ALL-UNNAMED
+                        --add-opens
+                        javamm.interpreter/academy.devonline.javamm.interpreter.component.impl.operation=ALL-UNNAMED
                     </argLine>
                 </configuration>
             </plugin>

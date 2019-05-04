@@ -13,6 +13,20 @@
     <name>Javamm cmd</name>
     <description>Console tool for javamm programming language</description>
 
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <argLine>
+                        @{argLine}
+                        --add-opens javamm.cmd/academy.devonline.javamm.cmd=ALL-UNNAMED
+                    </argLine>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
     <dependencies>
         <dependency>
             <groupId>academy.devonline</groupId>
