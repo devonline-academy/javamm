@@ -13,6 +13,21 @@
     <name>Javamm interpreter</name>
     <description>Default interpreter for javamm programming language</description>
 
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <argLine>
+                        @{argLine}
+                        --add-opens javamm.interpreter/academy.devonline.javamm.interpreter.component.impl=ALL-UNNAMED
+                        --add-opens javamm.interpreter/academy.devonline.javamm.interpreter.component.impl.operation=ALL-UNNAMED
+                    </argLine>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
     <dependencies>
         <dependency>
             <groupId>academy.devonline</groupId>
