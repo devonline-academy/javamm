@@ -20,8 +20,13 @@ import academy.devonline.javamm.code.fragment.SourceCode;
 import academy.devonline.javamm.code.fragment.SourceLine;
 import academy.devonline.javamm.compiler.component.SourceLineReader;
 import academy.devonline.javamm.compiler.component.TokenParser;
+import academy.devonline.javamm.compiler.model.TokenParserResult;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * @author devonline
@@ -29,12 +34,26 @@ import java.util.List;
  */
 public class SourceLineReaderImpl implements SourceLineReader {
 
-    public SourceLineReaderImpl(final TokenParser tokenParser) {
+    private final TokenParser tokenParser;
 
+    public SourceLineReaderImpl(final TokenParser tokenParser) {
+        this.tokenParser = requireNonNull(tokenParser);
     }
 
     @Override
     public List<SourceLine> read(final SourceCode sourceCode) {
-        return null;
+        final List<SourceLine> list = new ArrayList<>();
+        final String moduleName = sourceCode.getModuleName();
+        int number = 1;
+        boolean multilineCommentStarted = false;
+        for (final String line : sourceCode.getLines()) {
+            final TokenParserResult tokenParserResult = tokenParser.parseLine(line, multilineCommentStarted);
+            if (tokenParserResult.isNotEmpty()) {
+                list.add(new SourceLine(moduleName, number, tokenParserResult.getTokens()));
+            }
+            multilineCommentStarted = tokenParserResult.isMultilineCommentStarted();
+            number++;
+        }
+        return Collections.unmodifiableList(list);
     }
 }
