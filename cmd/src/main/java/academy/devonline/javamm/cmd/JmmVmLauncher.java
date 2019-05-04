@@ -40,9 +40,9 @@ public class JmmVmLauncher {
             @Override
             public List<String> getLines() {
                 return List.of(
-                    "println ( HelloWorld )",
+                    "println ( 'HelloWorld' )",
                     "",
-                    "println ( HelloJava )"
+                    "println ( 'HelloJavamm' )"
                 );
             }
         });
