@@ -28,7 +28,6 @@ import static java.util.Objects.requireNonNull;
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-
 public class InterpreterImpl implements Interpreter {
 
     private final BlockOperationInterpreter blockOperationInterpreter;
