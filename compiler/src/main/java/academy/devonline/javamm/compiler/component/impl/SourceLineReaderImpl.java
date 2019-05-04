@@ -14,35 +14,27 @@
  * limitations under the License.
  */
 
-package academy.devonline.temp.mockito;
+package academy.devonline.javamm.compiler.component.impl;
 
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import academy.devonline.javamm.code.fragment.SourceCode;
+import academy.devonline.javamm.code.fragment.SourceLine;
+import academy.devonline.javamm.compiler.component.SourceLineReader;
+import academy.devonline.javamm.compiler.component.TokenParser;
 
 import java.util.List;
 
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
- * @link https://javadoc.io/page/org.mockito/mockito-core/latest/org/mockito/Mockito.html
  */
-@Disabled
-@ExtendWith(MockitoExtension.class)
-class Example00_Mock {
+public class SourceLineReaderImpl implements SourceLineReader {
 
-    @Mock
-    private List<Integer> list1;
+    public SourceLineReaderImpl(final TokenParser tokenParser) {
 
-    @Mock
-    private List<Integer> list2;
-
-    @Test
-    void test() {
-        System.out.println(list1 + " -> " + list1.getClass());
-        System.out.println(list2 + " -> " + list2.getClass());
     }
 
+    @Override
+    public List<SourceLine> read(final SourceCode sourceCode) {
+        return null;
+    }
 }
