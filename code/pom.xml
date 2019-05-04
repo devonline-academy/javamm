@@ -21,6 +21,7 @@
                     <argLine>
                         @{argLine}
                         --add-opens javamm.code/academy.devonline.javamm.code.fragment.operation=ALL-UNNAMED
+                        --add-opens javamm.code/academy.devonline.javamm.code.fragment.expression=ALL-UNNAMED
                     </argLine>
                 </configuration>
             </plugin>
