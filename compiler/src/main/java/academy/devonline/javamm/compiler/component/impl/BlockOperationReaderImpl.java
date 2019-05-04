@@ -52,6 +52,25 @@ public final class BlockOperationReaderImpl implements BlockOperationReader {
     private void readBlockOperations(final List<Operation> operations, final ListIterator<SourceLine> iterator) {
         while (iterator.hasNext()) {
             final SourceLine sourceLine = iterator.next();
+            // Case 1
+            /*
+            findOperationReader(sourceLine).ifPresentOrElse(
+                    or -> operations.add(or.readOperation(sourceLine, iterator)),
+                    () -> {
+                        //FIXME Replace by expression resolver
+                        throw new JavammLineSyntaxError("Unsupported operation: " + sourceLine.getTokens(), sourceLine);
+                    });
+            */
+
+            // Case 2
+            /*
+            operations.add(findOperationReader(sourceLine).orElseThrow(() -> {
+                //FIXME Replace by expression resolver
+                throw new JavammLineSyntaxError("Unsupported operation: " + sourceLine.getTokens(), sourceLine);
+            }).readOperation(sourceLine, iterator));
+            */
+
+            // Case 3
             final Optional<OperationReader> optionalOperationReader = findOperationReader(sourceLine);
             if (optionalOperationReader.isPresent()) {
                 operations.add(optionalOperationReader.get().read(sourceLine, iterator));
@@ -70,4 +89,10 @@ public final class BlockOperationReaderImpl implements BlockOperationReader {
         }
         return Optional.empty();
     }
+
+    /*
+    private Optional<OperationReader> findOperationReader(final SourceLine sourceLine) {
+        return operationReaders.stream().filter(o -> o.canRead(sourceLine)).findFirst();
+    }
+    */
 }
