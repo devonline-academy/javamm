@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,14 +14,19 @@
  * limitations under the License.
  */
 
+package academy.devonline.javamm.vm;
+
+import academy.devonline.javamm.code.fragment.SourceCode;
+import academy.devonline.javamm.compiler.JavammSyntaxError;
+import academy.devonline.javamm.interpreter.JavammRuntimeError;
+import academy.devonline.javamm.interpreter.TerminateInterpreterException;
+
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-module javamm.vm {
-    requires javamm.code;
-    requires javamm.compiler;
-    requires javamm.interpreter;
+public interface VirtualMachine {
 
-    exports academy.devonline.javamm.vm;
+    void run(SourceCode... sourceCodes)
+        throws JavammSyntaxError, JavammRuntimeError, TerminateInterpreterException;
 }

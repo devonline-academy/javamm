@@ -16,11 +16,10 @@
 
 package academy.devonline.javamm.cmd;
 
-import academy.devonline.javamm.code.fragment.ByteCode;
-import academy.devonline.javamm.compiler.Compiler;
-import academy.devonline.javamm.compiler.CompilerConfigurator;
-import academy.devonline.javamm.interpreter.Interpreter;
-import academy.devonline.javamm.interpreter.InterpreterConfigurator;
+import academy.devonline.javamm.compiler.JavammSyntaxError;
+import academy.devonline.javamm.interpreter.JavammRuntimeError;
+import academy.devonline.javamm.vm.VirtualMachine;
+import academy.devonline.javamm.vm.VirtualMachineBuilder;
 
 import java.io.IOException;
 
@@ -34,10 +33,11 @@ public final class JmmVmLauncher {
     }
 
     public static void main(final String[] args) throws IOException {
-        final Compiler compiler = new CompilerConfigurator().getCompiler();
-        final Interpreter interpreter = new InterpreterConfigurator().getInterpreter();
-        final ByteCode byteCode = compiler.compile(new FileSourceCode("cmd/src/main/resources/test.javamm"));
-        //System.out.println(byteCode.getCode());
-        interpreter.interpret(byteCode);
+        final VirtualMachine virtualMachine = new VirtualMachineBuilder().build();
+        try {
+            virtualMachine.run(new FileSourceCode("cmd/src/main/resources/test.javamm"));
+        } catch (final JavammSyntaxError | JavammRuntimeError e) {
+            System.err.println(e.getMessage());
+        }
     }
 }
