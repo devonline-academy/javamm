@@ -33,6 +33,8 @@
                         --add-opens
                         javamm.interpreter/academy.devonline.javamm.interpreter.integration.calculator=ALL-UNNAMED
                         --add-opens
+                        javamm.interpreter/academy.devonline.javamm.interpreter.integration.calculator.unary=ALL-UNNAMED
+                        --add-opens
                         javamm.interpreter/academy.devonline.javamm.interpreter.integration.calculator.binary=ALL-UNNAMED
                     </argLine>
                 </configuration>

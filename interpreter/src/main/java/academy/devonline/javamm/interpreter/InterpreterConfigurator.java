@@ -29,11 +29,16 @@ import academy.devonline.javamm.interpreter.component.impl.ExpressionContextImpl
 import academy.devonline.javamm.interpreter.component.impl.InterpreterImpl;
 import academy.devonline.javamm.interpreter.component.impl.RuntimeBuilderImpl;
 import academy.devonline.javamm.interpreter.component.impl.calculator.arithmetic.AdditionBinaryExpressionCalculator;
+import academy.devonline.javamm.interpreter.component.impl.calculator.arithmetic.DecrementUnaryExpressionCalculator;
 import academy.devonline.javamm.interpreter.component.impl.calculator.arithmetic.DivisionBinaryExpressionCalculator;
+import academy.devonline.javamm.interpreter.component.impl.calculator.arithmetic.IncrementUnaryExpressionCalculator;
+import academy.devonline.javamm.interpreter.component.impl.calculator.arithmetic.MinusUnaryExpressionCalculator;
 import academy.devonline.javamm.interpreter.component.impl.calculator.arithmetic.ModulusBinaryExpressionCalculator;
 import academy.devonline.javamm.interpreter.component.impl.calculator.arithmetic.MultiplicationBinaryExpressionCalculator;
+import academy.devonline.javamm.interpreter.component.impl.calculator.arithmetic.PlusUnaryExpressionCalculator;
 import academy.devonline.javamm.interpreter.component.impl.calculator.arithmetic.SubtractionBinaryExpressionCalculator;
 import academy.devonline.javamm.interpreter.component.impl.calculator.bitwise.BitwiseAndBinaryExpressionCalculator;
+import academy.devonline.javamm.interpreter.component.impl.calculator.bitwise.BitwiseInverseUnaryExpressionCalculator;
 import academy.devonline.javamm.interpreter.component.impl.calculator.bitwise.BitwiseOrBinaryExpressionCalculator;
 import academy.devonline.javamm.interpreter.component.impl.calculator.bitwise.BitwiseShiftLeftBinaryExpressionCalculator;
 import academy.devonline.javamm.interpreter.component.impl.calculator.bitwise.BitwiseShiftRightBinaryExpressionCalculator;
@@ -88,6 +93,14 @@ public class InterpreterConfigurator {
         new IsLessBinaryExpressionCalculator(),
         new IsLessOrEqualsBinaryExpressionCalculator()
     ), Set.of(
+        // ------- Arithmetic -----------------------------------------
+        new IncrementUnaryExpressionCalculator(),
+        new DecrementUnaryExpressionCalculator(),
+        new PlusUnaryExpressionCalculator(),
+        new MinusUnaryExpressionCalculator(),
+        // ------ Bitwise -------------------------------------------------
+        new BitwiseInverseUnaryExpressionCalculator(),
+        // ------ Logic -------------------------------------------------
         new LogicNotUnaryExpressionCalculator()
     ));
 

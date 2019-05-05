@@ -27,7 +27,6 @@ import academy.devonline.javamm.interpreter.component.CalculatorFacade;
 import academy.devonline.javamm.interpreter.component.UnaryExpressionCalculator;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
