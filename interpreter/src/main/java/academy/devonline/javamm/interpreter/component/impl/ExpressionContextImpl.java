@@ -20,6 +20,7 @@ import academy.devonline.javamm.code.component.ExpressionContext;
 import academy.devonline.javamm.code.exception.ConfigException;
 import academy.devonline.javamm.code.fragment.Expression;
 import academy.devonline.javamm.code.fragment.UpdatableExpression;
+import academy.devonline.javamm.interpreter.component.ExpressionContextAware;
 import academy.devonline.javamm.interpreter.component.ExpressionEvaluator;
 import academy.devonline.javamm.interpreter.component.ExpressionUpdater;
 
@@ -44,11 +45,19 @@ public final class ExpressionContextImpl implements ExpressionContext {
     public ExpressionContextImpl(final Set<ExpressionEvaluator<?>> expressionEvaluators,
                                  final Set<ExpressionUpdater<?>> expressionUpdaters) {
         this.expressionEvaluatorMap = expressionEvaluators.stream()
+            .peek(this::setExpressionContextIfAware)
             .collect(toUnmodifiableMap(ExpressionEvaluator::getExpressionClass, identity(),
                 checkExpressionEvaluatorDuplicates()));
         this.expressionUpdaterMap = expressionUpdaters.stream()
+            .peek(this::setExpressionContextIfAware)
             .collect(toUnmodifiableMap(ExpressionUpdater::getExpressionClass, identity(),
                 checkExpressionUpdaterDuplicates()));
+    }
+
+    private void setExpressionContextIfAware(final Object instance) {
+        if (instance instanceof ExpressionContextAware) {
+            ((ExpressionContextAware) instance).setExpressionContext(this);
+        }
     }
 
     private BinaryOperator<ExpressionEvaluator> checkExpressionEvaluatorDuplicates() {

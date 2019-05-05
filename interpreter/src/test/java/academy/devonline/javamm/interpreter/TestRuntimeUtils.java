@@ -20,8 +20,6 @@ import academy.devonline.javamm.code.fragment.SourceLine;
 import academy.devonline.javamm.interpreter.model.CurrentRuntime;
 import academy.devonline.javamm.interpreter.model.LocalContext;
 
-import static academy.devonline.javamm.interpreter.model.CurrentRuntimeProvider.getCurrentRuntime;
-import static java.lang.String.format;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.mock;
 

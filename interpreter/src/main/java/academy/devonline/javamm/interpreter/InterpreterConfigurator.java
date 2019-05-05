@@ -18,14 +18,18 @@ package academy.devonline.javamm.interpreter;
 
 import academy.devonline.javamm.code.component.ExpressionContext;
 import academy.devonline.javamm.interpreter.component.BlockOperationInterpreter;
+import academy.devonline.javamm.interpreter.component.CalculatorFacade;
 import academy.devonline.javamm.interpreter.component.ExpressionEvaluator;
 import academy.devonline.javamm.interpreter.component.ExpressionUpdater;
 import academy.devonline.javamm.interpreter.component.OperationInterpreter;
 import academy.devonline.javamm.interpreter.component.RuntimeBuilder;
 import academy.devonline.javamm.interpreter.component.impl.BlockOperationInterpreterImpl;
+import academy.devonline.javamm.interpreter.component.impl.CalculatorFacadeImpl;
 import academy.devonline.javamm.interpreter.component.impl.ExpressionContextImpl;
 import academy.devonline.javamm.interpreter.component.impl.InterpreterImpl;
 import academy.devonline.javamm.interpreter.component.impl.RuntimeBuilderImpl;
+import academy.devonline.javamm.interpreter.component.impl.calculator.arithmetic.SubtractionBinaryExpressionCalculator;
+import academy.devonline.javamm.interpreter.component.impl.expression.evaluator.BinaryExpressionEvaluator;
 import academy.devonline.javamm.interpreter.component.impl.expression.evaluator.VariableExpressionEvaluator;
 import academy.devonline.javamm.interpreter.component.impl.operation.simple.PrintlnOperationInterpreter;
 import academy.devonline.javamm.interpreter.component.impl.operation.simple.VariableDeclarationOperationInterpreter;
@@ -38,8 +42,13 @@ import java.util.Set;
  */
 public class InterpreterConfigurator {
 
+    private CalculatorFacade calculatorFacade = new CalculatorFacadeImpl(Set.of(
+        new SubtractionBinaryExpressionCalculator()
+    ));
+
     private Set<ExpressionEvaluator<?>> expressionEvaluators = Set.of(
-        new VariableExpressionEvaluator()
+        new VariableExpressionEvaluator(),
+        new BinaryExpressionEvaluator(calculatorFacade)
     );
 
     private Set<ExpressionUpdater<?>> expressionUpdaters = Set.of(
