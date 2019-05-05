@@ -27,10 +27,18 @@ import academy.devonline.javamm.interpreter.component.impl.calculator.AbstractBi
  * @link http://devonline.academy/javamm
  */
 public final class BitwiseShiftLeftBinaryExpressionCalculator extends AbstractBinaryExpressionCalculator
-    implements BinaryExpressionCalculator {
+        implements BinaryExpressionCalculator {
 
-    public BitwiseShiftLeftBinaryExpressionCalculator() {
-        super(BinaryOperator.BITWISE_SHIFT_LEFT);
+    private BitwiseShiftLeftBinaryExpressionCalculator(final BinaryOperator operator) {
+        super(operator);
+    }
+
+    public static BitwiseShiftLeftBinaryExpressionCalculator createArithmeticCalculator() {
+        return new BitwiseShiftLeftBinaryExpressionCalculator(BinaryOperator.BITWISE_SHIFT_LEFT);
+    }
+
+    public static BitwiseShiftLeftBinaryExpressionCalculator createAssignmentCalculator() {
+        return new BitwiseShiftLeftBinaryExpressionCalculator(BinaryOperator.ASSIGNMENT_BITWISE_SHIFT_LEFT);
     }
 
     @Override

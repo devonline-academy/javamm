@@ -27,10 +27,18 @@ import academy.devonline.javamm.interpreter.component.impl.calculator.AbstractBi
  * @link http://devonline.academy/javamm
  */
 public final class BitwiseAndBinaryExpressionCalculator extends AbstractBinaryExpressionCalculator
-    implements BinaryExpressionCalculator {
+        implements BinaryExpressionCalculator {
 
-    public BitwiseAndBinaryExpressionCalculator() {
-        super(BinaryOperator.BITWISE_AND);
+    private BitwiseAndBinaryExpressionCalculator(final BinaryOperator operator) {
+        super(operator);
+    }
+
+    public static BitwiseAndBinaryExpressionCalculator createArithmeticCalculator() {
+        return new BitwiseAndBinaryExpressionCalculator(BinaryOperator.BITWISE_AND);
+    }
+
+    public static BitwiseAndBinaryExpressionCalculator createAssignmentCalculator() {
+        return new BitwiseAndBinaryExpressionCalculator(BinaryOperator.ASSIGNMENT_BITWISE_AND);
     }
 
     @Override

@@ -28,26 +28,33 @@ import academy.devonline.javamm.interpreter.component.impl.calculator.AbstractBi
  * @link http://devonline.academy/javamm
  */
 public final class TypeOfBinaryExpressionCalculator extends AbstractBinaryExpressionCalculator
-    implements BinaryExpressionCalculator {
+        implements BinaryExpressionCalculator {
 
     public TypeOfBinaryExpressionCalculator() {
         super(BinaryOperator.PREDICATE_TYPEOF);
     }
 
+    /*
+    println ( a typeof integer )
+    println ( a typeof typeVariable )
+    println ( a typeof getType() )
+    println ( a typeof typeArray[0] )
+     */
     @Override
     public Object calculate(final ExpressionContext expressionContext,
                             final Expression expression1,
                             final Expression expression2) {
         final Object value1 = expression1.getValue(expressionContext);
-        if (expression2 instanceof TypeExpression) {
-            final TypeExpression typeExpression = (TypeExpression) expression2;
+        final Object value2 = expression2.getValue(expressionContext);
+        if (value2 instanceof TypeExpression) {
             if (value1 == null) {
                 return false;
             } else {
+                final TypeExpression typeExpression = (TypeExpression) value2;
                 return typeExpression.getType().isInstance(value1);
             }
         } else {
-            throw createNotSupportedTypesError(value1, expression2.getValue(expressionContext));
+            throw createNotSupportedTypesError(value1, value2);
         }
     }
 }

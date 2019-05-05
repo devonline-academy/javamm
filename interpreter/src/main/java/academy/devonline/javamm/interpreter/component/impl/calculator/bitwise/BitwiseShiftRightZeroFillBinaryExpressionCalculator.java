@@ -22,15 +22,26 @@ import academy.devonline.javamm.code.fragment.operator.BinaryOperator;
 import academy.devonline.javamm.interpreter.component.BinaryExpressionCalculator;
 import academy.devonline.javamm.interpreter.component.impl.calculator.AbstractBinaryExpressionCalculator;
 
+import static academy.devonline.javamm.code.fragment.operator.BinaryOperator.ASSIGNMENT_BITWISE_SHIFT_RIGHT_ZERO_FILL;
+import static academy.devonline.javamm.code.fragment.operator.BinaryOperator.BITWISE_SHIFT_RIGHT_ZERO_FILL;
+
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
 public final class BitwiseShiftRightZeroFillBinaryExpressionCalculator extends AbstractBinaryExpressionCalculator
-    implements BinaryExpressionCalculator {
+        implements BinaryExpressionCalculator {
 
-    public BitwiseShiftRightZeroFillBinaryExpressionCalculator() {
-        super(BinaryOperator.BITWISE_SHIFT_RIGHT_ZERO_FILL);
+    private BitwiseShiftRightZeroFillBinaryExpressionCalculator(final BinaryOperator operator) {
+        super(operator);
+    }
+
+    public static BitwiseShiftRightZeroFillBinaryExpressionCalculator createArithmeticCalculator() {
+        return new BitwiseShiftRightZeroFillBinaryExpressionCalculator(BITWISE_SHIFT_RIGHT_ZERO_FILL);
+    }
+
+    public static BitwiseShiftRightZeroFillBinaryExpressionCalculator createAssignmentCalculator() {
+        return new BitwiseShiftRightZeroFillBinaryExpressionCalculator(ASSIGNMENT_BITWISE_SHIFT_RIGHT_ZERO_FILL);
     }
 
     @Override

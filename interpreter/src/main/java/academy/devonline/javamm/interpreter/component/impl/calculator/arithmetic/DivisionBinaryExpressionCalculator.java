@@ -28,10 +28,18 @@ import academy.devonline.javamm.interpreter.component.impl.error.JavammLineRunti
  * @link http://devonline.academy/javamm
  */
 public final class DivisionBinaryExpressionCalculator extends AbstractBinaryExpressionCalculator
-    implements BinaryExpressionCalculator {
+        implements BinaryExpressionCalculator {
 
-    public DivisionBinaryExpressionCalculator() {
-        super(BinaryOperator.ARITHMETIC_DIVISION);
+    private DivisionBinaryExpressionCalculator(final BinaryOperator operator) {
+        super(operator);
+    }
+
+    public static DivisionBinaryExpressionCalculator createArithmeticCalculator() {
+        return new DivisionBinaryExpressionCalculator(BinaryOperator.ARITHMETIC_DIVISION);
+    }
+
+    public static DivisionBinaryExpressionCalculator createAssignmentCalculator() {
+        return new DivisionBinaryExpressionCalculator(BinaryOperator.ASSIGNMENT_DIVISION);
     }
 
     @Override

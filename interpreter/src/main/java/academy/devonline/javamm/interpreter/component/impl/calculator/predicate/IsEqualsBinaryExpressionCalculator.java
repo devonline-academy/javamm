@@ -29,7 +29,7 @@ import java.util.Objects;
  * @link http://devonline.academy/javamm
  */
 public final class IsEqualsBinaryExpressionCalculator extends AbstractBinaryExpressionCalculator
-    implements BinaryExpressionCalculator {
+        implements BinaryExpressionCalculator {
 
     public IsEqualsBinaryExpressionCalculator() {
         super(BinaryOperator.PREDICATE_EQUALS);

@@ -27,7 +27,7 @@ import academy.devonline.javamm.interpreter.component.impl.calculator.AbstractUn
  * @link http://devonline.academy/javamm
  */
 public final class MinusUnaryExpressionCalculator extends AbstractUnaryExpressionCalculator
-    implements UnaryExpressionCalculator {
+        implements UnaryExpressionCalculator {
 
     public MinusUnaryExpressionCalculator() {
         super(UnaryOperator.ARITHMETIC_UNARY_MINUS);

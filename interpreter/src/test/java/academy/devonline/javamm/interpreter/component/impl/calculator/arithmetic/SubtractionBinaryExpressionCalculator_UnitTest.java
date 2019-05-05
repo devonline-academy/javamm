@@ -52,7 +52,8 @@ import static org.mockito.Mockito.when;
 @Disabled
 class SubtractionBinaryExpressionCalculator_UnitTest {
 
-    private final SubtractionBinaryExpressionCalculator calculator = new SubtractionBinaryExpressionCalculator();
+    private final SubtractionBinaryExpressionCalculator calculator =
+        SubtractionBinaryExpressionCalculator.createArithmeticCalculator();
 
     @Mock
     private ExpressionContext expressionContext;

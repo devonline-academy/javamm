@@ -48,11 +48,11 @@ public class CalculatorFacadeImpl implements CalculatorFacade {
                                 final Set<UnaryExpressionCalculator> unaryExpressionCalculators) {
         this.binaryExpressionCalculatorMap = binaryExpressionCalculators.stream()
             .collect(toUnmodifiableMap(BinaryExpressionCalculator::getOperator, identity()));
-        //validateAllOperators(this.binaryExpressionCalculatorMap.keySet(), BinaryOperator.values());
+        validateAllOperators(this.binaryExpressionCalculatorMap.keySet(), BinaryOperator.values());
 
         this.unaryExpressionCalculatorMap = unaryExpressionCalculators.stream()
             .collect(toUnmodifiableMap(UnaryExpressionCalculator::getOperator, identity()));
-        //validateAllOperators(this.unaryExpressionCalculatorMap.keySet(), UnaryOperator.values());
+        validateAllOperators(this.unaryExpressionCalculatorMap.keySet(), UnaryOperator.values());
     }
 
     private <T extends Operator> void validateAllOperators(final Set<T> operatorSet, final T[] values) {

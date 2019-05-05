@@ -28,10 +28,18 @@ import academy.devonline.javamm.interpreter.component.impl.error.JavammLineRunti
  * @link http://devonline.academy/javamm
  */
 public final class ModulusBinaryExpressionCalculator extends AbstractBinaryExpressionCalculator
-    implements BinaryExpressionCalculator {
+        implements BinaryExpressionCalculator {
 
-    public ModulusBinaryExpressionCalculator() {
-        super(BinaryOperator.ARITHMETIC_MODULUS);
+    private ModulusBinaryExpressionCalculator(final BinaryOperator operator) {
+        super(operator);
+    }
+
+    public static ModulusBinaryExpressionCalculator createArithmeticCalculator() {
+        return new ModulusBinaryExpressionCalculator(BinaryOperator.ARITHMETIC_MODULUS);
+    }
+
+    public static ModulusBinaryExpressionCalculator createAssignmentCalculator() {
+        return new ModulusBinaryExpressionCalculator(BinaryOperator.ASSIGNMENT_MODULUS);
     }
 
     @Override

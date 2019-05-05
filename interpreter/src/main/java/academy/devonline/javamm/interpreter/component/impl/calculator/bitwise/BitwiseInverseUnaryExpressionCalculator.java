@@ -27,7 +27,7 @@ import academy.devonline.javamm.interpreter.component.impl.calculator.AbstractUn
  * @link http://devonline.academy/javamm
  */
 public final class BitwiseInverseUnaryExpressionCalculator extends AbstractUnaryExpressionCalculator
-    implements UnaryExpressionCalculator {
+        implements UnaryExpressionCalculator {
 
     public BitwiseInverseUnaryExpressionCalculator() {
         super(UnaryOperator.BITWISE_INVERSE);

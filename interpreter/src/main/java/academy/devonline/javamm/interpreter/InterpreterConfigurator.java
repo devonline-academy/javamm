@@ -17,6 +17,7 @@
 package academy.devonline.javamm.interpreter;
 
 import academy.devonline.javamm.code.component.ExpressionContext;
+import academy.devonline.javamm.code.fragment.operator.BinaryOperator;
 import academy.devonline.javamm.interpreter.component.BlockOperationInterpreter;
 import academy.devonline.javamm.interpreter.component.CalculatorFacade;
 import academy.devonline.javamm.interpreter.component.ExpressionEvaluator;
@@ -69,18 +70,38 @@ public class InterpreterConfigurator {
 
     private CalculatorFacade calculatorFacade = new CalculatorFacadeImpl(Set.of(
         // ------- Arithmetic -----------------------------------------
-        new AdditionBinaryExpressionCalculator(),
-        new SubtractionBinaryExpressionCalculator(),
-        new MultiplicationBinaryExpressionCalculator(),
-        new DivisionBinaryExpressionCalculator(),
-        new ModulusBinaryExpressionCalculator(),
+        AdditionBinaryExpressionCalculator.createArithmeticCalculator(),
+        AdditionBinaryExpressionCalculator.createAssignmentCalculator(),
+
+        SubtractionBinaryExpressionCalculator.createArithmeticCalculator(),
+        SubtractionBinaryExpressionCalculator.createAssignmentCalculator(),
+
+        MultiplicationBinaryExpressionCalculator.createArithmeticCalculator(),
+        MultiplicationBinaryExpressionCalculator.createAssignmentCalculator(),
+
+        DivisionBinaryExpressionCalculator.createArithmeticCalculator(),
+        DivisionBinaryExpressionCalculator.createAssignmentCalculator(),
+
+        ModulusBinaryExpressionCalculator.createArithmeticCalculator(),
+        ModulusBinaryExpressionCalculator.createAssignmentCalculator(),
         // ------ Bitwise -------------------------------------------------
-        new BitwiseAndBinaryExpressionCalculator(),
-        new BitwiseOrBinaryExpressionCalculator(),
-        new BitwiseXorBinaryExpressionCalculator(),
-        new BitwiseShiftLeftBinaryExpressionCalculator(),
-        new BitwiseShiftRightBinaryExpressionCalculator(),
-        new BitwiseShiftRightZeroFillBinaryExpressionCalculator(),
+        BitwiseAndBinaryExpressionCalculator.createArithmeticCalculator(),
+        BitwiseAndBinaryExpressionCalculator.createAssignmentCalculator(),
+
+        BitwiseOrBinaryExpressionCalculator.createArithmeticCalculator(),
+        BitwiseOrBinaryExpressionCalculator.createAssignmentCalculator(),
+
+        BitwiseXorBinaryExpressionCalculator.createArithmeticCalculator(),
+        BitwiseXorBinaryExpressionCalculator.createAssignmentCalculator(),
+
+        BitwiseShiftLeftBinaryExpressionCalculator.createArithmeticCalculator(),
+        BitwiseShiftLeftBinaryExpressionCalculator.createAssignmentCalculator(),
+
+        BitwiseShiftRightBinaryExpressionCalculator.createArithmeticCalculator(),
+        BitwiseShiftRightBinaryExpressionCalculator.createAssignmentCalculator(),
+
+        BitwiseShiftRightZeroFillBinaryExpressionCalculator.createArithmeticCalculator(),
+        BitwiseShiftRightZeroFillBinaryExpressionCalculator.createAssignmentCalculator(),
         // ------ Logic -------------------------------------------------
         new LogicAndBinaryExpressionCalculator(),
         new LogicOrBinaryExpressionCalculator(),
