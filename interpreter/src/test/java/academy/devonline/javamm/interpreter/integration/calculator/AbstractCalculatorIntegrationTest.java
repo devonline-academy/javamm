@@ -21,6 +21,7 @@ import academy.devonline.javamm.code.fragment.Expression;
 import academy.devonline.javamm.code.fragment.expression.ConstantExpression;
 import academy.devonline.javamm.code.fragment.expression.NullValueExpression;
 import academy.devonline.javamm.code.fragment.operator.BinaryOperator;
+import academy.devonline.javamm.code.fragment.operator.UnaryOperator;
 import academy.devonline.javamm.interpreter.InterpreterConfigurator;
 import academy.devonline.javamm.interpreter.component.CalculatorFacade;
 
@@ -42,6 +43,13 @@ abstract class AbstractCalculatorIntegrationTest {
             exp(operand1),
             BinaryOperator.of(operator).orElseThrow(),
             exp(operand2));
+    }
+
+    final Object calculate(final String operator, final Object operand) {
+        return calculatorFacade.calculate(
+            expressionContext,
+            UnaryOperator.of(operator).orElseThrow(),
+            exp(operand));
     }
 
     private Expression exp(final Object value) {

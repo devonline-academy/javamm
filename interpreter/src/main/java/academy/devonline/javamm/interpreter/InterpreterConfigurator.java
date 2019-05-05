@@ -40,6 +40,7 @@ import academy.devonline.javamm.interpreter.component.impl.calculator.bitwise.Bi
 import academy.devonline.javamm.interpreter.component.impl.calculator.bitwise.BitwiseShiftRightZeroFillBinaryExpressionCalculator;
 import academy.devonline.javamm.interpreter.component.impl.calculator.bitwise.BitwiseXorBinaryExpressionCalculator;
 import academy.devonline.javamm.interpreter.component.impl.calculator.logic.LogicAndBinaryExpressionCalculator;
+import academy.devonline.javamm.interpreter.component.impl.calculator.logic.LogicNotUnaryExpressionCalculator;
 import academy.devonline.javamm.interpreter.component.impl.calculator.logic.LogicOrBinaryExpressionCalculator;
 import academy.devonline.javamm.interpreter.component.impl.calculator.predicate.IsEqualsBinaryExpressionCalculator;
 import academy.devonline.javamm.interpreter.component.impl.calculator.predicate.IsGreaterBinaryExpressionCalculator;
@@ -86,6 +87,8 @@ public class InterpreterConfigurator {
         new IsGreaterOrEqualsBinaryExpressionCalculator(),
         new IsLessBinaryExpressionCalculator(),
         new IsLessOrEqualsBinaryExpressionCalculator()
+    ), Set.of(
+        new LogicNotUnaryExpressionCalculator()
     ));
 
     private Set<ExpressionEvaluator<?>> expressionEvaluators = Set.of(

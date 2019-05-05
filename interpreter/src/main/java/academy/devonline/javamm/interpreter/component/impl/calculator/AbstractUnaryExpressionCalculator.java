@@ -14,26 +14,24 @@
  * limitations under the License.
  */
 
-package academy.devonline.javamm.interpreter.component;
+package academy.devonline.javamm.interpreter.component.impl.calculator;
 
-import academy.devonline.javamm.code.component.ExpressionContext;
-import academy.devonline.javamm.code.fragment.Expression;
-import academy.devonline.javamm.code.fragment.operator.BinaryOperator;
 import academy.devonline.javamm.code.fragment.operator.UnaryOperator;
+import academy.devonline.javamm.interpreter.component.UnaryExpressionCalculator;
 
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-public interface CalculatorFacade {
+public abstract class AbstractUnaryExpressionCalculator extends AbstractExpressionCalculator
+    implements UnaryExpressionCalculator {
 
-    Object calculate(ExpressionContext expressionContext,
-                     Expression operand1,
-                     BinaryOperator operator,
-                     Expression operand2);
+    protected AbstractUnaryExpressionCalculator(final UnaryOperator operator) {
+        super(operator);
+    }
 
-
-    Object calculate(ExpressionContext expressionContext,
-                     UnaryOperator operator,
-                     Expression operand);
+    @Override
+    public final UnaryOperator getOperator() {
+        return (UnaryOperator) super.getOperator();
+    }
 }

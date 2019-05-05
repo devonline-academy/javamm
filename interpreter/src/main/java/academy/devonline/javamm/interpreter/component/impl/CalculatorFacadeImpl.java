@@ -21,10 +21,13 @@ import academy.devonline.javamm.code.exception.ConfigException;
 import academy.devonline.javamm.code.fragment.Expression;
 import academy.devonline.javamm.code.fragment.Operator;
 import academy.devonline.javamm.code.fragment.operator.BinaryOperator;
+import academy.devonline.javamm.code.fragment.operator.UnaryOperator;
 import academy.devonline.javamm.interpreter.component.BinaryExpressionCalculator;
 import academy.devonline.javamm.interpreter.component.CalculatorFacade;
+import academy.devonline.javamm.interpreter.component.UnaryExpressionCalculator;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
@@ -40,10 +43,17 @@ public class CalculatorFacadeImpl implements CalculatorFacade {
 
     private final Map<BinaryOperator, BinaryExpressionCalculator> binaryExpressionCalculatorMap;
 
-    public CalculatorFacadeImpl(final Set<BinaryExpressionCalculator> binaryExpressionCalculators) {
+    private final Map<UnaryOperator, UnaryExpressionCalculator> unaryExpressionCalculatorMap;
+
+    public CalculatorFacadeImpl(final Set<BinaryExpressionCalculator> binaryExpressionCalculators,
+                                final Set<UnaryExpressionCalculator> unaryExpressionCalculators) {
         this.binaryExpressionCalculatorMap = binaryExpressionCalculators.stream()
             .collect(toUnmodifiableMap(BinaryExpressionCalculator::getOperator, identity()));
         //validateAllOperators(this.binaryExpressionCalculatorMap.keySet(), BinaryOperator.values());
+
+        this.unaryExpressionCalculatorMap = unaryExpressionCalculators.stream()
+            .collect(toUnmodifiableMap(UnaryExpressionCalculator::getOperator, identity()));
+        //validateAllOperators(this.unaryExpressionCalculatorMap.keySet(), UnaryOperator.values());
     }
 
     private <T extends Operator> void validateAllOperators(final Set<T> operatorSet, final T[] values) {
@@ -61,5 +71,13 @@ public class CalculatorFacadeImpl implements CalculatorFacade {
                             final Expression operand2) {
         final BinaryExpressionCalculator calculator = binaryExpressionCalculatorMap.get(requireNonNull(operator));
         return calculator.calculate(expressionContext, operand1, operand2);
+    }
+
+    @Override
+    public Object calculate(final ExpressionContext expressionContext,
+                            final UnaryOperator operator,
+                            final Expression operand) {
+        final UnaryExpressionCalculator calculator = unaryExpressionCalculatorMap.get(requireNonNull(operator));
+        return calculator.calculate(expressionContext, operand);
     }
 }
