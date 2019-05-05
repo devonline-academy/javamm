@@ -19,11 +19,15 @@ package academy.devonline.javamm.compiler.component.impl;
 import academy.devonline.javamm.code.component.ExpressionContext;
 import academy.devonline.javamm.code.fragment.Expression;
 import academy.devonline.javamm.code.fragment.SourceLine;
+import academy.devonline.javamm.code.fragment.Variable;
 import academy.devonline.javamm.code.fragment.expression.ConstantExpression;
 import academy.devonline.javamm.code.fragment.expression.NullValueExpression;
 import academy.devonline.javamm.code.fragment.expression.TypeExpression;
+import academy.devonline.javamm.code.fragment.expression.VariableExpression;
 import academy.devonline.javamm.compiler.component.SingleTokenExpressionBuilder;
+import academy.devonline.javamm.compiler.component.VariableBuilder;
 import academy.devonline.javamm.compiler.component.impl.error.JavammLineSyntaxError;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.MethodOrderer;
@@ -56,6 +60,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.when;
 
 /**
  * @author devonline
@@ -68,10 +73,21 @@ class SingleTokenExpressionBuilderImpl_UnitTest {
 
     private final SourceLine sourceLine = new SourceLine("module1", 5, List.of());
 
-    private final SingleTokenExpressionBuilder expressionBuilder = new SingleTokenExpressionBuilderImpl(null);
+    @Mock
+    private VariableBuilder variableBuilder;
+
+    @Mock
+    private Variable variable;
 
     @Mock
     private ExpressionContext expressionContext;
+
+    private SingleTokenExpressionBuilder expressionBuilder;
+
+    @BeforeEach
+    void beforeEach() {
+        expressionBuilder = new SingleTokenExpressionBuilderImpl(variableBuilder);
+    }
 
     @ParameterizedTest
     @ArgumentsSource(ValidTokenProvider.class)
@@ -200,12 +216,13 @@ class SingleTokenExpressionBuilderImpl_UnitTest {
 
     @Test
     @Order(13)
-    void build_should_throw_JavammLineSyntaxError_if_invalid_constant_is_found() {
-        final JavammLineSyntaxError error = assertThrows(JavammLineSyntaxError.class, () ->
-            expressionBuilder.build(of("test"), sourceLine));
-        assertEquals(
-            "Syntax error in 'module1' [Line: 5]: Invalid constant: test",
-            error.getMessage());
+    void Should_build_a_variable_expression() {
+        when(variableBuilder.build("a", sourceLine)).thenReturn(variable);
+
+        final Expression expression = expressionBuilder.build(of("a"), sourceLine);
+
+        assertEquals(VariableExpression.class, expression.getClass());
+        assertSame(variable, ((VariableExpression) expression).getVariable());
     }
 
     /**
