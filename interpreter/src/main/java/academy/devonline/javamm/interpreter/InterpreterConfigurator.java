@@ -28,6 +28,7 @@ import academy.devonline.javamm.interpreter.component.impl.CalculatorFacadeImpl;
 import academy.devonline.javamm.interpreter.component.impl.ExpressionContextImpl;
 import academy.devonline.javamm.interpreter.component.impl.InterpreterImpl;
 import academy.devonline.javamm.interpreter.component.impl.RuntimeBuilderImpl;
+import academy.devonline.javamm.interpreter.component.impl.calculator.arithmetic.AdditionBinaryExpressionCalculator;
 import academy.devonline.javamm.interpreter.component.impl.calculator.arithmetic.SubtractionBinaryExpressionCalculator;
 import academy.devonline.javamm.interpreter.component.impl.expression.evaluator.BinaryExpressionEvaluator;
 import academy.devonline.javamm.interpreter.component.impl.expression.evaluator.VariableExpressionEvaluator;
@@ -43,7 +44,8 @@ import java.util.Set;
 public class InterpreterConfigurator {
 
     private CalculatorFacade calculatorFacade = new CalculatorFacadeImpl(Set.of(
-        new SubtractionBinaryExpressionCalculator()
+        new SubtractionBinaryExpressionCalculator(),
+        new AdditionBinaryExpressionCalculator()
     ));
 
     private Set<ExpressionEvaluator<?>> expressionEvaluators = Set.of(
