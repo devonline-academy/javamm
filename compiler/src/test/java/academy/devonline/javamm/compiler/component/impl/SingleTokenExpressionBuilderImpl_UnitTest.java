@@ -68,7 +68,7 @@ class SingleTokenExpressionBuilderImpl_UnitTest {
 
     private final SourceLine sourceLine = new SourceLine("module1", 5, List.of());
 
-    private final SingleTokenExpressionBuilder expressionBuilder = new SingleTokenExpressionBuilderImpl();
+    private final SingleTokenExpressionBuilder expressionBuilder = new SingleTokenExpressionBuilderImpl(null);
 
     @Mock
     private ExpressionContext expressionContext;

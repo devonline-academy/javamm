@@ -14,17 +14,18 @@
  * limitations under the License.
  */
 
-package academy.devonline.javamm.code.fragment;
+package academy.devonline.javamm.compiler.component;
 
-import academy.devonline.javamm.code.component.ExpressionContext;
+import academy.devonline.javamm.code.fragment.SourceLine;
+import academy.devonline.javamm.code.fragment.Variable;
 
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-public interface UpdatableExpression extends Expression {
+public interface VariableBuilder {
 
-    default void setValue(final ExpressionContext expressionContext, final Object updatedValue) {
-        expressionContext.setValue(this, updatedValue);
-    }
+    boolean isValid(String name);
+
+    Variable build(String name, SourceLine sourceLine);
 }

@@ -16,15 +16,11 @@
 
 package academy.devonline.javamm.code.fragment;
 
-import academy.devonline.javamm.code.component.ExpressionContext;
-
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-public interface UpdatableExpression extends Expression {
+public interface Variable extends Comparable<Variable>, CompiledCodeFragment {
 
-    default void setValue(final ExpressionContext expressionContext, final Object updatedValue) {
-        expressionContext.setValue(this, updatedValue);
-    }
+    String getName();
 }

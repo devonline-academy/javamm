@@ -23,13 +23,16 @@ import academy.devonline.javamm.compiler.component.OperationReader;
 import academy.devonline.javamm.compiler.component.SingleTokenExpressionBuilder;
 import academy.devonline.javamm.compiler.component.SourceLineReader;
 import academy.devonline.javamm.compiler.component.TokenParser;
+import academy.devonline.javamm.compiler.component.VariableBuilder;
 import academy.devonline.javamm.compiler.component.impl.BlockOperationReaderImpl;
 import academy.devonline.javamm.compiler.component.impl.CompilerImpl;
 import academy.devonline.javamm.compiler.component.impl.ExpressionResolverImpl;
 import academy.devonline.javamm.compiler.component.impl.SingleTokenExpressionBuilderImpl;
 import academy.devonline.javamm.compiler.component.impl.SourceLineReaderImpl;
 import academy.devonline.javamm.compiler.component.impl.TokenParserImpl;
+import academy.devonline.javamm.compiler.component.impl.VariableBuilderImpl;
 import academy.devonline.javamm.compiler.component.impl.operation.simple.PrintlnOperationReader;
+import academy.devonline.javamm.compiler.component.impl.operation.simple.VariableDeclarationOperationReader;
 
 import java.util.Set;
 
@@ -43,7 +46,10 @@ public class CompilerConfigurator {
 
     private SourceLineReader sourceLineReader = new SourceLineReaderImpl(tokenParser);
 
-    private SingleTokenExpressionBuilder singleTokenExpressionBuilder = new SingleTokenExpressionBuilderImpl();
+    private VariableBuilder variableBuilder = new VariableBuilderImpl();
+
+    private SingleTokenExpressionBuilder singleTokenExpressionBuilder =
+        new SingleTokenExpressionBuilderImpl(variableBuilder);
 
     private Set<ExpressionBuilder> expressionBuilders = Set.of(
         singleTokenExpressionBuilder
@@ -52,7 +58,8 @@ public class CompilerConfigurator {
     private ExpressionResolver expressionResolver = new ExpressionResolverImpl(expressionBuilders);
 
     private Set<OperationReader> operationReaders = Set.of(
-        new PrintlnOperationReader(expressionResolver)
+        new PrintlnOperationReader(expressionResolver),
+        new VariableDeclarationOperationReader(variableBuilder, expressionResolver)
     );
 
     private BlockOperationReader blockOperationReader = new BlockOperationReaderImpl(operationReaders);

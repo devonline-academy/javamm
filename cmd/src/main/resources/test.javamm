@@ -1,3 +1,9 @@
-println ( 'HelloWorld' )
+var a = 1
+var b
+var c = a
+var d = integer
 
-println ( 'HelloJavamm222' )
+println ( a )
+println ( b )
+println ( c )
+println ( d )

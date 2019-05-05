@@ -18,10 +18,13 @@ package academy.devonline.javamm.compiler.component.impl;
 
 import academy.devonline.javamm.code.fragment.Expression;
 import academy.devonline.javamm.code.fragment.SourceLine;
+import academy.devonline.javamm.code.fragment.Variable;
 import academy.devonline.javamm.code.fragment.expression.ConstantExpression;
 import academy.devonline.javamm.code.fragment.expression.NullValueExpression;
 import academy.devonline.javamm.code.fragment.expression.TypeExpression;
+import academy.devonline.javamm.code.fragment.expression.VariableExpression;
 import academy.devonline.javamm.compiler.component.SingleTokenExpressionBuilder;
+import academy.devonline.javamm.compiler.component.VariableBuilder;
 import academy.devonline.javamm.compiler.component.impl.error.JavammLineSyntaxError;
 
 import java.util.List;
@@ -33,12 +36,19 @@ import static academy.devonline.javamm.code.syntax.Keywords.NULL;
 import static academy.devonline.javamm.code.syntax.Keywords.TRUE;
 import static academy.devonline.javamm.code.syntax.SyntaxUtils.isValidSyntaxToken;
 import static java.lang.String.format;
+import static java.util.Objects.requireNonNull;
 
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
 public class SingleTokenExpressionBuilderImpl implements SingleTokenExpressionBuilder {
+
+    private final VariableBuilder variableBuilder;
+
+    public SingleTokenExpressionBuilderImpl(final VariableBuilder variableBuilder) {
+        this.variableBuilder = requireNonNull(variableBuilder);
+    }
 
     @Override
     public boolean canBuild(final List<String> tokens) {
@@ -56,6 +66,7 @@ public class SingleTokenExpressionBuilderImpl implements SingleTokenExpressionBu
     var a = false
     var a = 1
     var a = 1.1
+    var a = b
      */
     @Override
     public Expression build(final List<String> expressionTokens, final SourceLine sourceLine) {
@@ -76,8 +87,8 @@ public class SingleTokenExpressionBuilderImpl implements SingleTokenExpressionBu
                 try {
                     expression = ConstantExpression.valueOf(Double.parseDouble(value));
                 } catch (final NumberFormatException doubleFormatException) {
-                    //FIXME
-                    throw new JavammLineSyntaxError("Invalid constant: " + value, sourceLine);
+                    final Variable variable = variableBuilder.build(value, sourceLine);
+                    expression = new VariableExpression(variable);
                 }
             }
         }

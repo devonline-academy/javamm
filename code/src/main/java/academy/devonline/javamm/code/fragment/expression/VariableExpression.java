@@ -14,17 +14,31 @@
  * limitations under the License.
  */
 
-package academy.devonline.javamm.code.fragment;
+package academy.devonline.javamm.code.fragment.expression;
 
-import academy.devonline.javamm.code.component.ExpressionContext;
+import academy.devonline.javamm.code.fragment.UpdatableExpression;
+import academy.devonline.javamm.code.fragment.Variable;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-public interface UpdatableExpression extends Expression {
+public class VariableExpression implements UpdatableExpression {
 
-    default void setValue(final ExpressionContext expressionContext, final Object updatedValue) {
-        expressionContext.setValue(this, updatedValue);
+    private final Variable variable;
+
+    public VariableExpression(final Variable variable) {
+        this.variable = requireNonNull(variable);
+    }
+
+    public final Variable getVariable() {
+        return variable;
+    }
+
+    @Override
+    public String toString() {
+        return variable.toString();
     }
 }
