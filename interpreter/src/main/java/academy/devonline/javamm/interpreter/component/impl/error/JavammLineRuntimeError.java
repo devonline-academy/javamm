@@ -19,6 +19,7 @@ package academy.devonline.javamm.interpreter.component.impl.error;
 import academy.devonline.javamm.interpreter.JavammRuntimeError;
 
 import static academy.devonline.javamm.interpreter.model.CurrentRuntimeProvider.getCurrentRuntime;
+import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -31,8 +32,8 @@ public class JavammLineRuntimeError extends JavammRuntimeError {
         super(buildErrorMessage(requireNonNull(message)));
     }
 
-    private static String buildErrorMessage(final String message) {
-        return String.format("Runtime error in '%s' [Line: %s]: %s",
+    public static String buildErrorMessage(final String message) {
+        return format("Runtime error in '%s' [Line: %s]: %s",
             getCurrentRuntime().getCurrentModuleName(),
             getCurrentRuntime().getCurrentSourceLine().getNumber(),
             message);

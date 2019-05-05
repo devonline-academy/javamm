@@ -36,6 +36,8 @@ import java.util.List;
 import java.util.Set;
 
 import static academy.devonline.javamm.code.fragment.SourceLine.EMPTY_SOURCE_LINE;
+import static academy.devonline.javamm.interpreter.TestRuntimeUtils.getCurrentTestRuntime;
+import static academy.devonline.javamm.interpreter.model.CurrentRuntimeProvider.setCurrentRuntime;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -77,6 +79,7 @@ class BlockOperationInterpreterImpl_UnitTest {
     @Test
     @Order(2)
     void interpret_should_delegate_the_call_to_appropriate_operation_interpreter() {
+        setCurrentRuntime(getCurrentTestRuntime(EMPTY_SOURCE_LINE));
         final TestOperation testOperation = new TestOperation();
         when(operationInterpreter1.getOperationClass()).thenReturn(TestOperation.class);
         final BlockOperationInterpreter interpreter = new BlockOperationInterpreterImpl(Set.of(operationInterpreter1));
