@@ -16,6 +16,7 @@
 
 package academy.devonline.javamm.interpreter.component.impl.operation;
 
+import academy.devonline.javamm.code.component.ExpressionContext;
 import academy.devonline.javamm.code.fragment.Operation;
 import academy.devonline.javamm.interpreter.TerminateInterpreterException;
 import org.junit.jupiter.api.BeforeEach;
@@ -49,11 +50,14 @@ class AbstractOperationInterpreter_UnitTest {
     @Mock
     private Operation operation;
 
+    @Mock
+    private ExpressionContext expressionContext;
+
     private AbstractOperationInterpreter<Operation> operationInterpreter;
 
     @BeforeEach
     void beforeEach() {
-        operationInterpreter = spy(new AbstractOperationInterpreter<>() {
+        operationInterpreter = spy(new AbstractOperationInterpreter<>(expressionContext) {
             @Override
             protected void interpretOperation(final Operation operation) {
 

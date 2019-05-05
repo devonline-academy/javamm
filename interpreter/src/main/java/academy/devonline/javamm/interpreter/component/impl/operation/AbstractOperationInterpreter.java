@@ -16,15 +16,24 @@
 
 package academy.devonline.javamm.interpreter.component.impl.operation;
 
+import academy.devonline.javamm.code.component.ExpressionContext;
 import academy.devonline.javamm.code.fragment.Operation;
 import academy.devonline.javamm.interpreter.TerminateInterpreterException;
 import academy.devonline.javamm.interpreter.component.OperationInterpreter;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
 public abstract class AbstractOperationInterpreter<T extends Operation> implements OperationInterpreter<T> {
+
+    protected final ExpressionContext expressionContext;
+
+    public AbstractOperationInterpreter(final ExpressionContext expressionContext) {
+        this.expressionContext = requireNonNull(expressionContext);
+    }
 
     @Override
     public final void interpret(final T operation) {

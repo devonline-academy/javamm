@@ -16,9 +16,13 @@
 
 package academy.devonline.javamm.interpreter;
 
+import academy.devonline.javamm.code.component.ExpressionContext;
 import academy.devonline.javamm.interpreter.component.BlockOperationInterpreter;
+import academy.devonline.javamm.interpreter.component.ExpressionEvaluator;
+import academy.devonline.javamm.interpreter.component.ExpressionUpdater;
 import academy.devonline.javamm.interpreter.component.OperationInterpreter;
 import academy.devonline.javamm.interpreter.component.impl.BlockOperationInterpreterImpl;
+import academy.devonline.javamm.interpreter.component.impl.ExpressionContextImpl;
 import academy.devonline.javamm.interpreter.component.impl.InterpreterImpl;
 import academy.devonline.javamm.interpreter.component.impl.operation.simple.PrintlnOperationInterpreter;
 
@@ -30,8 +34,18 @@ import java.util.Set;
  */
 public class InterpreterConfigurator {
 
+    private Set<ExpressionEvaluator<?>> expressionEvaluators = Set.of(
+        //TODO Add here
+    );
+
+    private Set<ExpressionUpdater<?>> expressionUpdaters = Set.of(
+        //TODO Add here
+    );
+
+    private ExpressionContext expressionContext = new ExpressionContextImpl(expressionEvaluators, expressionUpdaters);
+
     private Set<OperationInterpreter<?>> operationInterpreters = Set.of(
-        new PrintlnOperationInterpreter()
+        new PrintlnOperationInterpreter(expressionContext)
     );
 
     private BlockOperationInterpreter blockOperationInterpreter =
