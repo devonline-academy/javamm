@@ -1,9 +1,7 @@
 var a = 1
-var b
-final c = a
-final d = integer
+var b = 2
+var c = a - 4
 
-println ( a )
-println ( b )
 println ( c )
-println ( d )
+
+println ( c - b )

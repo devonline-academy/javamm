@@ -31,6 +31,7 @@ import academy.devonline.javamm.compiler.component.impl.SingleTokenExpressionBui
 import academy.devonline.javamm.compiler.component.impl.SourceLineReaderImpl;
 import academy.devonline.javamm.compiler.component.impl.TokenParserImpl;
 import academy.devonline.javamm.compiler.component.impl.VariableBuilderImpl;
+import academy.devonline.javamm.compiler.component.impl.expression.builder.BinaryExpressionBuilder;
 import academy.devonline.javamm.compiler.component.impl.operation.simple.FinalDeclarationOperationReader;
 import academy.devonline.javamm.compiler.component.impl.operation.simple.PrintlnOperationReader;
 import academy.devonline.javamm.compiler.component.impl.operation.simple.VariableDeclarationOperationReader;
@@ -53,7 +54,8 @@ public class CompilerConfigurator {
         new SingleTokenExpressionBuilderImpl(variableBuilder);
 
     private Set<ExpressionBuilder> expressionBuilders = Set.of(
-        singleTokenExpressionBuilder
+        singleTokenExpressionBuilder,
+        new BinaryExpressionBuilder(singleTokenExpressionBuilder)
     );
 
     private ExpressionResolver expressionResolver = new ExpressionResolverImpl(expressionBuilders);
