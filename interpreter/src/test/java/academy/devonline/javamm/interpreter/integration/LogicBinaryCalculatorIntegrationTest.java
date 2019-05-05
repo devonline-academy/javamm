@@ -71,15 +71,11 @@ class LogicBinaryCalculatorIntegrationTest extends AbstractCalculatorIntegration
             // &&
             arguments(true, "&&", false, false),
             arguments(true, "&&", true, true),
-            arguments(false, "&&", true, false),
-            arguments(false, "&&", false, false),
             arguments(false, "&&", notEvaluatedExpression(), false)
 
             // ||
             /*arguments(false, "||", false, false),
             arguments(false, "||", true, true),
-            arguments(true, "||", true, true),
-            arguments(true, "||", false, true),
             arguments(true, "||", notEvaluatedExpression(), true)*/
         );
     }
