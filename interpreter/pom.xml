@@ -29,6 +29,11 @@
                         javamm.interpreter/academy.devonline.javamm.interpreter.component.impl.operation.simple=ALL-UNNAMED
                         --add-opens
                         javamm.interpreter/academy.devonline.javamm.interpreter.component.impl.calculator.arithmetic=ALL-UNNAMED
+
+                        --add-opens
+                        javamm.interpreter/academy.devonline.javamm.interpreter.integration.calculator=ALL-UNNAMED
+                        --add-opens
+                        javamm.interpreter/academy.devonline.javamm.interpreter.integration.calculator.binary=ALL-UNNAMED
                     </argLine>
                 </configuration>
             </plugin>

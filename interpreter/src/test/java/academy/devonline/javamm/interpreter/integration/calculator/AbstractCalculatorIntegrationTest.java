@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package academy.devonline.javamm.interpreter.integration;
+package academy.devonline.javamm.interpreter.integration.calculator;
 
 import academy.devonline.javamm.code.component.ExpressionContext;
 import academy.devonline.javamm.code.fragment.Expression;
