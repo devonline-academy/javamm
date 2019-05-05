@@ -39,7 +39,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 
 import static academy.devonline.javamm.interpreter.TestRuntimeUtils.getCurrentTestRuntime;
-import static academy.devonline.javamm.interpreter.component.impl.error.JavammLineRuntimeError.buildErrorMessage;
+import static academy.devonline.javamm.interpreter.component.impl.error.JavammLineRuntimeError.buildRuntimeErrorMessage;
 import static academy.devonline.javamm.interpreter.model.CurrentRuntimeProvider.setCurrentRuntime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -124,6 +124,6 @@ class VariableDeclarationOperationInterpreter_UnitTest {
         final JavammLineRuntimeError error = assertThrows(JavammLineRuntimeError.class, () ->
             operationInterpreter.interpret(
                 new VariableDeclarationOperation(sourceLine, false, variable, expression)));
-        assertEquals(buildErrorMessage("Variable 'a' already defined"), error.getMessage());
+        assertEquals(buildRuntimeErrorMessage("Variable 'a' already defined"), error.getMessage());
     }
 }

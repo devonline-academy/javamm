@@ -72,4 +72,8 @@ public class InterpreterConfigurator {
     public Interpreter getInterpreter() {
         return interpreter;
     }
+
+    public CalculatorFacade getCalculatorFacade() {
+        return calculatorFacade;
+    }
 }

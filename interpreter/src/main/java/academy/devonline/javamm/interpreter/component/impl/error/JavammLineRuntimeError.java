@@ -29,10 +29,10 @@ import static java.util.Objects.requireNonNull;
 public class JavammLineRuntimeError extends JavammRuntimeError {
 
     public JavammLineRuntimeError(final String message) {
-        super(buildErrorMessage(requireNonNull(message)));
+        super(buildRuntimeErrorMessage(requireNonNull(message)));
     }
 
-    public static String buildErrorMessage(final String message) {
+    public static String buildRuntimeErrorMessage(final String message) {
         return format("Runtime error in '%s' [Line: %s]: %s",
             getCurrentRuntime().getCurrentModuleName(),
             getCurrentRuntime().getCurrentSourceLine().getNumber(),
