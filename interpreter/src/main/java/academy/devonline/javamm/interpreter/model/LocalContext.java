@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,14 +14,21 @@
  * limitations under the License.
  */
 
+package academy.devonline.javamm.interpreter.model;
+
+import academy.devonline.javamm.code.fragment.Variable;
+
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-module javamm.interpreter {
-    requires javamm.code;
+public interface LocalContext {
 
-    exports academy.devonline.javamm.interpreter;
-    exports academy.devonline.javamm.interpreter.model;
-    exports academy.devonline.javamm.interpreter.component;
+    void setFinalValue(Variable variable, Object value);
+
+    void setVariableValue(Variable variable, Object value);
+
+    boolean isVariableDefined(Variable variable);
+
+    Object getVariableValue(Variable variable);
 }

@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,14 +14,28 @@
  * limitations under the License.
  */
 
+package academy.devonline.javamm.interpreter.model;
+
+import academy.devonline.javamm.code.fragment.Operation;
+import academy.devonline.javamm.code.fragment.SourceLine;
+
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-module javamm.interpreter {
-    requires javamm.code;
+public interface CurrentRuntime {
 
-    exports academy.devonline.javamm.interpreter;
-    exports academy.devonline.javamm.interpreter.model;
-    exports academy.devonline.javamm.interpreter.component;
+    String getCurrentModuleName();
+
+    SourceLine getCurrentSourceLine();
+
+    void setCurrentSourceLine(SourceLine currentSourceLine);
+
+    LocalContext getCurrentLocalContext();
+
+    void setCurrentLocalContext(LocalContext localContext);
+
+    default void setCurrentOperation(final Operation operation) {
+        setCurrentSourceLine(operation.getSourceLine());
+    }
 }

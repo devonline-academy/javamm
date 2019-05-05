@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.BinaryOperator;
 
+import static academy.devonline.javamm.interpreter.model.CurrentRuntimeProvider.getCurrentRuntime;
 import static java.lang.String.format;
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toUnmodifiableMap;
@@ -83,6 +84,7 @@ public final class BlockOperationInterpreterImpl implements BlockOperationInterp
         for (final Operation operation : block.getOperations()) {
             final OperationInterpreter operationInterpreter = operationInterpreterMap.get(operation.getClass());
             if (operationInterpreter != null) {
+                getCurrentRuntime().setCurrentOperation(operation);
                 operationInterpreter.interpret(operation);
             } else {
                 throw new ConfigException("OperationInterpreter not defined for " + operation.getClass());
@@ -97,6 +99,7 @@ public final class BlockOperationInterpreterImpl implements BlockOperationInterp
         block.getOperations().forEach(operation ->
             ofNullable(operationInterpreterMap.get(operation.getClass()))
                 .ifPresentOrElse(operationInterpreter -> {
+                    getCurrentRuntime().setCurrentOperation(operation);
                     operationInterpreter.interpret(operation);
                 }, () -> {
                     throw new ConfigException("OperationInterpreter not defined for " + operation.getClass());

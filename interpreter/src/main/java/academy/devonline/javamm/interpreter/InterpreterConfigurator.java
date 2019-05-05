@@ -21,10 +21,14 @@ import academy.devonline.javamm.interpreter.component.BlockOperationInterpreter;
 import academy.devonline.javamm.interpreter.component.ExpressionEvaluator;
 import academy.devonline.javamm.interpreter.component.ExpressionUpdater;
 import academy.devonline.javamm.interpreter.component.OperationInterpreter;
+import academy.devonline.javamm.interpreter.component.RuntimeBuilder;
 import academy.devonline.javamm.interpreter.component.impl.BlockOperationInterpreterImpl;
 import academy.devonline.javamm.interpreter.component.impl.ExpressionContextImpl;
 import academy.devonline.javamm.interpreter.component.impl.InterpreterImpl;
+import academy.devonline.javamm.interpreter.component.impl.RuntimeBuilderImpl;
+import academy.devonline.javamm.interpreter.component.impl.expression.evaluator.VariableExpressionEvaluator;
 import academy.devonline.javamm.interpreter.component.impl.operation.simple.PrintlnOperationInterpreter;
+import academy.devonline.javamm.interpreter.component.impl.operation.simple.VariableDeclarationOperationInterpreter;
 
 import java.util.Set;
 
@@ -35,7 +39,7 @@ import java.util.Set;
 public class InterpreterConfigurator {
 
     private Set<ExpressionEvaluator<?>> expressionEvaluators = Set.of(
-        //TODO Add here
+        new VariableExpressionEvaluator()
     );
 
     private Set<ExpressionUpdater<?>> expressionUpdaters = Set.of(
@@ -45,13 +49,16 @@ public class InterpreterConfigurator {
     private ExpressionContext expressionContext = new ExpressionContextImpl(expressionEvaluators, expressionUpdaters);
 
     private Set<OperationInterpreter<?>> operationInterpreters = Set.of(
-        new PrintlnOperationInterpreter(expressionContext)
+        new PrintlnOperationInterpreter(expressionContext),
+        new VariableDeclarationOperationInterpreter(expressionContext)
     );
 
     private BlockOperationInterpreter blockOperationInterpreter =
         new BlockOperationInterpreterImpl(operationInterpreters);
 
-    private Interpreter interpreter = new InterpreterImpl(blockOperationInterpreter);
+    private RuntimeBuilder runtimeBuilder = new RuntimeBuilderImpl();
+
+    private Interpreter interpreter = new InterpreterImpl(blockOperationInterpreter, runtimeBuilder);
 
     public Interpreter getInterpreter() {
         return interpreter;

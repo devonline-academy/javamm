@@ -67,10 +67,10 @@ class ExpressionContextImpl_getValue_and_setValue_UnitTest {
         final TestExpression expression = new TestExpressionEx();
 
         final ConfigException exception = assertThrows(ConfigException.class, () ->
-                expressionContext.getValue(expression));
+            expressionContext.getValue(expression));
         assertEquals("ExpressionEvaluator not defined for class " +
-                "academy.devonline.javamm.interpreter.component.impl.ExpressionContextImpl_getValue_and_setValue_UnitTest" +
-                "$1TestExpressionEx", exception.getMessage());
+            "academy.devonline.javamm.interpreter.component.impl.ExpressionContextImpl_getValue_and_setValue_UnitTest" +
+            "$1TestExpressionEx", exception.getMessage());
         verify(expressionEvaluator, never()).evaluate(expression);
     }
 
@@ -93,10 +93,10 @@ class ExpressionContextImpl_getValue_and_setValue_UnitTest {
         final TestUpdatableExpression expression = new TestUpdatableExpressionEx();
 
         final ConfigException exception = assertThrows(ConfigException.class, () ->
-                expressionContext.setValue(expression, null));
+            expressionContext.setValue(expression, null));
         assertEquals("ExpressionUpdater not defined for class " +
-                "academy.devonline.javamm.interpreter.component.impl.ExpressionContextImpl_getValue_and_setValue_UnitTest" +
-                "$1TestUpdatableExpressionEx", exception.getMessage());
+            "academy.devonline.javamm.interpreter.component.impl.ExpressionContextImpl_getValue_and_setValue_UnitTest" +
+            "$1TestUpdatableExpressionEx", exception.getMessage());
         verify(expressionUpdater, never()).update(expression, null);
     }
 

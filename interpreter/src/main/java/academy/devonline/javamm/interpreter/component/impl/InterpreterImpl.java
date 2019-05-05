@@ -21,7 +21,12 @@ import academy.devonline.javamm.interpreter.Interpreter;
 import academy.devonline.javamm.interpreter.JavammRuntimeError;
 import academy.devonline.javamm.interpreter.TerminateInterpreterException;
 import academy.devonline.javamm.interpreter.component.BlockOperationInterpreter;
+import academy.devonline.javamm.interpreter.component.RuntimeBuilder;
+import academy.devonline.javamm.interpreter.model.CurrentRuntime;
+import academy.devonline.javamm.interpreter.model.LocalContext;
 
+import static academy.devonline.javamm.interpreter.model.CurrentRuntimeProvider.releaseCurrentRuntime;
+import static academy.devonline.javamm.interpreter.model.CurrentRuntimeProvider.setCurrentRuntime;
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -32,12 +37,25 @@ public class InterpreterImpl implements Interpreter {
 
     private final BlockOperationInterpreter blockOperationInterpreter;
 
-    public InterpreterImpl(final BlockOperationInterpreter blockOperationInterpreter) {
+    private final RuntimeBuilder runtimeBuilder;
+
+    public InterpreterImpl(final BlockOperationInterpreter blockOperationInterpreter,
+                           final RuntimeBuilder runtimeBuilder) {
         this.blockOperationInterpreter = requireNonNull(blockOperationInterpreter);
+        this.runtimeBuilder = requireNonNull(runtimeBuilder);
     }
 
     @Override
     public void interpret(final ByteCode byteCode) throws JavammRuntimeError, TerminateInterpreterException {
-        blockOperationInterpreter.interpret(byteCode.getCode());
+        final CurrentRuntime currentRuntime = runtimeBuilder.buildCurrentRuntime();
+        setCurrentRuntime(currentRuntime);
+        final LocalContext localContext = runtimeBuilder.buildLocalContext();
+        currentRuntime.setCurrentLocalContext(localContext);
+
+        try {
+            blockOperationInterpreter.interpret(byteCode.getCode());
+        } finally {
+            releaseCurrentRuntime();
+        }
     }
 }
