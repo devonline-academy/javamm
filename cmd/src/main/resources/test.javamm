@@ -1,7 +1,2 @@
 var a = 1
-var b = 2
-var c = a - 4
-
-println ( c )
-
-println ( c - b )
+println ( a - 3 )
