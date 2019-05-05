@@ -1,7 +1,7 @@
 var a = 1
 var b
-var c = a
-var d = integer
+final c = a
+final d = integer
 
 println ( a )
 println ( b )
