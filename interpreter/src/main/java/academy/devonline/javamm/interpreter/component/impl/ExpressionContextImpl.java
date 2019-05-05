@@ -96,8 +96,8 @@ public final class ExpressionContextImpl implements ExpressionContext {
     //Functional
     public Object getValue(final Expression expression) {
         return ofNullable(expressionEvaluatorMap.get(expression.getClass()))
-                .orElseThrow(exceptionSupplier(expression.getClass(), "ExpressionEvaluator"))
-                .evaluate(expression);
+            .orElseThrow(exceptionSupplier(expression.getClass(), "ExpressionEvaluator"))
+            .evaluate(expression);
     }
 
     @SuppressWarnings("unchecked")
@@ -105,14 +105,14 @@ public final class ExpressionContextImpl implements ExpressionContext {
     public void setValue(final UpdatableExpression updatableExpression,
                          final Object updatedValue) {
         ofNullable(expressionUpdaterMap.get(updatableExpression.getClass()))
-                .orElseThrow(exceptionSupplier(updatableExpression.getClass(), "ExpressionUpdater"))
-                .update(updatableExpression, updatedValue);
+            .orElseThrow(exceptionSupplier(updatableExpression.getClass(), "ExpressionUpdater"))
+            .update(updatableExpression, updatedValue);
     }
 
     private Supplier<RuntimeException> exceptionSupplier(final Class<?> expressionClass, final String handlerName) {
         return () -> {
             throw new ConfigException(format("%s not defined for %s",
-                    handlerName, expressionClass));
+                handlerName, expressionClass));
         };
     }*/
 }
