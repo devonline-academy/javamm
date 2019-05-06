@@ -17,12 +17,15 @@
 package academy.devonline.javamm.compiler.component.impl;
 
 import academy.devonline.javamm.code.fragment.Expression;
+import academy.devonline.javamm.code.fragment.Lexeme;
 import academy.devonline.javamm.code.fragment.SourceLine;
+import academy.devonline.javamm.code.fragment.expression.ComplexExpression;
 import academy.devonline.javamm.compiler.JavammSyntaxError;
 import academy.devonline.javamm.compiler.component.ComplexExpressionBuilder;
 import academy.devonline.javamm.compiler.component.ExpressionBuilder;
 import academy.devonline.javamm.compiler.component.ExpressionResolver;
 import academy.devonline.javamm.compiler.component.LexemeBuilder;
+import academy.devonline.javamm.compiler.component.impl.error.JavammLineSyntaxError;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
@@ -37,10 +40,14 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 import java.util.Set;
 
+import static academy.devonline.javamm.code.fragment.Parenthesis.OPENING_PARENTHESIS;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
@@ -63,13 +70,19 @@ class ExpressionResolverImpl_UnitTest {
     @Mock
     private Expression expectedExpression;
 
-    private ExpressionResolver expressionResolver;
-
     @Mock
     private LexemeBuilder lexemeBuilder;
 
     @Mock
+    private List<Lexeme> lexemes;
+
+    @Mock
     private ComplexExpressionBuilder complexExpressionBuilder;
+
+    @Mock
+    private ComplexExpression complexExpression;
+
+    private ExpressionResolver expressionResolver;
 
     @BeforeEach
     void beforeEach() {
@@ -83,18 +96,43 @@ class ExpressionResolverImpl_UnitTest {
         when(expressionBuilder1.canBuild(expressionTokens)).thenReturn(true);
         when(expressionBuilder1.build(expressionTokens, sourceLine)).thenReturn(expectedExpression);
 
-        final Expression actualExpression = assertDoesNotThrow(() ->
-            expressionResolver.resolve(expressionTokens, sourceLine));
+        final Expression actualExpression = expressionResolver.resolve(expressionTokens, sourceLine);
+
         assertSame(expectedExpression, actualExpression);
+        verify(lexemeBuilder, never()).build(any(), any());
+        verify(complexExpressionBuilder, never()).build(any(), any());
     }
 
     @Test
     @Order(2)
-    void Should_throw_JavammSyntaxError_if_expression_cant_be_resolved() {
-        final List<String> invalidExpressions = List.of("#");
+    void Should_use_the_lexeme_builder_only() {
+        when(lexemeBuilder.build(expressionTokens, sourceLine)).thenReturn(List.of(expectedExpression));
 
-        final JavammSyntaxError syntaxError = assertThrows(JavammSyntaxError.class, () ->
-            expressionResolver.resolve(invalidExpressions, sourceLine));
-        assertEquals("Syntax error in 'module1' [Line: 5]: Unsupported expression: #", syntaxError.getMessage());
+        final Expression actualExpression = expressionResolver.resolve(expressionTokens, sourceLine);
+
+        assertSame(expectedExpression, actualExpression);
+        verify(complexExpressionBuilder, never()).build(any(), any());
+    }
+
+    @Test
+    @Order(3)
+    void Should_throw_error_if_lexemeBuilder_returns_one_lexeme_and_it_is_not_an_expression() {
+        when(lexemeBuilder.build(expressionTokens, sourceLine)).thenReturn(List.of(OPENING_PARENTHESIS));
+
+        final JavammLineSyntaxError error = assertThrows(JavammLineSyntaxError.class, () ->
+            expressionResolver.resolve(expressionTokens, sourceLine));
+        assertEquals("Syntax error in 'module1' [Line: 5]: Unresolved expression: (", error.getMessage());
+        verify(complexExpressionBuilder, never()).build(any(), any());
+    }
+
+    @Test
+    @Order(4)
+    void Should_use_the_complex_expression_builder() {
+        when(lexemeBuilder.build(expressionTokens, sourceLine)).thenReturn(lexemes);
+        when(complexExpressionBuilder.build(lexemes, sourceLine)).thenReturn(complexExpression);
+
+        final Expression actualExpression = expressionResolver.resolve(expressionTokens, sourceLine);
+
+        assertSame(complexExpression, actualExpression);
     }
 }
