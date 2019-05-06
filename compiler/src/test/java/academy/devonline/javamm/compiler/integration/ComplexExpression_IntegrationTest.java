@@ -53,39 +53,39 @@ class ComplexExpression_IntegrationTest {
     @ParameterizedTest
     @Order(1)
     @ValueSource(strings = {
-            // Unary ~
-            "5",
-            "~ 5",
-            "~ 5 + 5",
-            "~ 5 + ~ 5",
-            "~ 5 * ~ ~ ~ ~ 5",
-            "~ 5 * ~ ( ~ ( ~ 5 ) )",
+        // Unary ~
+        "5",
+        "~ 5",
+        "~ 5 + 5",
+        "~ 5 + ~ 5",
+        "~ 5 * ~ ~ ~ ~ 5",
+        "~ 5 * ~ ( ~ ( ~ 5 ) )",
 
-            // Unary -
-            "- 5",
-            "- 5 + 5",
-            "- 5 + - 5",
-            "- 5 * - + - + 5",
-            "~ 5 * - ( + ( - 5 ) )",
+        // Unary -
+        "- 5",
+        "- 5 + 5",
+        "- 5 + - 5",
+        "- 5 * - + - + 5",
+        "~ 5 * - ( + ( - 5 ) )",
 
-            // Increment
-            "a ++",
-            "++ a",
-            "a ++ + 5",
-            "5 + a ++",
-            "5 + a ++ + 5",
-            "++ a + 5",
-            "5 + ++ a",
-            "5 + ++ a + 5",
-            "+ 5 + ++ a + + + + + 5",
-            "+ 5 + + a ++ + + + + + 5",
-            "+ 5 + ++ a + ++ a + ++ a + 5",
-            "+ 5 + a ++ + a ++ + a ++ + 5",
+        // Increment
+        "a ++",
+        "++ a",
+        "a ++ + 5",
+        "5 + a ++",
+        "5 + a ++ + 5",
+        "++ a + 5",
+        "5 + ++ a",
+        "5 + ++ a + 5",
+        "+ 5 + ++ a + + + + + 5",
+        "+ 5 + + a ++ + + + + + 5",
+        "+ 5 + ++ a + ++ a + ++ a + 5",
+        "+ 5 + a ++ + a ++ + a ++ + 5",
 
-            // Binary assignment
-            "a += 5",
-            "a += 4 * 5",
-            "3 * ( a += 4 + 5 )"
+        // Binary assignment
+        "a += 5",
+        "a += 4 * 5",
+        "3 * ( a += 4 + 5 )"
     })
     void Should_validate_successful(final String expression) {
         assertDoesNotThrow(() -> expressionResolver.resolve(List.of(expression.split(" ")), sourceLine));
@@ -93,65 +93,65 @@ class ComplexExpression_IntegrationTest {
 
     @ParameterizedTest
     @Order(2)
-    @CsvSource({
-            // Constants only
-            "* 5 + 5,               Expression can't start with binary operator: '*'",
-            "5 + 5 *,               Expression can't end with binary operator: '*'",
-            "5 + 5 ~,               Expression can't end with unary operator: '~'",
-            "5 * / 5,               An expression is expected between binary operators: '*' and '/'",
-            "4 5 + 6,               A binary operator is expected between expressions: '4' and '5'",
-            "3 + 4 ( 5 - 6 ),       A binary operator is expected between expressions: '4' and '5'",
-            "( 3 + 4 ) 5 - 6,       A binary operator is expected between expressions: '4' and '5'",
-            "( 5 + 5 - ~ ) - 5,     An expression is expected for unary operator: '~'",
-            "( * 5 + 5 ) - 5,       An expression is expected for binary operator: '*'",
-            "( 5 + 5 * ) - 5,       An expression is expected for binary operator: '*'",
-            "~ * 5,                 An expression is expected for binary operator: '*'",
-            "4 + 5 ( ) 5 - 6,       Parentheses are incorrectly placed",
-            "4 + 5 ) ( 5 - 6,       Parentheses are incorrectly placed",
-            "4 + 5 ( ( ) ) 5 - 6,   Parentheses are incorrectly placed",
-            "4 + 5 ) ) ( ( 5 - 6,   Parentheses are incorrectly placed",
-            "5 += 5,                A variable expression is expected for binary operator: '+='",
-            "5 + 5 += 5,            A variable expression is expected for binary operator: '+='",
-            "5 + 5 += 5 * 5,        A variable expression is expected for binary operator: '+='",
-            "5 + ( 5 += 5 ) * 5,    A variable expression is expected for binary operator: '+='",
-            "( 5 + 5 ) += 5,        A variable expression is expected for binary operator: '+='",
+    @CsvSource( {
+        // Constants only
+        "* 5 + 5,               Expression can't start with binary operator: '*'",
+        "5 + 5 *,               Expression can't end with binary operator: '*'",
+        "5 + 5 ~,               Expression can't end with unary operator: '~'",
+        "5 * / 5,               An expression is expected between binary operators: '*' and '/'",
+        "4 5 + 6,               A binary operator is expected between expressions: '4' and '5'",
+        "3 + 4 ( 5 - 6 ),       A binary operator is expected between expressions: '4' and '5'",
+        "( 3 + 4 ) 5 - 6,       A binary operator is expected between expressions: '4' and '5'",
+        "( 5 + 5 - ~ ) - 5,     An expression is expected for unary operator: '~'",
+        "( * 5 + 5 ) - 5,       An expression is expected for binary operator: '*'",
+        "( 5 + 5 * ) - 5,       An expression is expected for binary operator: '*'",
+        "~ * 5,                 An expression is expected for binary operator: '*'",
+        "4 + 5 ( ) 5 - 6,       Parentheses are incorrectly placed",
+        "4 + 5 ) ( 5 - 6,       Parentheses are incorrectly placed",
+        "4 + 5 ( ( ) ) 5 - 6,   Parentheses are incorrectly placed",
+        "4 + 5 ) ) ( ( 5 - 6,   Parentheses are incorrectly placed",
+        "5 += 5,                A variable expression is expected for binary operator: '+='",
+        "5 + 5 += 5,            A variable expression is expected for binary operator: '+='",
+        "5 + 5 += 5 * 5,        A variable expression is expected for binary operator: '+='",
+        "5 + ( 5 += 5 ) * 5,    A variable expression is expected for binary operator: '+='",
+        "( 5 + 5 ) += 5,        A variable expression is expected for binary operator: '+='",
 
-            // Increment / Decrement
-            "5 ++,                  A variable expression is expected for unary operator: '++'",
-            "++ 5,                  A variable expression is expected for unary operator: '++'",
-            "++ 5 + 5 + + + + + 5,  A variable expression is expected for unary operator: '++'",
-            "5 ++ + 5 + + + + + 5,  A variable expression is expected for unary operator: '++'",
-            "+ 5 + ++ 5 + + + + 5,  A variable expression is expected for unary operator: '++'",
-            "+ 5 + 5 ++ + + + + 5,  A variable expression is expected for unary operator: '++'",
-            "+ 5 + + + + 5 + ++ 5,  A variable expression is expected for unary operator: '++'",
-            "+ 5 + + + + 5 + 5 ++,  A variable expression is expected for unary operator: '++'",
+        // Increment / Decrement
+        "5 ++,                  A variable expression is expected for unary operator: '++'",
+        "++ 5,                  A variable expression is expected for unary operator: '++'",
+        "++ 5 + 5 + + + + + 5,  A variable expression is expected for unary operator: '++'",
+        "5 ++ + 5 + + + + + 5,  A variable expression is expected for unary operator: '++'",
+        "+ 5 + ++ 5 + + + + 5,  A variable expression is expected for unary operator: '++'",
+        "+ 5 + 5 ++ + + + + 5,  A variable expression is expected for unary operator: '++'",
+        "+ 5 + + + + 5 + ++ 5,  A variable expression is expected for unary operator: '++'",
+        "+ 5 + + + + 5 + 5 ++,  A variable expression is expected for unary operator: '++'",
 
-            // Binary assignment
-            "3 * a += 4 + 5,        A variable expression is expected for binary operator: '+='",
-            "- a += 4 + 5,          A variable expression is expected for binary operator: '+='",
+        // Binary assignment
+        "3 * a += 4 + 5,        A variable expression is expected for binary operator: '+='",
+        "- a += 4 + 5,          A variable expression is expected for binary operator: '+='",
 
-            // Increment without variable
-            "++ +,                  An expression is expected for unary operator: '++'",
-            "++ (,                  An expression is expected for unary operator: '++'",
-            "+ ++,                  An expression is expected for unary operator: '++'",
-            ") ++,                  An expression is expected for unary operator: '++'",
+        // Increment without variable
+        "++ +,                  An expression is expected for unary operator: '++'",
+        "++ (,                  An expression is expected for unary operator: '++'",
+        "+ ++,                  An expression is expected for unary operator: '++'",
+        ") ++,                  An expression is expected for unary operator: '++'",
 
-            // Increment and something is missing
-            "++ a ++,               A variable expression is expected for unary operator: '++'",
-            "++ a ++ a ++,          A variable expression is expected for unary operator: '++'",
-            "a ++ ++ a,             A binary operator is expected between expressions: 'a++' and '++a'",
-            "a ++ a ++,             A binary operator is expected between expressions: 'a++' and 'a++'",
-            "++ a ++ a,             A binary operator is expected between expressions: '++a' and '++a'",
-            "++ ++ a,               An expression is expected for unary operator: '++'",
-            "a ++ ++,               A variable expression is expected for unary operator: '++'",
-            "5 ++ a,                A binary operator is expected between expressions: '5' and '++a'",
-            "a ++ 5,                A binary operator is expected between expressions: 'a++' and '5'",
-            "5 ++ 5,                A variable expression is expected for unary operator: '++'",
+        // Increment and something is missing
+        "++ a ++,               A variable expression is expected for unary operator: '++'",
+        "++ a ++ a ++,          A variable expression is expected for unary operator: '++'",
+        "a ++ ++ a,             A binary operator is expected between expressions: 'a++' and '++a'",
+        "a ++ a ++,             A binary operator is expected between expressions: 'a++' and 'a++'",
+        "++ a ++ a,             A binary operator is expected between expressions: '++a' and '++a'",
+        "++ ++ a,               An expression is expected for unary operator: '++'",
+        "a ++ ++,               A variable expression is expected for unary operator: '++'",
+        "5 ++ a,                A binary operator is expected between expressions: '5' and '++a'",
+        "a ++ 5,                A binary operator is expected between expressions: 'a++' and '5'",
+        "5 ++ 5,                A variable expression is expected for unary operator: '++'",
     })
     void Should_throw_error(final String expression,
                             final String expectedMessage) {
         final JavammSyntaxError error = assertThrows(JavammSyntaxError.class, () ->
-                expressionResolver.resolve(List.of(expression.split(" ")), sourceLine));
+            expressionResolver.resolve(List.of(expression.split(" ")), sourceLine));
         assertEquals("Syntax error in 'module1' [Line: 5]: " + expectedMessage, error.getMessage());
     }
 }

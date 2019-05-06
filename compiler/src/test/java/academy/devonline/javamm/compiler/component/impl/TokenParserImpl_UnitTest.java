@@ -79,7 +79,7 @@ class TokenParserImpl_UnitTest {
     }
 
     @ParameterizedTest
-    @CsvSource({
+    @CsvSource( {
         "/*,       false",
         "1 + 1,    true",
         "/* 1 + 1, true",
@@ -95,7 +95,7 @@ class TokenParserImpl_UnitTest {
     }
 
     @ParameterizedTest
-    @CsvSource({
+    @CsvSource( {
         "*/,         true",
         "1 + 1 */,   true",
         "/*1 + 1 */, true",
@@ -128,7 +128,7 @@ class TokenParserImpl_UnitTest {
 
 
     @ParameterizedTest
-    @CsvSource({
+    @CsvSource( {
         "b>>>=2,                            b >>>= 2",
         "b>>> =2,                           b >>> = 2",
         "b>> >=2,                           b >> >= 2",
