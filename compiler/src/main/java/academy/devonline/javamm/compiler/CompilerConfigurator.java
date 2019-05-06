@@ -97,4 +97,8 @@ public class CompilerConfigurator {
     public ComplexExpressionBuilder getComplexExpressionBuilder() {
         return complexExpressionBuilder;
     }
+
+    public ExpressionResolver getExpressionResolver() {
+        return expressionResolver;
+    }
 }
