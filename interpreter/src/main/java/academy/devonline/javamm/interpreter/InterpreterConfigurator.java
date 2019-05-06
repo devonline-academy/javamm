@@ -128,7 +128,7 @@ public class InterpreterConfigurator {
     private Set<ExpressionEvaluator<?>> expressionEvaluators = Set.of(
         new VariableExpressionEvaluator(),
         new BinaryExpressionEvaluator(calculatorFacade),
-        new PostfixNotationExpressionEvaluator()
+        new PostfixNotationExpressionEvaluator(calculatorFacade)
     );
 
     private Set<ExpressionUpdater<?>> expressionUpdaters = Set.of(
