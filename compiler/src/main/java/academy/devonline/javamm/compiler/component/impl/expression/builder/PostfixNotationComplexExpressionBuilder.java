@@ -25,8 +25,12 @@ import academy.devonline.javamm.compiler.component.PrecedenceOperatorResolver;
 import java.util.List;
 
 /**
+ * Infix      ->   Postfix
+ * 7 - 2 * 3  ->   7 2 3 * -
+ *
  * @author devonline
  * @link http://devonline.academy/javamm
+ * @link http://interactivepython.org/runestone/static/pythonds/BasicDS/InfixPrefixandPostfixExpressions.html
  */
 public class PostfixNotationComplexExpressionBuilder implements ComplexExpressionBuilder {
 

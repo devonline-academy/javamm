@@ -23,6 +23,7 @@
                         --add-opens javamm.compiler/academy.devonline.javamm.compiler.component.impl=ALL-UNNAMED
                         --add-opens
                         javamm.compiler/academy.devonline.javamm.compiler.component.impl.operation.simple=ALL-UNNAMED
+                        --add-opens javamm.compiler/academy.devonline.javamm.compiler.integration=ALL-UNNAMED
                     </argLine>
                 </configuration>
             </plugin>
