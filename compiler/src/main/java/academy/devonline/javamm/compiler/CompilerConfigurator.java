@@ -36,7 +36,6 @@ import academy.devonline.javamm.compiler.component.impl.SingleTokenExpressionBui
 import academy.devonline.javamm.compiler.component.impl.SourceLineReaderImpl;
 import academy.devonline.javamm.compiler.component.impl.TokenParserImpl;
 import academy.devonline.javamm.compiler.component.impl.VariableBuilderImpl;
-import academy.devonline.javamm.compiler.component.impl.expression.builder.BinaryExpressionBuilder;
 import academy.devonline.javamm.compiler.component.impl.expression.builder.PostfixNotationComplexExpressionBuilder;
 import academy.devonline.javamm.compiler.component.impl.operation.simple.FinalDeclarationOperationReader;
 import academy.devonline.javamm.compiler.component.impl.operation.simple.PrintlnOperationReader;
@@ -67,8 +66,7 @@ public class CompilerConfigurator {
     private LexemeBuilder lexemeBuilder = new LexemeBuilderImpl(singleTokenExpressionBuilder);
 
     private Set<ExpressionBuilder> expressionBuilders = Set.of(
-        singleTokenExpressionBuilder,
-        new BinaryExpressionBuilder(singleTokenExpressionBuilder)
+        singleTokenExpressionBuilder
     );
 
     private ExpressionResolver expressionResolver = new ExpressionResolverImpl(

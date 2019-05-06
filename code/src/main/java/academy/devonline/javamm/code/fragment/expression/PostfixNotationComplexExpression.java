@@ -29,12 +29,12 @@ import static java.util.Objects.requireNonNull;
  * @link http://interactivepython.org/runestone/static/pythonds/BasicDS/InfixPrefixandPostfixExpressions.html
  * @link https://en.wikipedia.org/wiki/Reverse_Polish_notation
  */
-public final class PostfixNotationExpression extends ComplexExpression implements Expression {
+public final class PostfixNotationComplexExpression extends ComplexExpression implements Expression {
 
     private final String expression;
 
-    public PostfixNotationExpression(final List<Lexeme> lexemes,
-                                     final String expression) {
+    public PostfixNotationComplexExpression(final List<Lexeme> lexemes,
+                                            final String expression) {
         super(lexemes);
         this.expression = requireNonNull(expression);
     }

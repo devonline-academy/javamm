@@ -19,7 +19,7 @@ package academy.devonline.javamm.interpreter.component.impl.expression.evaluator
 import academy.devonline.javamm.code.fragment.Expression;
 import academy.devonline.javamm.code.fragment.Lexeme;
 import academy.devonline.javamm.code.fragment.expression.ConstantExpression;
-import academy.devonline.javamm.code.fragment.expression.PostfixNotationExpression;
+import academy.devonline.javamm.code.fragment.expression.PostfixNotationComplexExpression;
 import academy.devonline.javamm.code.fragment.operator.BinaryOperator;
 import academy.devonline.javamm.code.fragment.operator.UnaryOperator;
 import academy.devonline.javamm.interpreter.component.CalculatorFacade;
@@ -34,22 +34,22 @@ import static java.util.Objects.requireNonNull;
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-public class PostfixNotationExpressionEvaluator extends AbstractExpressionEvaluator
-    implements ExpressionEvaluator<PostfixNotationExpression> {
+public class PostfixNotationComplexExpressionEvaluator extends AbstractExpressionEvaluator
+    implements ExpressionEvaluator<PostfixNotationComplexExpression> {
 
     private final CalculatorFacade calculatorFacade;
 
-    public PostfixNotationExpressionEvaluator(final CalculatorFacade calculatorFacade) {
+    public PostfixNotationComplexExpressionEvaluator(final CalculatorFacade calculatorFacade) {
         this.calculatorFacade = requireNonNull(calculatorFacade);
     }
 
     @Override
-    public Class<PostfixNotationExpression> getExpressionClass() {
-        return PostfixNotationExpression.class;
+    public Class<PostfixNotationComplexExpression> getExpressionClass() {
+        return PostfixNotationComplexExpression.class;
     }
 
     @Override
-    public Object evaluate(final PostfixNotationExpression expression) {
+    public Object evaluate(final PostfixNotationComplexExpression expression) {
         final Deque<Expression> stack = new ArrayDeque<>();
         for (final Lexeme lexeme : expression.getLexemes()) {
             if (lexeme instanceof BinaryOperator) {

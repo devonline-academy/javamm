@@ -54,8 +54,7 @@ import academy.devonline.javamm.interpreter.component.impl.calculator.predicate.
 import academy.devonline.javamm.interpreter.component.impl.calculator.predicate.IsLessOrEqualsBinaryExpressionCalculator;
 import academy.devonline.javamm.interpreter.component.impl.calculator.predicate.IsNotEqualsBinaryExpressionCalculator;
 import academy.devonline.javamm.interpreter.component.impl.calculator.predicate.TypeOfBinaryExpressionCalculator;
-import academy.devonline.javamm.interpreter.component.impl.expression.evaluator.BinaryExpressionEvaluator;
-import academy.devonline.javamm.interpreter.component.impl.expression.evaluator.PostfixNotationExpressionEvaluator;
+import academy.devonline.javamm.interpreter.component.impl.expression.evaluator.PostfixNotationComplexExpressionEvaluator;
 import academy.devonline.javamm.interpreter.component.impl.expression.evaluator.VariableExpressionEvaluator;
 import academy.devonline.javamm.interpreter.component.impl.operation.simple.PrintlnOperationInterpreter;
 import academy.devonline.javamm.interpreter.component.impl.operation.simple.VariableDeclarationOperationInterpreter;
@@ -127,8 +126,7 @@ public class InterpreterConfigurator {
 
     private Set<ExpressionEvaluator<?>> expressionEvaluators = Set.of(
         new VariableExpressionEvaluator(),
-        new BinaryExpressionEvaluator(calculatorFacade),
-        new PostfixNotationExpressionEvaluator(calculatorFacade)
+        new PostfixNotationComplexExpressionEvaluator(calculatorFacade)
     );
 
     private Set<ExpressionUpdater<?>> expressionUpdaters = Set.of(

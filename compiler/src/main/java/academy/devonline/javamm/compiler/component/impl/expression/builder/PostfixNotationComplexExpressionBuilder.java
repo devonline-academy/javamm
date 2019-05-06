@@ -21,7 +21,7 @@ import academy.devonline.javamm.code.fragment.Operator;
 import academy.devonline.javamm.code.fragment.Parenthesis;
 import academy.devonline.javamm.code.fragment.SourceLine;
 import academy.devonline.javamm.code.fragment.expression.ComplexExpression;
-import academy.devonline.javamm.code.fragment.expression.PostfixNotationExpression;
+import academy.devonline.javamm.code.fragment.expression.PostfixNotationComplexExpression;
 import academy.devonline.javamm.code.fragment.operator.UnaryOperator;
 import academy.devonline.javamm.compiler.component.ComplexExpressionBuilder;
 import academy.devonline.javamm.compiler.component.PrecedenceOperatorResolver;
@@ -71,7 +71,7 @@ public class PostfixNotationComplexExpressionBuilder implements ComplexExpressio
             }
         }
         popAllOperators(result, stack, sourceLine);
-        return new PostfixNotationExpression(
+        return new PostfixNotationComplexExpression(
             result,
             lexemes.stream().map(Object::toString).collect(joining(" "))
         );
