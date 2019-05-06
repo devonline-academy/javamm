@@ -31,6 +31,7 @@ import java.util.ListIterator;
 
 import static academy.devonline.javamm.code.fragment.Parenthesis.CLOSING_PARENTHESIS;
 import static academy.devonline.javamm.code.fragment.Parenthesis.OPENING_PARENTHESIS;
+import static academy.devonline.javamm.compiler.component.impl.util.SyntaxValidationUtils.validateThatLexemeIsVariableExpression;
 import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
 
@@ -58,12 +59,21 @@ public class ComplexLexemeValidatorImpl implements ComplexLexemeValidator {
                 validateThatExpressionFoundForOperatorBeforeClosingParenthesis(current, next, sourceLine);
                 validateThatExpressionFoundBetweenUnaryAndBinaryOperators(current, next, sourceLine);
                 validateThatParenthesesAreCorrectlyPlaced(current, next, sourceLine);
+                validateThatBinaryAssigmentOperatorAppliedToVariableExpression(current, next, sourceLine);
 
                 iterator.previous();
             }
         }
 
         validateThatBinaryOperatorFoundBetweenExpressionsIgnoringParentheses(lexemes, sourceLine);
+    }
+
+    private void validateThatBinaryAssigmentOperatorAppliedToVariableExpression(final Lexeme current,
+                                                                                final Lexeme next,
+                                                                                final SourceLine sourceLine) {
+        if (next instanceof BinaryOperator && ((BinaryOperator) next).isAssignment()) {
+            validateThatLexemeIsVariableExpression(current, (Operator) next, sourceLine);
+        }
     }
 
     private void validateThatBinaryOperatorFoundBetweenExpressionsIgnoringParentheses(final List<Lexeme> lexemes,

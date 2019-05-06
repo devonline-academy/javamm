@@ -20,6 +20,7 @@ import academy.devonline.javamm.code.fragment.Expression;
 import academy.devonline.javamm.code.fragment.Lexeme;
 import academy.devonline.javamm.code.fragment.expression.ConstantExpression;
 import academy.devonline.javamm.code.fragment.expression.PostfixNotationComplexExpression;
+import academy.devonline.javamm.code.fragment.expression.VariableExpression;
 import academy.devonline.javamm.code.fragment.operator.BinaryOperator;
 import academy.devonline.javamm.code.fragment.operator.UnaryOperator;
 import academy.devonline.javamm.interpreter.component.CalculatorFacade;
@@ -67,6 +68,9 @@ public class PostfixNotationComplexExpressionEvaluator extends AbstractExpressio
         final Expression operand2 = stack.removeFirst();
         final Expression operand1 = stack.removeFirst();
         final Object value = calculatorFacade.calculate(getExpressionContext(), operand1, operator, operand2);
+        if (operator.isAssignment()) {
+            ((VariableExpression) operand1).setValue(getExpressionContext(), value);
+        }
         stack.addFirst(ConstantExpression.valueOf(value));
     }
 

@@ -145,7 +145,7 @@ class ExpressionResolverImpl_UnitTest {
 
     @Test
     @Order(5)
-    void Should_dont_use_complexExpressionBuilder_if_unaryOperatorUpdater_return_lexemes_with_one_lexeme(){
+    void Should_dont_use_complexExpressionBuilder_if_unaryOperatorUpdater_return_lexemes_with_one_lexeme() {
         when(lexemeBuilder.build(expressionTokens, sourceLine)).thenReturn(lexemes);
         when(unaryOperatorUpdater.update(lexemes, sourceLine)).thenReturn(List.of(expectedExpression));
 
