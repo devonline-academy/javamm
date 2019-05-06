@@ -29,10 +29,7 @@ import academy.devonline.javamm.compiler.component.impl.error.JavammLineSyntaxEr
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
-import static academy.devonline.javamm.code.fragment.operator.BinaryOperator.ARITHMETIC_ADDITION;
-import static academy.devonline.javamm.code.fragment.operator.BinaryOperator.ARITHMETIC_SUBTRACTION;
 import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.joining;
@@ -42,11 +39,6 @@ import static java.util.stream.Collectors.joining;
  * @link http://devonline.academy/javamm
  */
 public class LexemeBuilderImpl implements LexemeBuilder {
-
-    private static final Set<Operator> AMBIGUOUS_OPERATORS = Set.of(
-        ARITHMETIC_ADDITION,
-        ARITHMETIC_SUBTRACTION
-    );
 
     private final SingleTokenExpressionBuilder singleTokenExpressionBuilder;
 
@@ -59,18 +51,9 @@ public class LexemeBuilderImpl implements LexemeBuilder {
         final List<Lexeme> result = new ArrayList<>();
         for (final String token : tokens) {
             final Lexeme lexeme = buildSimpleLexeme(token, sourceLine);
-            if (lexeme instanceof Operator && AMBIGUOUS_OPERATORS.contains(lexeme) &&
-                (result.isEmpty() || isOperatorOrOpeningParenthesis(result.get(result.size() - 1)))) {
-                result.add(UnaryOperator.of(((Operator) lexeme).getCode()).orElseThrow());
-            } else {
-                result.add(lexeme);
-            }
+            result.add(lexeme);
         }
         return List.copyOf(result);
-    }
-
-    private boolean isOperatorOrOpeningParenthesis(final Lexeme lexeme) {
-        return lexeme instanceof Operator || lexeme == Parenthesis.OPENING_PARENTHESIS;
     }
 
     @SuppressWarnings("unchecked")

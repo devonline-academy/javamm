@@ -24,6 +24,7 @@ import academy.devonline.javamm.compiler.component.ComplexLexemeValidator;
 import academy.devonline.javamm.compiler.component.ExpressionBuilder;
 import academy.devonline.javamm.compiler.component.ExpressionResolver;
 import academy.devonline.javamm.compiler.component.LexemeBuilder;
+import academy.devonline.javamm.compiler.component.UnaryOperatorUpdater;
 import academy.devonline.javamm.compiler.component.impl.error.JavammLineSyntaxError;
 
 import java.util.Collection;
@@ -42,16 +43,20 @@ public final class ExpressionResolverImpl implements ExpressionResolver {
 
     private final LexemeBuilder lexemeBuilder;
 
+    private final UnaryOperatorUpdater unaryOperatorUpdater;
+
     private final ComplexLexemeValidator complexLexemeValidator;
 
     private final ComplexExpressionBuilder complexExpressionBuilder;
 
     public ExpressionResolverImpl(final Set<ExpressionBuilder> expressionBuilders,
                                   final LexemeBuilder lexemeBuilder,
+                                  final UnaryOperatorUpdater unaryOperatorUpdater,
                                   final ComplexLexemeValidator complexLexemeValidator,
                                   final ComplexExpressionBuilder complexExpressionBuilder) {
         this.expressionBuilders = List.copyOf(expressionBuilders);
         this.lexemeBuilder = requireNonNull(lexemeBuilder);
+        this.unaryOperatorUpdater = requireNonNull(unaryOperatorUpdater);
         this.complexLexemeValidator = requireNonNull(complexLexemeValidator);
         this.complexExpressionBuilder = requireNonNull(complexExpressionBuilder);
     }
@@ -74,21 +79,31 @@ public final class ExpressionResolverImpl implements ExpressionResolver {
      * var a = sum ( 1 , b ) + 4                                                -------->  var a = x + 4
      * var a = array [ 23 + g - h ] - a                                         -------->  var a = x - a
      * var a = array [ 23 + g - h ]                                             -------->  var a = x
+     * var a = - array [ 23 + g - h ]                                           -------->  var a = - x
      * var a = sum ( array [ 23 + g ] , array [ 23 ] ) - 4 * sum ( 1 , 2 + b )  -------->  var a = x - 4 * y
      * var a = sum ( 1 , 2 + b ) + 4 * ( array [ 23 + g - h ] - 6 )             -------->  var a = x + 4 * ( y - z )
      */
     private Expression resolveComplexExpression(final List<String> expressionTokens, final SourceLine sourceLine) {
-        final List<Lexeme> lexemes = lexemeBuilder.build(expressionTokens, sourceLine);
+        List<Lexeme> lexemes = lexemeBuilder.build(expressionTokens, sourceLine);
         if (lexemes.size() == 1) {
-            final Lexeme lexeme = lexemes.get(0);
-            if (lexeme instanceof Expression) {
-                return (Expression) lexeme;
-            } else {
-                throw new JavammLineSyntaxError("Unresolved expression: " + lexeme, sourceLine);
-            }
+            return toExpression(sourceLine, lexemes);
         } else {
-            complexLexemeValidator.validate(lexemes, sourceLine);
-            return complexExpressionBuilder.build(lexemes, sourceLine);
+            lexemes = unaryOperatorUpdater.update(lexemes, sourceLine);
+            if (lexemes.size() == 1) {
+                return toExpression(sourceLine, lexemes);
+            } else {
+                complexLexemeValidator.validate(lexemes, sourceLine);
+                return complexExpressionBuilder.build(lexemes, sourceLine);
+            }
+        }
+    }
+
+    private Expression toExpression(final SourceLine sourceLine, final List<Lexeme> lexemes) {
+        final Lexeme lexeme = lexemes.get(0);
+        if (lexeme instanceof Expression) {
+            return (Expression) lexeme;
+        } else {
+            throw new JavammLineSyntaxError("Unresolved expression: " + lexeme, sourceLine);
         }
     }
 

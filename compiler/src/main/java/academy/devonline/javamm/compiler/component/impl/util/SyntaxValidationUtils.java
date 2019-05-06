@@ -16,7 +16,10 @@
 
 package academy.devonline.javamm.compiler.component.impl.util;
 
+import academy.devonline.javamm.code.fragment.Lexeme;
+import academy.devonline.javamm.code.fragment.Operator;
 import academy.devonline.javamm.code.fragment.SourceLine;
+import academy.devonline.javamm.code.fragment.expression.VariableExpression;
 import academy.devonline.javamm.compiler.component.impl.error.JavammLineSyntaxError;
 
 import static academy.devonline.javamm.code.syntax.Keywords.KEYWORDS;
@@ -47,6 +50,17 @@ public final class SyntaxValidationUtils {
             throw new JavammLineSyntaxError(format("The keyword '%s' can't be used as a %s name", name,
                 developerObject.name().toLowerCase()), sourceLine);
         }
+    }
+
+    public static VariableExpression validateThatLexemeIsVariableExpression(final Lexeme operand1,
+                                                                            final Operator operator,
+                                                                            final SourceLine sourceLine) {
+        if (!(operand1 instanceof VariableExpression)) {
+            throw new JavammLineSyntaxError(
+                format("A variable expression is expected for %s operator: '%s'",
+                    operator.getType(), operator.getCode()), sourceLine);
+        }
+        return (VariableExpression) operand1;
     }
 
     /**

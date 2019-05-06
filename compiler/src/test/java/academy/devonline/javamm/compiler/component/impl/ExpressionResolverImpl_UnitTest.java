@@ -25,6 +25,7 @@ import academy.devonline.javamm.compiler.component.ComplexLexemeValidator;
 import academy.devonline.javamm.compiler.component.ExpressionBuilder;
 import academy.devonline.javamm.compiler.component.ExpressionResolver;
 import academy.devonline.javamm.compiler.component.LexemeBuilder;
+import academy.devonline.javamm.compiler.component.UnaryOperatorUpdater;
 import academy.devonline.javamm.compiler.component.impl.error.JavammLineSyntaxError;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -84,12 +85,15 @@ class ExpressionResolverImpl_UnitTest {
     @Mock
     private ComplexLexemeValidator complexLexemeValidator;
 
+    @Mock
+    private UnaryOperatorUpdater unaryOperatorUpdater;
+
     private ExpressionResolver expressionResolver;
 
     @BeforeEach
     void beforeEach() {
         expressionResolver = new ExpressionResolverImpl(
-            Set.of(expressionBuilder1), lexemeBuilder, complexLexemeValidator, complexExpressionBuilder);
+            Set.of(expressionBuilder1), lexemeBuilder, unaryOperatorUpdater, complexLexemeValidator, complexExpressionBuilder);
     }
 
     @Test

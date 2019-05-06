@@ -27,6 +27,7 @@ import academy.devonline.javamm.compiler.component.PrecedenceOperatorResolver;
 import academy.devonline.javamm.compiler.component.SingleTokenExpressionBuilder;
 import academy.devonline.javamm.compiler.component.SourceLineReader;
 import academy.devonline.javamm.compiler.component.TokenParser;
+import academy.devonline.javamm.compiler.component.UnaryOperatorUpdater;
 import academy.devonline.javamm.compiler.component.VariableBuilder;
 import academy.devonline.javamm.compiler.component.impl.BlockOperationReaderImpl;
 import academy.devonline.javamm.compiler.component.impl.CompilerImpl;
@@ -37,6 +38,7 @@ import academy.devonline.javamm.compiler.component.impl.PrecedenceOperatorResolv
 import academy.devonline.javamm.compiler.component.impl.SingleTokenExpressionBuilderImpl;
 import academy.devonline.javamm.compiler.component.impl.SourceLineReaderImpl;
 import academy.devonline.javamm.compiler.component.impl.TokenParserImpl;
+import academy.devonline.javamm.compiler.component.impl.UnaryOperatorUpdaterImpl;
 import academy.devonline.javamm.compiler.component.impl.VariableBuilderImpl;
 import academy.devonline.javamm.compiler.component.impl.expression.builder.PostfixNotationComplexExpressionBuilder;
 import academy.devonline.javamm.compiler.component.impl.operation.simple.FinalDeclarationOperationReader;
@@ -73,8 +75,10 @@ public class CompilerConfigurator {
 
     private ComplexLexemeValidator complexLexemeValidator = new ComplexLexemeValidatorImpl();
 
+    private UnaryOperatorUpdater unaryOperatorUpdater = new UnaryOperatorUpdaterImpl();
+
     private ExpressionResolver expressionResolver = new ExpressionResolverImpl(
-        expressionBuilders, lexemeBuilder, complexLexemeValidator, complexExpressionBuilder);
+        expressionBuilders, lexemeBuilder, unaryOperatorUpdater, complexLexemeValidator, complexExpressionBuilder);
 
     private Set<OperationReader> operationReaders = Set.of(
         new PrintlnOperationReader(expressionResolver),
