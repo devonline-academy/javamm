@@ -128,8 +128,7 @@ class ComplexExpression_IntegrationTest {
 
             // Binary assignment
             "3 * a += 4 + 5,        A variable expression is expected for binary operator: '+='",
-            ") a += 4 + 5,          A variable expression is expected for binary operator: '+='",
-            "+ a += 4 + 5,          A variable expression is expected for binary operator: '+='",
+            "- a += 4 + 5,          A variable expression is expected for binary operator: '+='",
 
             // Increment without variable
             "++ +,                  An expression is expected for unary operator: '++'",
