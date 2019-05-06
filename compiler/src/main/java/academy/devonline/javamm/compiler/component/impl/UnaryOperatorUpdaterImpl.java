@@ -16,6 +16,7 @@
 
 package academy.devonline.javamm.compiler.component.impl;
 
+import academy.devonline.javamm.code.fragment.Expression;
 import academy.devonline.javamm.code.fragment.Lexeme;
 import academy.devonline.javamm.code.fragment.Operator;
 import academy.devonline.javamm.code.fragment.Parenthesis;
@@ -25,10 +26,10 @@ import academy.devonline.javamm.code.fragment.expression.UnaryPrefixAssignmentEx
 import academy.devonline.javamm.code.fragment.expression.VariableExpression;
 import academy.devonline.javamm.code.fragment.operator.UnaryOperator;
 import academy.devonline.javamm.compiler.component.UnaryOperatorUpdater;
+import academy.devonline.javamm.compiler.component.impl.error.JavammLineSyntaxError;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Set;
 
 import static academy.devonline.javamm.code.fragment.operator.BinaryOperator.ARITHMETIC_ADDITION;
@@ -38,6 +39,7 @@ import static academy.devonline.javamm.code.fragment.operator.UnaryOperator.ARIT
 import static academy.devonline.javamm.code.fragment.operator.UnaryOperator.DECREMENT;
 import static academy.devonline.javamm.code.fragment.operator.UnaryOperator.INCREMENT;
 import static academy.devonline.javamm.compiler.component.impl.util.SyntaxValidationUtils.validateThatLexemeIsVariableExpression;
+import static java.lang.String.format;
 
 /**
  * @author devonline
@@ -46,8 +48,7 @@ import static academy.devonline.javamm.compiler.component.impl.util.SyntaxValida
 public class UnaryOperatorUpdaterImpl implements UnaryOperatorUpdater {
 
     private static final Set<UnaryOperator> INCREMENT_OR_DECREMENT = Set.of(
-        INCREMENT,
-        DECREMENT
+        INCREMENT, DECREMENT
     );
 
     private static final Set<Operator> AMBIGUOUS_OPERATORS = Set.of(
@@ -60,48 +61,134 @@ public class UnaryOperatorUpdaterImpl implements UnaryOperatorUpdater {
 
     @Override
     public List<Lexeme> update(final List<Lexeme> lexemes, final SourceLine sourceLine) {
-        final List<Lexeme> result = new ArrayList<>();
-        final ListIterator<Lexeme> iterator = lexemes.listIterator();
-        while (iterator.hasNext()) {
-            final Lexeme current = iterator.next();
-            if (current instanceof Operator && AMBIGUOUS_OPERATORS.contains(current) &&
+        final ArrayList<Lexeme> result = replaceUnaryPlusAndMinusIfFound(lexemes);
+        findAndReplaceIncrementOrDecrement(result, sourceLine);
+        return List.copyOf(result);
+    }
+
+    private ArrayList<Lexeme> replaceUnaryPlusAndMinusIfFound(final List<Lexeme> lexemes) {
+        final ArrayList<Lexeme> result = new ArrayList<>();
+        for (final Lexeme lexeme : lexemes) {
+            if (lexeme instanceof Operator && AMBIGUOUS_OPERATORS.contains(lexeme) &&
                 (result.isEmpty() || isOperatorOrOpeningParenthesis(result.get(result.size() - 1)))) {
-                result.add(UnaryOperator.of(((Operator) current).getCode()).orElseThrow());
+                result.add(UnaryOperator.of(((Operator) lexeme).getCode()).orElseThrow());
             } else {
-                if (iterator.hasNext()) {
-                    processCurrentAndNext(result, iterator, current, sourceLine);
-                } else {
-                    result.add(current);
-                }
+                result.add(lexeme);
             }
         }
         return result;
     }
 
-    private void processCurrentAndNext(final List<Lexeme> result,
-                                       final ListIterator<Lexeme> iterator,
-                                       final Lexeme current,
-                                       final SourceLine sourceLine) {
-        final Lexeme nextLexeme = iterator.next();
-        if (current instanceof UnaryOperator &&
-            INCREMENT_OR_DECREMENT.contains(current) &&
-            !(nextLexeme instanceof Parenthesis)) {
-            final VariableExpression variableExpression =
-                validateThatLexemeIsVariableExpression(nextLexeme, (Operator) current, sourceLine);
-            result.add(new UnaryPrefixAssignmentExpression((UnaryOperator) current, variableExpression));
-        } else if (nextLexeme instanceof UnaryOperator &&
-            INCREMENT_OR_DECREMENT.contains(nextLexeme) &&
-            !(current instanceof Parenthesis)) {
-            final VariableExpression variableExpression =
-                validateThatLexemeIsVariableExpression(current, (UnaryOperator) nextLexeme, sourceLine);
-            result.add(new UnaryPostfixAssignmentExpression(variableExpression, (UnaryOperator) nextLexeme));
+    /*
+    a ++        ->      a | ++ | null
+    --------------------------------------
+    ++ a        ->      null | ++ | a
+    --------------------------------------
+    a ++ + 5    ->      null | a | ++
+                        a | ++ | +
+                        a++ | + | 5
+                        + | 5 | null
+    --------------------------------------
+    5 + a ++    ->      null | 5 | +
+                        5 | + | a
+                        + | a | ++
+                        a | ++ | null
+    --------------------------------------
+    5 + a ++ + 5->      null | 5 | +
+                        5 | + | a
+                        + | a | ++
+                        a | ++ | +
+                        a++ | + | 5
+                        + | 5 | null
+    --------------------------------------
+    ++ a + 5    ->      null | ++ | a
+                        ++a | + | 5
+                        + | 5 | null
+    --------------------------------------
+    5 + ++ a    ->      null | 5 | +
+                        5 | + | ++
+                        + | ++ | a
+    --------------------------------------
+    5 + ++ a + 5->      null | 5 | +
+                        5 | + | ++
+                        + | ++ | a
+                        ++a | + | 5
+                        + | 5 | null
+    --------------------------------------
+    + 5 + ++ a + ++ a + ++ a + 5
+
+                ->      null | + | 5
+                        + | 5 | +
+                        5 | + | ++
+                        + | ++ | a
+                        ++a | + | ++
+                        + | ++ | a
+                        ++a | + | ++
+                        + | ++ | a
+                        ++a | + | 5
+                        + | 5 | null
+     */
+    private void findAndReplaceIncrementOrDecrement(final ArrayList<Lexeme> result,
+                                                    final SourceLine sourceLine) {
+        for (int i = 0; i < result.size(); i++) {
+            final Lexeme current = result.get(i);
+            if (current instanceof UnaryOperator && INCREMENT_OR_DECREMENT.contains(current)) {
+                final UnaryOperator unaryOperator = (UnaryOperator) current;
+                final Lexeme prev = i > 0 ? result.get(i - 1) : null;
+                final Lexeme next = i < result.size() - 1 ? result.get(i + 1) : null;
+                final Type type = getType(prev, next);
+                if (type == Type.PREV) {
+                    final VariableExpression variableExpression =
+                        validateThatLexemeIsVariableExpression(prev, unaryOperator, sourceLine);
+                    result.remove(i);
+                    result.set(i - 1, new UnaryPostfixAssignmentExpression(variableExpression, unaryOperator));
+                    i--; // do not skip  ->  a++ | + | 5
+                } else if (type == Type.NEXT) {
+                    final VariableExpression variableExpression =
+                        validateThatLexemeIsVariableExpression(next, unaryOperator, sourceLine);
+                    result.remove(i);
+                    result.set(i, new UnaryPrefixAssignmentExpression(unaryOperator, variableExpression));
+                } else {
+                    throw new JavammLineSyntaxError(
+                        format("An expression is expected for unary operator: '%s'", unaryOperator.getCode()), sourceLine);
+                }
+            }
+        }
+    }
+
+    @SuppressWarnings("CheckStyle")
+    private Type getType(final Lexeme prev, final Lexeme next) {
+        if (prev instanceof Expression && next instanceof Expression) {
+            if (prev instanceof VariableExpression) {
+                return Type.PREV;
+            } else if (next instanceof VariableExpression) {
+                return Type.NEXT;
+            } else {
+                return Type.PREV;
+            }
+        } else if (prev instanceof Expression) {
+            return Type.PREV;
+        } else if (next instanceof Expression) {
+            return Type.NEXT;
         } else {
-            iterator.previous();
-            result.add(current);
+            return Type.ERROR;
         }
     }
 
     private boolean isOperatorOrOpeningParenthesis(final Lexeme lexeme) {
         return lexeme instanceof Operator || lexeme == Parenthesis.OPENING_PARENTHESIS;
+    }
+
+    /**
+     * @author devonline
+     * @link http://devonline.academy/javamm
+     */
+    private enum Type {
+
+        PREV,
+
+        NEXT,
+
+        ERROR
     }
 }

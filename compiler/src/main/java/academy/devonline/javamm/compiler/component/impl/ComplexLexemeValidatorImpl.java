@@ -48,6 +48,7 @@ public class ComplexLexemeValidatorImpl implements ComplexLexemeValidator {
         validateThatLastLexemeIsNotOperator(lexemes, sourceLine);
 
         final ListIterator<Lexeme> iterator = lexemes.listIterator();
+        int i = 0;
         while (iterator.hasNext()) {
             final Lexeme current = iterator.next();
             if (iterator.hasNext()) {
@@ -59,20 +60,31 @@ public class ComplexLexemeValidatorImpl implements ComplexLexemeValidator {
                 validateThatExpressionFoundForOperatorBeforeClosingParenthesis(current, next, sourceLine);
                 validateThatExpressionFoundBetweenUnaryAndBinaryOperators(current, next, sourceLine);
                 validateThatParenthesesAreCorrectlyPlaced(current, next, sourceLine);
-                validateThatBinaryAssigmentOperatorAppliedToVariableExpression(current, next, sourceLine);
+                final Lexeme previous = i > 0 ? lexemes.get(i - 1) : null;
+                validateThatBinaryAssigmentOperatorAppliedToVariableExpression(previous, current, next, sourceLine);
 
                 iterator.previous();
             }
+            i++;
         }
 
         validateThatBinaryOperatorFoundBetweenExpressionsIgnoringParentheses(lexemes, sourceLine);
     }
 
-    private void validateThatBinaryAssigmentOperatorAppliedToVariableExpression(final Lexeme current,
+    private void validateThatBinaryAssigmentOperatorAppliedToVariableExpression(final Lexeme previous,
+                                                                                final Lexeme current,
                                                                                 final Lexeme next,
                                                                                 final SourceLine sourceLine) {
         if (next instanceof BinaryOperator && ((BinaryOperator) next).isAssignment()) {
-            validateThatLexemeIsVariableExpression(current, (Operator) next, sourceLine);
+            final Operator operator = (Operator) next;
+            validateThatLexemeIsVariableExpression(current, operator, sourceLine);
+            if (previous != null) {
+                if (previous != OPENING_PARENTHESIS) {
+                    throw new JavammLineSyntaxError(
+                        format("A variable expression is expected for %s operator: '%s'",
+                            operator.getType(), operator.getCode()), sourceLine);
+                }
+            }
         }
     }
 
