@@ -18,6 +18,7 @@ package academy.devonline.javamm.compiler;
 
 import academy.devonline.javamm.compiler.component.BlockOperationReader;
 import academy.devonline.javamm.compiler.component.ComplexExpressionBuilder;
+import academy.devonline.javamm.compiler.component.ComplexLexemeValidator;
 import academy.devonline.javamm.compiler.component.ExpressionBuilder;
 import academy.devonline.javamm.compiler.component.ExpressionResolver;
 import academy.devonline.javamm.compiler.component.LexemeBuilder;
@@ -29,6 +30,7 @@ import academy.devonline.javamm.compiler.component.TokenParser;
 import academy.devonline.javamm.compiler.component.VariableBuilder;
 import academy.devonline.javamm.compiler.component.impl.BlockOperationReaderImpl;
 import academy.devonline.javamm.compiler.component.impl.CompilerImpl;
+import academy.devonline.javamm.compiler.component.impl.ComplexLexemeValidatorImpl;
 import academy.devonline.javamm.compiler.component.impl.ExpressionResolverImpl;
 import academy.devonline.javamm.compiler.component.impl.LexemeBuilderImpl;
 import academy.devonline.javamm.compiler.component.impl.PrecedenceOperatorResolverImpl;
@@ -69,8 +71,10 @@ public class CompilerConfigurator {
         singleTokenExpressionBuilder
     );
 
+    private ComplexLexemeValidator complexLexemeValidator = new ComplexLexemeValidatorImpl();
+
     private ExpressionResolver expressionResolver = new ExpressionResolverImpl(
-        expressionBuilders, lexemeBuilder, complexExpressionBuilder);
+        expressionBuilders, lexemeBuilder, complexLexemeValidator, complexExpressionBuilder);
 
     private Set<OperationReader> operationReaders = Set.of(
         new PrintlnOperationReader(expressionResolver),

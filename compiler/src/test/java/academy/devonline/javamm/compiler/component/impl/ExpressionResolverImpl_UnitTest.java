@@ -21,6 +21,7 @@ import academy.devonline.javamm.code.fragment.Lexeme;
 import academy.devonline.javamm.code.fragment.SourceLine;
 import academy.devonline.javamm.code.fragment.expression.ComplexExpression;
 import academy.devonline.javamm.compiler.component.ComplexExpressionBuilder;
+import academy.devonline.javamm.compiler.component.ComplexLexemeValidator;
 import academy.devonline.javamm.compiler.component.ExpressionBuilder;
 import academy.devonline.javamm.compiler.component.ExpressionResolver;
 import academy.devonline.javamm.compiler.component.LexemeBuilder;
@@ -80,12 +81,15 @@ class ExpressionResolverImpl_UnitTest {
     @Mock
     private ComplexExpression complexExpression;
 
+    @Mock
+    private ComplexLexemeValidator complexLexemeValidator;
+
     private ExpressionResolver expressionResolver;
 
     @BeforeEach
     void beforeEach() {
         expressionResolver = new ExpressionResolverImpl(
-            Set.of(expressionBuilder1), lexemeBuilder, complexExpressionBuilder);
+            Set.of(expressionBuilder1), lexemeBuilder, complexLexemeValidator, complexExpressionBuilder);
     }
 
     @Test

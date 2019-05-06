@@ -20,6 +20,7 @@ import academy.devonline.javamm.code.fragment.Expression;
 import academy.devonline.javamm.code.fragment.Lexeme;
 import academy.devonline.javamm.code.fragment.SourceLine;
 import academy.devonline.javamm.compiler.component.ComplexExpressionBuilder;
+import academy.devonline.javamm.compiler.component.ComplexLexemeValidator;
 import academy.devonline.javamm.compiler.component.ExpressionBuilder;
 import academy.devonline.javamm.compiler.component.ExpressionResolver;
 import academy.devonline.javamm.compiler.component.LexemeBuilder;
@@ -41,13 +42,17 @@ public final class ExpressionResolverImpl implements ExpressionResolver {
 
     private final LexemeBuilder lexemeBuilder;
 
+    private final ComplexLexemeValidator complexLexemeValidator;
+
     private final ComplexExpressionBuilder complexExpressionBuilder;
 
     public ExpressionResolverImpl(final Set<ExpressionBuilder> expressionBuilders,
                                   final LexemeBuilder lexemeBuilder,
+                                  final ComplexLexemeValidator complexLexemeValidator,
                                   final ComplexExpressionBuilder complexExpressionBuilder) {
         this.expressionBuilders = List.copyOf(expressionBuilders);
         this.lexemeBuilder = requireNonNull(lexemeBuilder);
+        this.complexLexemeValidator = requireNonNull(complexLexemeValidator);
         this.complexExpressionBuilder = requireNonNull(complexExpressionBuilder);
     }
 
@@ -82,6 +87,7 @@ public final class ExpressionResolverImpl implements ExpressionResolver {
                 throw new JavammLineSyntaxError("Unresolved expression: " + lexeme, sourceLine);
             }
         } else {
+            complexLexemeValidator.validate(lexemes, sourceLine);
             return complexExpressionBuilder.build(lexemes, sourceLine);
         }
     }
@@ -95,6 +101,9 @@ public final class ExpressionResolverImpl implements ExpressionResolver {
                 .filter(expressionBuilder -> expressionBuilder.canBuild(expressionTokens))
                 .findFirst()
                 .map(expressionBuilder -> expressionBuilder.build(expressionTokens, sourceLine))
-                .orElseGet(() -> resolveComplexExpression(expressionTokens, sourceLine));
+                .orElseGet(() -> {
+                    complexLexemeValidator.validate(lexemes, sourceLine);
+                    return resolveComplexExpression(expressionTokens, sourceLine)
+                });
     }*/
 }
