@@ -78,7 +78,7 @@ class PostfixNotationComplexExpressionBuilder_IntegrationTest {
     }
 
     @ParameterizedTest
-    @CsvSource({
+    @CsvSource( {
         "3 + 4,                 3 4 +",
         "7 - 2 * 3,             7 2 3 * -",
         "5 * 2 + 10,            5 2 * 10 +",

@@ -76,6 +76,7 @@ public class PostfixNotationComplexExpressionBuilder implements ComplexExpressio
             lexemes.stream().map(Object::toString).collect(joining(" "))
         );
     }
+
     private void popMorePrecedenceOperators(final Operator currentOperator,
                                             final List<Lexeme> result,
                                             final Deque<Lexeme> stack) {

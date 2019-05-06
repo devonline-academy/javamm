@@ -29,7 +29,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import static java.lang.String.join;
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -45,7 +44,7 @@ public final class ExpressionResolverImpl implements ExpressionResolver {
     private final ComplexExpressionBuilder complexExpressionBuilder;
 
     public ExpressionResolverImpl(final Set<ExpressionBuilder> expressionBuilders,
-                                  final LexemeBuilder lexemeBuilder, 
+                                  final LexemeBuilder lexemeBuilder,
                                   final ComplexExpressionBuilder complexExpressionBuilder) {
         this.expressionBuilders = List.copyOf(expressionBuilders);
         this.lexemeBuilder = requireNonNull(lexemeBuilder);
@@ -66,7 +65,7 @@ public final class ExpressionResolverImpl implements ExpressionResolver {
     /**
      * var a = 1 + 3 * 5
      * var a = ( 1 + 3 ) * a
-     *
+     * <p>
      * var a = sum ( 1 , b ) + 4                                                -------->  var a = x + 4
      * var a = array [ 23 + g - h ] - a                                         -------->  var a = x - a
      * var a = array [ 23 + g - h ]                                             -------->  var a = x

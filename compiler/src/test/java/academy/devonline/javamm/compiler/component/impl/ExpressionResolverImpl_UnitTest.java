@@ -20,7 +20,6 @@ import academy.devonline.javamm.code.fragment.Expression;
 import academy.devonline.javamm.code.fragment.Lexeme;
 import academy.devonline.javamm.code.fragment.SourceLine;
 import academy.devonline.javamm.code.fragment.expression.ComplexExpression;
-import academy.devonline.javamm.compiler.JavammSyntaxError;
 import academy.devonline.javamm.compiler.component.ComplexExpressionBuilder;
 import academy.devonline.javamm.compiler.component.ExpressionBuilder;
 import academy.devonline.javamm.compiler.component.ExpressionResolver;
@@ -41,7 +40,6 @@ import java.util.List;
 import java.util.Set;
 
 import static academy.devonline.javamm.code.fragment.Parenthesis.OPENING_PARENTHESIS;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
