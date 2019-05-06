@@ -17,12 +17,23 @@
 package academy.devonline.javamm.compiler.component.impl.expression.builder;
 
 import academy.devonline.javamm.code.fragment.Lexeme;
+import academy.devonline.javamm.code.fragment.Operator;
+import academy.devonline.javamm.code.fragment.Parenthesis;
 import academy.devonline.javamm.code.fragment.SourceLine;
 import academy.devonline.javamm.code.fragment.expression.ComplexExpression;
+import academy.devonline.javamm.code.fragment.expression.PostfixNotationExpression;
+import academy.devonline.javamm.code.fragment.operator.UnaryOperator;
 import academy.devonline.javamm.compiler.component.ComplexExpressionBuilder;
 import academy.devonline.javamm.compiler.component.PrecedenceOperatorResolver;
+import academy.devonline.javamm.compiler.component.impl.error.JavammLineSyntaxError;
 
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
+
+import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.joining;
 
 /**
  * Infix      ->   Postfix
@@ -34,12 +45,85 @@ import java.util.List;
  */
 public class PostfixNotationComplexExpressionBuilder implements ComplexExpressionBuilder {
 
-    public PostfixNotationComplexExpressionBuilder(final PrecedenceOperatorResolver precedenceOperatorResolver) {
+    private final PrecedenceOperatorResolver precedenceOperatorResolver;
 
+    public PostfixNotationComplexExpressionBuilder(final PrecedenceOperatorResolver precedenceOperatorResolver) {
+        this.precedenceOperatorResolver = requireNonNull(precedenceOperatorResolver);
     }
 
     @Override
     public ComplexExpression build(final List<Lexeme> lexemes, final SourceLine sourceLine) {
-        return null;
+        final List<Lexeme> result = new ArrayList<>();
+        final Deque<Lexeme> stack = new ArrayDeque<>();
+        for (final Lexeme lexeme : lexemes) {
+            if (lexeme instanceof Operator) {
+                popMorePrecedenceOperators((Operator) lexeme, result, stack);
+                stack.addFirst(lexeme);
+            } else if (lexeme instanceof Parenthesis) {
+                final Parenthesis parenthesis = (Parenthesis) lexeme;
+                if (parenthesis.isOpen()) {
+                    stack.addFirst(parenthesis);
+                } else {
+                    popUntilParenthesisFound(result, stack, sourceLine);
+                }
+            } else {
+                result.add(lexeme);
+            }
+        }
+        popAllOperators(result, stack, sourceLine);
+        return new PostfixNotationExpression(
+            result,
+            lexemes.stream().map(Object::toString).collect(joining(" "))
+        );
+    }
+    private void popMorePrecedenceOperators(final Operator currentOperator,
+                                            final List<Lexeme> result,
+                                            final Deque<Lexeme> stack) {
+        while (!stack.isEmpty()) {
+            final Lexeme headStackElement = stack.getFirst();
+            if (headStackElement instanceof Operator) {
+                final Operator headStackOperator = (Operator) headStackElement;
+                if (headStackOperator instanceof UnaryOperator && currentOperator instanceof UnaryOperator) {
+                    break;
+                } else {
+                    final int currentOperatorPrecedence = precedenceOperatorResolver.getPrecedence(currentOperator);
+                    final int headStackOperatorPrecedence = precedenceOperatorResolver.getPrecedence(headStackOperator);
+                    if (currentOperatorPrecedence <= headStackOperatorPrecedence) {
+                        result.add(stack.removeFirst());
+                    } else {
+                        break;
+                    }
+                }
+            } else {
+                break;
+            }
+        }
+    }
+
+    private void popUntilParenthesisFound(final List<Lexeme> result,
+                                          final Deque<Lexeme> stack,
+                                          final SourceLine sourceLine) {
+        while (!stack.isEmpty()) {
+            final Lexeme lexeme = stack.removeFirst();
+            if (lexeme == Parenthesis.OPENING_PARENTHESIS) {
+                return;
+            } else {
+                result.add(lexeme);
+            }
+        }
+        throw new JavammLineSyntaxError("Missing (", sourceLine);
+    }
+
+    private void popAllOperators(final List<Lexeme> result,
+                                 final Deque<Lexeme> stack,
+                                 final SourceLine sourceLine) {
+        while (!stack.isEmpty()) {
+            final Lexeme headStackElement = stack.removeFirst();
+            if (headStackElement instanceof Operator) {
+                result.add(headStackElement);
+            } else {
+                throw new JavammLineSyntaxError("Missing )", sourceLine);
+            }
+        }
     }
 }
