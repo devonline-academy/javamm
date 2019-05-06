@@ -13,6 +13,20 @@
     <name>Javamm virtual machine</name>
     <description>Default VM for javamm programming language</description>
 
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <argLine>
+                        @{argLine}
+                        --add-opens javamm.vm/academy.devonline.javamm.vm.integration=ALL-UNNAMED
+                    </argLine>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
     <dependencies>
         <dependency>
             <groupId>academy.devonline</groupId>
