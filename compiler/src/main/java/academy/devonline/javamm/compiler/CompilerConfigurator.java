@@ -17,8 +17,10 @@
 package academy.devonline.javamm.compiler;
 
 import academy.devonline.javamm.compiler.component.BlockOperationReader;
+import academy.devonline.javamm.compiler.component.ComplexExpressionBuilder;
 import academy.devonline.javamm.compiler.component.ExpressionBuilder;
 import academy.devonline.javamm.compiler.component.ExpressionResolver;
+import academy.devonline.javamm.compiler.component.LexemeBuilder;
 import academy.devonline.javamm.compiler.component.OperationReader;
 import academy.devonline.javamm.compiler.component.PrecedenceOperatorResolver;
 import academy.devonline.javamm.compiler.component.SingleTokenExpressionBuilder;
@@ -28,12 +30,14 @@ import academy.devonline.javamm.compiler.component.VariableBuilder;
 import academy.devonline.javamm.compiler.component.impl.BlockOperationReaderImpl;
 import academy.devonline.javamm.compiler.component.impl.CompilerImpl;
 import academy.devonline.javamm.compiler.component.impl.ExpressionResolverImpl;
+import academy.devonline.javamm.compiler.component.impl.LexemeBuilderImpl;
 import academy.devonline.javamm.compiler.component.impl.PrecedenceOperatorResolverImpl;
 import academy.devonline.javamm.compiler.component.impl.SingleTokenExpressionBuilderImpl;
 import academy.devonline.javamm.compiler.component.impl.SourceLineReaderImpl;
 import academy.devonline.javamm.compiler.component.impl.TokenParserImpl;
 import academy.devonline.javamm.compiler.component.impl.VariableBuilderImpl;
 import academy.devonline.javamm.compiler.component.impl.expression.builder.BinaryExpressionBuilder;
+import academy.devonline.javamm.compiler.component.impl.expression.builder.PostfixNotationComplexExpressionBuilder;
 import academy.devonline.javamm.compiler.component.impl.operation.simple.FinalDeclarationOperationReader;
 import academy.devonline.javamm.compiler.component.impl.operation.simple.PrintlnOperationReader;
 import academy.devonline.javamm.compiler.component.impl.operation.simple.VariableDeclarationOperationReader;
@@ -54,15 +58,21 @@ public class CompilerConfigurator {
 
     private PrecedenceOperatorResolver precedenceOperatorResolver = new PrecedenceOperatorResolverImpl();
 
+    private ComplexExpressionBuilder complexExpressionBuilder =
+        new PostfixNotationComplexExpressionBuilder(precedenceOperatorResolver);
+
     private SingleTokenExpressionBuilder singleTokenExpressionBuilder =
         new SingleTokenExpressionBuilderImpl(variableBuilder);
+
+    private LexemeBuilder lexemeBuilder = new LexemeBuilderImpl(singleTokenExpressionBuilder);
 
     private Set<ExpressionBuilder> expressionBuilders = Set.of(
         singleTokenExpressionBuilder,
         new BinaryExpressionBuilder(singleTokenExpressionBuilder)
     );
 
-    private ExpressionResolver expressionResolver = new ExpressionResolverImpl(expressionBuilders);
+    private ExpressionResolver expressionResolver = new ExpressionResolverImpl(
+        expressionBuilders, lexemeBuilder, complexExpressionBuilder);
 
     private Set<OperationReader> operationReaders = Set.of(
         new PrintlnOperationReader(expressionResolver),

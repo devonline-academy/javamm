@@ -17,9 +17,12 @@
 package academy.devonline.javamm.compiler.component.impl;
 
 import academy.devonline.javamm.code.fragment.Expression;
+import academy.devonline.javamm.code.fragment.Lexeme;
 import academy.devonline.javamm.code.fragment.SourceLine;
+import academy.devonline.javamm.compiler.component.ComplexExpressionBuilder;
 import academy.devonline.javamm.compiler.component.ExpressionBuilder;
 import academy.devonline.javamm.compiler.component.ExpressionResolver;
+import academy.devonline.javamm.compiler.component.LexemeBuilder;
 import academy.devonline.javamm.compiler.component.impl.error.JavammLineSyntaxError;
 
 import java.util.Collection;
@@ -27,6 +30,7 @@ import java.util.List;
 import java.util.Set;
 
 import static java.lang.String.join;
+import static java.util.Objects.requireNonNull;
 
 /**
  * @author devonline
@@ -36,8 +40,16 @@ public final class ExpressionResolverImpl implements ExpressionResolver {
 
     private final Collection<ExpressionBuilder> expressionBuilders;
 
-    public ExpressionResolverImpl(final Set<ExpressionBuilder> expressionBuilders) {
+    private final LexemeBuilder lexemeBuilder;
+
+    private final ComplexExpressionBuilder complexExpressionBuilder;
+
+    public ExpressionResolverImpl(final Set<ExpressionBuilder> expressionBuilders,
+                                  final LexemeBuilder lexemeBuilder, 
+                                  final ComplexExpressionBuilder complexExpressionBuilder) {
         this.expressionBuilders = List.copyOf(expressionBuilders);
+        this.lexemeBuilder = requireNonNull(lexemeBuilder);
+        this.complexExpressionBuilder = requireNonNull(complexExpressionBuilder);
     }
 
     //Imperative
@@ -48,8 +60,31 @@ public final class ExpressionResolverImpl implements ExpressionResolver {
                 return expressionBuilder.build(expressionTokens, sourceLine);
             }
         }
-        // FIXME Can be complex expression
-        throw new JavammLineSyntaxError("Unsupported expression: " + join("", expressionTokens), sourceLine);
+        return resolveComplexExpression(expressionTokens, sourceLine);
+    }
+
+    /**
+     * var a = 1 + 3 * 5
+     * var a = ( 1 + 3 ) * a
+     *
+     * var a = sum ( 1 , b ) + 4                                                -------->  var a = x + 4
+     * var a = array [ 23 + g - h ] - a                                         -------->  var a = x - a
+     * var a = array [ 23 + g - h ]                                             -------->  var a = x
+     * var a = sum ( array [ 23 + g ] , array [ 23 ] ) - 4 * sum ( 1 , 2 + b )  -------->  var a = x - 4 * y
+     * var a = sum ( 1 , 2 + b ) + 4 * ( array [ 23 + g - h ] - 6 )             -------->  var a = x + 4 * ( y - z )
+     */
+    private Expression resolveComplexExpression(final List<String> expressionTokens, final SourceLine sourceLine) {
+        final List<Lexeme> lexemes = lexemeBuilder.build(expressionTokens, sourceLine);
+        if (lexemes.size() == 1) {
+            final Lexeme lexeme = lexemes.get(0);
+            if (lexeme instanceof Expression) {
+                return (Expression) lexeme;
+            } else {
+                throw new JavammLineSyntaxError("Unresolved expression: " + lexeme, sourceLine);
+            }
+        } else {
+            return complexExpressionBuilder.build(lexemes, sourceLine);
+        }
     }
 
     /*
@@ -61,9 +96,6 @@ public final class ExpressionResolverImpl implements ExpressionResolver {
                 .filter(expressionBuilder -> expressionBuilder.canBuild(expressionTokens))
                 .findFirst()
                 .map(expressionBuilder -> expressionBuilder.build(expressionTokens, sourceLine))
-                .orElseThrow(() -> {
-                    // FIXME Can be complex expression
-                    throw new JavammLineSyntaxError("Unsupported expression: " + join("", expressionTokens), sourceLine);
-                });
+                .orElseGet(() -> resolveComplexExpression(expressionTokens, sourceLine));
     }*/
 }

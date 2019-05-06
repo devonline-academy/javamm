@@ -19,8 +19,10 @@ package academy.devonline.javamm.compiler.component.impl;
 import academy.devonline.javamm.code.fragment.Expression;
 import academy.devonline.javamm.code.fragment.SourceLine;
 import academy.devonline.javamm.compiler.JavammSyntaxError;
+import academy.devonline.javamm.compiler.component.ComplexExpressionBuilder;
 import academy.devonline.javamm.compiler.component.ExpressionBuilder;
 import academy.devonline.javamm.compiler.component.ExpressionResolver;
+import academy.devonline.javamm.compiler.component.LexemeBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
@@ -63,9 +65,16 @@ class ExpressionResolverImpl_UnitTest {
 
     private ExpressionResolver expressionResolver;
 
+    @Mock
+    private LexemeBuilder lexemeBuilder;
+
+    @Mock
+    private ComplexExpressionBuilder complexExpressionBuilder;
+
     @BeforeEach
     void beforeEach() {
-        expressionResolver = new ExpressionResolverImpl(Set.of(expressionBuilder1));
+        expressionResolver = new ExpressionResolverImpl(
+            Set.of(expressionBuilder1), lexemeBuilder, complexExpressionBuilder);
     }
 
     @Test
