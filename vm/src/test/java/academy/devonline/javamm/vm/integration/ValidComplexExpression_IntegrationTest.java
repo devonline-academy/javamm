@@ -111,12 +111,11 @@ class ValidComplexExpression_IntegrationTest {
                 arguments(
                     "( ( 1 + 2 ) - ( 3 * 4 ) ) / ( 5 % 6 )",
                     ((1 + 2) - (3 * 4)) / (5 % 6)
-                )
-                /* FIXME,
+                ),
                 arguments(
                     "+ 4 - - 5 * + 6 / - 7",
                     +4 - -5 * +6 / -7
-                )*/
+                )
             );
         }
 
@@ -186,21 +185,18 @@ class ValidComplexExpression_IntegrationTest {
         @SuppressWarnings("PointlessArithmeticExpression")
         private Stream<Arguments> complexExpressionsProvider() {
             return Stream.of(
-                /*
-                FIXME
                 arguments(
                     "~ - 1 ^ ~ + - 2 | + - + - 3 & ~ + - + - + - + - 8",
                     ~-1 ^ ~+-2 | +-+-3 & ~+-+-+-+-8
-                ),*/
+                ),
                 arguments(
                     "( ( ( ( 1 + 2 ) - ( 3 * 4 ) ) / ( 5 % 6 ) ^ 23 ) | 234567 ) ^ ( 56 >> 2 | 12 << 2 | ~ 1 )",
                     ((((1 + 2) - (3 * 4)) / (5 % 6) ^ 23) | 234567) ^ (56 >> 2 | 12 << 2 | ~1)
-                )/*,
-                FIXME
+                ),
                 arguments(
                     "( ( 5 & 4 | 8 & ~ + 1 ) >> 4 ) * ( ( ( 1 + 2 ) - ( 3 * 4 ) ) << 3 ) - ( ( ( 5 % 6 ) ^ 1 ) )",
                     ((5 & 4 | 8 & ~+1) >> 4) * (((1 + 2) - (3 * 4)) << 3) - (((5 % 6) ^ 1))
-                )*/
+                )
             );
         }
     }
