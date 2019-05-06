@@ -28,6 +28,14 @@ import static java.util.stream.Collectors.toUnmodifiableSet;
  */
 public final class Delimiters {
 
+    public static final String START_LINE_COMMENT = "//";
+
+    public static final String START_MULTILINE_COMMENT = "/*";
+
+    public static final String END_MULTILINE_COMMENT = "*/";
+
+    public static final Set<Character> IGNORED_DELIMITERS = Set.of(' ', '\u00A0', '\n', '\t', '\r');
+
     public static final Set<Character> STRING_DELIMITERS = Set.of('\'', '"');
 
     public static final Set<String> OPERATOR_TOKEN_DELIMITERS =
@@ -57,7 +65,8 @@ public final class Delimiters {
     public static final Set<String> SIGNIFICANT_TOKEN_DELIMITERS =
         Stream.of(
             OPERATOR_TOKEN_DELIMITERS.stream(),
-            NOT_OPERATOR_TOKEN_DELIMITERS.stream()
+            NOT_OPERATOR_TOKEN_DELIMITERS.stream(),
+            Stream.of(START_LINE_COMMENT, START_MULTILINE_COMMENT, END_MULTILINE_COMMENT)
         ).flatMap(identity()).collect(toUnmodifiableSet());
 
     private Delimiters() {
