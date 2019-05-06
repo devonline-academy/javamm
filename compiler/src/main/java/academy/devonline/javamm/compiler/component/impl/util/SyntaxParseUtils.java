@@ -29,20 +29,20 @@ public final class SyntaxParseUtils {
     private SyntaxParseUtils() {
     }
 
-    public static List<String> getTokensBetweenFirstAndLastBrackets(final String openingBracket,
-                                                                    final String closingBracket,
-                                                                    final SourceLine sourceLine,
-                                                                    final boolean allowEmptyResult) {
-        return getTokensBetweenFirstAndLastBrackets(
+    public static List<String> getTokensBetweenBrackets(final String openingBracket,
+                                                        final String closingBracket,
+                                                        final SourceLine sourceLine,
+                                                        final boolean allowEmptyResult) {
+        return getTokensBetweenBrackets(
             openingBracket, closingBracket, sourceLine.getTokens(), sourceLine, allowEmptyResult
         );
     }
 
-    public static List<String> getTokensBetweenFirstAndLastBrackets(final String openingBracket,
-                                                                    final String closingBracket,
-                                                                    final List<String> tokens,
-                                                                    final SourceLine sourceLine,
-                                                                    final boolean allowEmptyResult) {
+    public static List<String> getTokensBetweenBrackets(final String openingBracket,
+                                                        final String closingBracket,
+                                                        final List<String> tokens,
+                                                        final SourceLine sourceLine,
+                                                        final boolean allowEmptyResult) {
         return List.copyOf(tokens);
     }
 }

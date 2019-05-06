@@ -3,12 +3,9 @@ if ( a > 2 ) {
 
 }
 
-for (var i=0;i<10;i++) {
+var a = array [ 12 + 6 * d ] + d * 6
 
-}
-
-var a = array [ 12 + 6 * d ]
-var result = sum (1, 2 + 4)
+var result = sum (1, 2 + 4) + (2 + a) + 8
 
 
 var arr = { 1, 2, 3, 4 }
