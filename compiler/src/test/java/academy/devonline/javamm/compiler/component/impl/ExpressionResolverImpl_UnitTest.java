@@ -111,7 +111,7 @@ class ExpressionResolverImpl_UnitTest {
 
     @Test
     @Order(2)
-    void Should_use_the_lexeme_builder_only() {
+    void Should_use_the_lexemeBuilder_only() {
         when(lexemeBuilder.build(expressionTokens, sourceLine)).thenReturn(List.of(expectedExpression));
 
         final Expression actualExpression = expressionResolver.resolve(expressionTokens, sourceLine);
@@ -133,12 +133,25 @@ class ExpressionResolverImpl_UnitTest {
 
     @Test
     @Order(4)
-    void Should_use_the_complex_expression_builder() {
+    void Should_use_the_complexExpressionBuilder() {
         when(lexemeBuilder.build(expressionTokens, sourceLine)).thenReturn(lexemes);
+        when(unaryOperatorUpdater.update(lexemes, sourceLine)).thenReturn(lexemes);
         when(complexExpressionBuilder.build(lexemes, sourceLine)).thenReturn(complexExpression);
 
         final Expression actualExpression = expressionResolver.resolve(expressionTokens, sourceLine);
 
         assertSame(complexExpression, actualExpression);
+    }
+
+    @Test
+    @Order(5)
+    void Should_dont_use_complexExpressionBuilder_if_unaryOperatorUpdater_return_lexemes_with_one_lexeme(){
+        when(lexemeBuilder.build(expressionTokens, sourceLine)).thenReturn(lexemes);
+        when(unaryOperatorUpdater.update(lexemes, sourceLine)).thenReturn(List.of(expectedExpression));
+
+        final Expression actualExpression = expressionResolver.resolve(expressionTokens, sourceLine);
+
+        assertSame(expectedExpression, actualExpression);
+        verify(complexExpressionBuilder, never()).build(any(), any());
     }
 }
