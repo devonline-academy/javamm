@@ -56,6 +56,7 @@ import academy.devonline.javamm.interpreter.component.impl.calculator.predicate.
 import academy.devonline.javamm.interpreter.component.impl.calculator.predicate.TypeOfBinaryExpressionCalculator;
 import academy.devonline.javamm.interpreter.component.impl.expression.evaluator.PostfixNotationComplexExpressionEvaluator;
 import academy.devonline.javamm.interpreter.component.impl.expression.evaluator.VariableExpressionEvaluator;
+import academy.devonline.javamm.interpreter.component.impl.expression.updater.VariableExpressionUpdater;
 import academy.devonline.javamm.interpreter.component.impl.operation.simple.PrintlnOperationInterpreter;
 import academy.devonline.javamm.interpreter.component.impl.operation.simple.VariableDeclarationOperationInterpreter;
 
@@ -130,7 +131,7 @@ public class InterpreterConfigurator {
     );
 
     private Set<ExpressionUpdater<?>> expressionUpdaters = Set.of(
-        //TODO Add here
+        new VariableExpressionUpdater()
     );
 
     private ExpressionContext expressionContext = new ExpressionContextImpl(expressionEvaluators, expressionUpdaters);
