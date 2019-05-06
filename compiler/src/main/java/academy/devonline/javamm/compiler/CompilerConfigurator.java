@@ -20,6 +20,7 @@ import academy.devonline.javamm.compiler.component.BlockOperationReader;
 import academy.devonline.javamm.compiler.component.ExpressionBuilder;
 import academy.devonline.javamm.compiler.component.ExpressionResolver;
 import academy.devonline.javamm.compiler.component.OperationReader;
+import academy.devonline.javamm.compiler.component.PrecedenceOperatorResolver;
 import academy.devonline.javamm.compiler.component.SingleTokenExpressionBuilder;
 import academy.devonline.javamm.compiler.component.SourceLineReader;
 import academy.devonline.javamm.compiler.component.TokenParser;
@@ -27,6 +28,7 @@ import academy.devonline.javamm.compiler.component.VariableBuilder;
 import academy.devonline.javamm.compiler.component.impl.BlockOperationReaderImpl;
 import academy.devonline.javamm.compiler.component.impl.CompilerImpl;
 import academy.devonline.javamm.compiler.component.impl.ExpressionResolverImpl;
+import academy.devonline.javamm.compiler.component.impl.PrecedenceOperatorResolverImpl;
 import academy.devonline.javamm.compiler.component.impl.SingleTokenExpressionBuilderImpl;
 import academy.devonline.javamm.compiler.component.impl.SourceLineReaderImpl;
 import academy.devonline.javamm.compiler.component.impl.TokenParserImpl;
@@ -49,6 +51,8 @@ public class CompilerConfigurator {
     private SourceLineReader sourceLineReader = new SourceLineReaderImpl(tokenParser);
 
     private VariableBuilder variableBuilder = new VariableBuilderImpl();
+
+    private PrecedenceOperatorResolver precedenceOperatorResolver = new PrecedenceOperatorResolverImpl();
 
     private SingleTokenExpressionBuilder singleTokenExpressionBuilder =
         new SingleTokenExpressionBuilderImpl(variableBuilder);

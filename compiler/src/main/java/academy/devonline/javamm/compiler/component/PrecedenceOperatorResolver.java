@@ -14,17 +14,15 @@
  * limitations under the License.
  */
 
-package academy.devonline.javamm.code.fragment;
+package academy.devonline.javamm.compiler.component;
+
+import academy.devonline.javamm.code.fragment.Operator;
 
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-public interface Operator extends Lexeme {
+public interface PrecedenceOperatorResolver {
 
-    String getType();
-
-    String getCode();
-
-    boolean isAssignment();
+    int getPrecedence(Operator operator);
 }

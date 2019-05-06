@@ -22,7 +22,7 @@ import academy.devonline.javamm.code.component.ExpressionContext;
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-public interface Expression {
+public interface Expression extends Lexeme {
 
     default Object getValue(final ExpressionContext expressionContext) {
         return expressionContext.getValue(this);

@@ -14,17 +14,19 @@
  * limitations under the License.
  */
 
-package academy.devonline.javamm.code.fragment;
+package academy.devonline.javamm.compiler.component;
+
+import academy.devonline.javamm.code.fragment.Lexeme;
+import academy.devonline.javamm.code.fragment.SourceLine;
+import academy.devonline.javamm.code.fragment.expression.ComplexExpression;
+
+import java.util.List;
 
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-public interface Operator extends Lexeme {
+public interface ComplexExpressionBuilder {
 
-    String getType();
-
-    String getCode();
-
-    boolean isAssignment();
+    ComplexExpression build(List<Lexeme> lexemes, SourceLine sourceLine);
 }

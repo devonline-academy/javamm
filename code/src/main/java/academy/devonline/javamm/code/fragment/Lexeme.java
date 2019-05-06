@@ -20,11 +20,6 @@ package academy.devonline.javamm.code.fragment;
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-public interface Operator extends Lexeme {
+public interface Lexeme extends CompiledCodeFragment {
 
-    String getType();
-
-    String getCode();
-
-    boolean isAssignment();
 }

@@ -27,7 +27,7 @@ import academy.devonline.javamm.interpreter.component.impl.calculator.AbstractBi
  * @link http://devonline.academy/javamm
  */
 public final class IsLessBinaryExpressionCalculator extends AbstractBinaryExpressionCalculator
-        implements BinaryExpressionCalculator {
+    implements BinaryExpressionCalculator {
 
     public IsLessBinaryExpressionCalculator() {
         super(BinaryOperator.PREDICATE_LESS);

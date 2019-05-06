@@ -15,7 +15,7 @@ import static java.lang.String.format;
  * @link http://devonline.academy/javamm
  */
 public final class LogicAndBinaryExpressionCalculator extends AbstractBinaryExpressionCalculator
-        implements BinaryExpressionCalculator {
+    implements BinaryExpressionCalculator {
 
     public LogicAndBinaryExpressionCalculator() {
         super(BinaryOperator.LOGIC_AND);
@@ -39,9 +39,9 @@ public final class LogicAndBinaryExpressionCalculator extends AbstractBinaryExpr
             }
         } else {
             throw new JavammLineRuntimeError(format(
-                    "First operand for operator '%s' has invalid type: %s",
-                    getOperator().getCode(),
-                    getType(value1)));
+                "First operand for operator '%s' has invalid type: %s",
+                getOperator().getCode(),
+                getType(value1)));
         }
     }
 }

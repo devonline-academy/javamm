@@ -27,7 +27,7 @@ import academy.devonline.javamm.interpreter.component.impl.calculator.AbstractUn
  * @link http://devonline.academy/javamm
  */
 public final class IncrementUnaryExpressionCalculator extends AbstractUnaryExpressionCalculator
-        implements UnaryExpressionCalculator {
+    implements UnaryExpressionCalculator {
 
     public IncrementUnaryExpressionCalculator() {
         super(UnaryOperator.INCREMENT);

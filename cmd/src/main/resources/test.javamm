@@ -1,49 +1,9 @@
 var a1 = 5.1
 var b1 = 3.2
-println ( a1 )
-println ( b1 )
-println ( "--ArithmeticDouble--" )
-println ( a1 + b1 )
-println ( a1 - b1 )
-println ( a1 * b1 )
-println ( a1 / b1 )
-println ( a1 % b1 )
 
-var a2 = 5
-var b2 = 3
-println ( "--ArithmeticInteger--" )
-println ( a2 )
-println ( b2 )
-println ( a2 + b2 )
-println ( a2 - b2 )
-println ( a2 * b2 )
-println ( a2 / b2 )
-println ( a2 % b2 )
+var c1 = a1 + b1
+var c2 = - a1
 
-println ( "--Bitwise--" )
-println ( a2 & b2 )
-println ( a2 | b2 )
-println ( a2 ^ b2 )
-println ( a2 >> b2 )
-println ( a2 >>> b2 )
-println ( a2 << b2 )
-
-println ( "--Predicate--" )
-println ( a2 == b2 )
-println ( a2 != b2 )
-println ( a2 > b2 )
-println ( a2 < b2 )
-println ( a2 >= b2 )
-println ( a2 <= b2 )
-println ( a2 typeof integer )
-println ( a2 typeof double )
-println ( a2 typeof string )
-println ( a2 typeof boolean )
-
-var a3 = true
-var b3 = false
-println ( a3 )
-println ( b3 )
-println ( "--Logic--" )
-println ( a3 && b3 )
-println ( a3 || b3 )
+var c3 = - a1 + b1
+var c4 = a1 * b1 + a1
+var c5 = a1 * ( b1 + a1 )

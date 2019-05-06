@@ -28,7 +28,7 @@ import academy.devonline.javamm.interpreter.component.impl.calculator.AbstractBi
  * @link http://devonline.academy/javamm
  */
 public final class TypeOfBinaryExpressionCalculator extends AbstractBinaryExpressionCalculator
-        implements BinaryExpressionCalculator {
+    implements BinaryExpressionCalculator {
 
     public TypeOfBinaryExpressionCalculator() {
         super(BinaryOperator.PREDICATE_TYPEOF);

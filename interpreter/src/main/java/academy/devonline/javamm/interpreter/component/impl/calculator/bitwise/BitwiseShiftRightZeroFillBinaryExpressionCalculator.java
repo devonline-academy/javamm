@@ -30,7 +30,7 @@ import static academy.devonline.javamm.code.fragment.operator.BinaryOperator.BIT
  * @link http://devonline.academy/javamm
  */
 public final class BitwiseShiftRightZeroFillBinaryExpressionCalculator extends AbstractBinaryExpressionCalculator
-        implements BinaryExpressionCalculator {
+    implements BinaryExpressionCalculator {
 
     private BitwiseShiftRightZeroFillBinaryExpressionCalculator(final BinaryOperator operator) {
         super(operator);

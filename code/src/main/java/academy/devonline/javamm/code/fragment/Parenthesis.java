@@ -16,15 +16,40 @@
 
 package academy.devonline.javamm.code.fragment;
 
+import java.util.Optional;
+
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-public interface Operator extends Lexeme {
+public enum Parenthesis implements Lexeme {
 
-    String getType();
+    OPENING_PARENTHESIS(true),
 
-    String getCode();
+    CLOSING_PARENTHESIS(false);
 
-    boolean isAssignment();
+    private final boolean open;
+
+    Parenthesis(final boolean open) {
+        this.open = open;
+    }
+
+    public static Optional<Parenthesis> of(final String value) {
+        if ("(".equals(value)) {
+            return Optional.of(OPENING_PARENTHESIS);
+        } else if (")".equals(value)) {
+            return Optional.of(CLOSING_PARENTHESIS);
+        } else {
+            return Optional.empty();
+        }
+    }
+
+    public boolean isOpen() {
+        return open;
+    }
+
+    @Override
+    public String toString() {
+        return open ? "(" : ")";
+    }
 }

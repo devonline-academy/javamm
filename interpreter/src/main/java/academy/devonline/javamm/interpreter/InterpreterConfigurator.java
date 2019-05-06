@@ -17,7 +17,6 @@
 package academy.devonline.javamm.interpreter;
 
 import academy.devonline.javamm.code.component.ExpressionContext;
-import academy.devonline.javamm.code.fragment.operator.BinaryOperator;
 import academy.devonline.javamm.interpreter.component.BlockOperationInterpreter;
 import academy.devonline.javamm.interpreter.component.CalculatorFacade;
 import academy.devonline.javamm.interpreter.component.ExpressionEvaluator;

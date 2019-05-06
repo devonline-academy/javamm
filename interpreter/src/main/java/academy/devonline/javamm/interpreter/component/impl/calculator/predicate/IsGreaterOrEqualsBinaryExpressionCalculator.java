@@ -27,7 +27,7 @@ import academy.devonline.javamm.interpreter.component.impl.calculator.AbstractBi
  * @link http://devonline.academy/javamm
  */
 public final class IsGreaterOrEqualsBinaryExpressionCalculator extends AbstractBinaryExpressionCalculator
-        implements BinaryExpressionCalculator {
+    implements BinaryExpressionCalculator {
 
     public IsGreaterOrEqualsBinaryExpressionCalculator() {
         super(BinaryOperator.PREDICATE_GREATER_OR_EQUALS);
