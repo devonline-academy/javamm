@@ -9,3 +9,16 @@ println ( b )
 println ( c )
 println ( d )
 println ( e )
+//------------------------------------------
+var t = "Hello  world!!!!!!        "
+var a = 1
+var b =    a++
+var c =             ++a
+var d = c+= 4 + a * b
+var e = 2*b+            (7+=4+a*b)
+
+println(a)
+println(        b)
+println(c)
+println(d)
+println(e)
