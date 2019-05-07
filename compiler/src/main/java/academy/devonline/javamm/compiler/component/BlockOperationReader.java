@@ -27,5 +27,5 @@ import java.util.ListIterator;
  */
 public interface BlockOperationReader {
 
-    Block read(SourceLine sourceLine, ListIterator<SourceLine> iterator);
+    Block read(SourceLine sourceLine, ListIterator<SourceLine> iterator, boolean expectedClosingCurlyBrace);
 }

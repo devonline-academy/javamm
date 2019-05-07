@@ -60,7 +60,7 @@ public class IfElseOperationReader extends AbstractBlockOperationReader<IfElseOp
     @Override
     protected IfElseOperation get(final SourceLine sourceLine, final ListIterator<SourceLine> iterator) {
         final Expression condition = getCondition(sourceLine);
-        final Block trueBlock = getBlockOperationReader().read(sourceLine, iterator);
+        final Block trueBlock = getBlockOperationReader().read(sourceLine, iterator, true);
         final Optional<Block> falseBlock = getFalseOptionalBlock(iterator);
         // Functional
         return falseBlock
@@ -107,7 +107,7 @@ public class IfElseOperationReader extends AbstractBlockOperationReader<IfElseOp
                     return Optional.of(new Block(elseIfOperation, sourceLine));
                 } else {
                     validateElse(sourceLine);
-                    return Optional.of(getBlockOperationReader().read(sourceLine, iterator));
+                    return Optional.of(getBlockOperationReader().read(sourceLine, iterator, true));
                 }
             } else {
                 iterator.previous();

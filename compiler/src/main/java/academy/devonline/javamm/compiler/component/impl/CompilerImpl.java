@@ -48,7 +48,10 @@ public class CompilerImpl implements Compiler {
     @Override
     public ByteCode compile(final SourceCode... sourceCodes) throws JavammSyntaxError {
         final List<SourceLine> sourceLines = sourceLineReader.read(sourceCodes[0]);
-        final Block block = blockOperationReader.read(SourceLine.EMPTY_SOURCE_LINE, sourceLines.listIterator());
+        final Block block = blockOperationReader.read(
+            SourceLine.EMPTY_SOURCE_LINE,
+            sourceLines.listIterator(),
+            false);
         return () -> block;
     }
 }
