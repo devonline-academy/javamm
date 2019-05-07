@@ -43,7 +43,7 @@ public class VariableExpressionEvaluator implements ExpressionEvaluator<Variable
         if (localContext.isVariableDefined(variable)) {
             return localContext.getVariableValue(variable);
         } else {
-            throw new JavammLineRuntimeError(format("Variable %s is not defined", variable));
+            throw new JavammLineRuntimeError(format("Variable '%s' is not defined", variable));
         }
     }
 }

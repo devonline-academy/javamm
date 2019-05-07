@@ -22,7 +22,9 @@ import academy.devonline.javamm.code.fragment.operation.Block;
 import academy.devonline.javamm.interpreter.component.BlockOperationInterpreter;
 import academy.devonline.javamm.interpreter.component.BlockOperationInterpreterAware;
 import academy.devonline.javamm.interpreter.component.impl.operation.AbstractOperationInterpreter;
+import academy.devonline.javamm.interpreter.model.LocalContext;
 
+import static academy.devonline.javamm.interpreter.model.CurrentRuntimeProvider.getCurrentRuntime;
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -48,6 +50,12 @@ public abstract class AbstractBlockOperationInterpreter<T extends Operation> ext
     }
 
     protected final void interpretBlock(final Block block) {
-        getBlockOperationInterpreter().interpret(block);
+        final LocalContext currentLocalContext = getCurrentRuntime().getCurrentLocalContext();
+        try {
+            getCurrentRuntime().setCurrentLocalContext(currentLocalContext.createChildLocalContext());
+            getBlockOperationInterpreter().interpret(block);
+        } finally {
+            getCurrentRuntime().setCurrentLocalContext(currentLocalContext);
+        }
     }
 }

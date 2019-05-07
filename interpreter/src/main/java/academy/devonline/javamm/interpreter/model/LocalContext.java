@@ -31,4 +31,6 @@ public interface LocalContext {
     boolean isVariableDefined(Variable variable);
 
     Object getVariableValue(Variable variable);
+
+    LocalContext createChildLocalContext();
 }

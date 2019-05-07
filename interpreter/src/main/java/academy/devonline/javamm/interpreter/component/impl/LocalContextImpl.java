@@ -68,4 +68,47 @@ public class LocalContextImpl implements LocalContext {
             throw new JavammLineRuntimeError(format("Final variable '%s' can't be changed", variable.getName()));
         }
     }
+
+    @Override
+    public LocalContext createChildLocalContext() {
+        return new ChildLocalContext();
+    }
+
+    /**
+     * @author devonline
+     * @link http://devonline.academy/javamm
+     */
+    private final class ChildLocalContext extends LocalContextImpl {
+
+        @Override
+        public void setVariableValue(final Variable variable, final Object value) {
+            if (LocalContextImpl.this.isVariableDefined(variable)) {
+                LocalContextImpl.this.setVariableValue(variable, value);
+            } else {
+                super.setVariableValue(variable, value);
+            }
+        }
+
+        @Override
+        public void setFinalValue(final Variable variable, final Object value) {
+            super.setFinalValue(variable, value);
+        }
+
+        @Override
+        public Object getVariableValue(final Variable variable) {
+            if (LocalContextImpl.this.isVariableDefined(variable)) {
+                return LocalContextImpl.this.getVariableValue(variable);
+            } else {
+                return super.getVariableValue(variable);
+            }
+        }
+
+        @Override
+        public boolean isVariableDefined(final Variable variable) {
+            if (LocalContextImpl.this.isVariableDefined(variable)) {
+                return true;
+            }
+            return super.isVariableDefined(variable);
+        }
+    }
 }
