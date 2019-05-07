@@ -21,6 +21,8 @@
                     <argLine>
                         @{argLine}
                         --add-opens javamm.vm/academy.devonline.javamm.vm.integration=ALL-UNNAMED
+                        --add-opens javamm.vm/academy.devonline.javamm.vm.integration.expression=ALL-UNNAMED
+                        --add-opens javamm.vm/academy.devonline.javamm.vm.integration.operation=ALL-UNNAMED
                     </argLine>
                 </configuration>
             </plugin>

@@ -14,52 +14,36 @@
  * limitations under the License.
  */
 
-package academy.devonline.javamm.vm.integration;
+package academy.devonline.javamm.vm.integration.expression;
 
-import academy.devonline.javamm.code.fragment.SourceCode;
-import academy.devonline.javamm.vm.VirtualMachine;
-import academy.devonline.javamm.vm.VirtualMachineBuilder;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import academy.devonline.javamm.vm.integration.AbstractIntegrationTest;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
-import java.io.OutputStream;
-import java.io.PrintStream;
 import java.util.List;
 import java.util.stream.Stream;
 
 import static java.lang.String.format;
-import static java.util.Objects.requireNonNull;
 import static java.util.function.Function.identity;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
-import static org.mockito.Mockito.mock;
 
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-class ValidComplexExpression_IntegrationTest {
-
-    private final PrintStream systemOut = System.out;
-
-    private final TestPrintStream testPrintStream = new TestPrintStream();
-
-    private final VirtualMachine virtualMachine = new VirtualMachineBuilder().build();
-
-    @BeforeEach
-    void beforeEach() {
-        System.setOut(testPrintStream);
-    }
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+class ValidComplexExpression_IntegrationTest extends AbstractIntegrationTest {
 
     @ParameterizedTest
     @Order(1)
@@ -68,14 +52,9 @@ class ValidComplexExpression_IntegrationTest {
                                                            final Object expectedResult) {
 
         assertDoesNotThrow(() -> {
-            virtualMachine.run(new TestSourceCode(expression));
-            assertEquals(expectedResult, testPrintStream.result);
+            runBlock(format("println ( %s )", expression));
+            assertEquals(List.of(expectedResult), getOutput());
         });
-    }
-
-    @AfterEach
-    void afterEach() {
-        System.setOut(systemOut);
     }
 
     /**
@@ -198,47 +177,6 @@ class ValidComplexExpression_IntegrationTest {
                     ((5 & 4 | 8 & ~+1) >> 4) * (((1 + 2) - (3 * 4)) << 3) - (((5 % 6) ^ 1))
                 )
             );
-        }
-    }
-
-    /**
-     * @author devonline
-     * @link http://devonline.academy/javamm
-     */
-    private static final class TestPrintStream extends PrintStream {
-
-        private Object result;
-
-        private TestPrintStream() {
-            super(mock(OutputStream.class));
-        }
-
-        @Override
-        public void println(final Object x) {
-            result = x;
-        }
-    }
-
-    /**
-     * @author devonline
-     * @link http://devonline.academy/javamm
-     */
-    private static final class TestSourceCode implements SourceCode {
-
-        private final String complexExpression;
-
-        private TestSourceCode(final String complexExpression) {
-            this.complexExpression = requireNonNull(complexExpression);
-        }
-
-        @Override
-        public String getModuleName() {
-            return "test";
-        }
-
-        @Override
-        public List<String> getLines() {
-            return List.of(format("println ( %s )", complexExpression));
         }
     }
 }
