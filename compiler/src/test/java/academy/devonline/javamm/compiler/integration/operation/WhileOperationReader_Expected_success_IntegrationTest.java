@@ -17,6 +17,7 @@
 package academy.devonline.javamm.compiler.integration.operation;
 
 import academy.devonline.javamm.code.fragment.Operation;
+import academy.devonline.javamm.code.fragment.operation.WhileOperation;
 import academy.devonline.javamm.compiler.integration.AbstractOperationReaderSuccessIntegrationTest;
 import org.junit.jupiter.params.provider.Arguments;
 
@@ -33,8 +34,7 @@ class WhileOperationReader_Expected_success_IntegrationTest extends AbstractOper
 
     @Override
     protected Class<? extends Operation> getResultOperationClass() {
-        // FIXME: Replace Operation.class by WhileOperation.class
-        return Operation.class;
+        return WhileOperation.class;
     }
 
     @Override
