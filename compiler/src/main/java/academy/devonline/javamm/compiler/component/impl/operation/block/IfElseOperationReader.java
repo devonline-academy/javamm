@@ -22,6 +22,7 @@ import academy.devonline.javamm.code.fragment.SourceLine;
 import academy.devonline.javamm.code.fragment.operation.Block;
 import academy.devonline.javamm.code.fragment.operation.IfElseOperation;
 import academy.devonline.javamm.compiler.component.ExpressionResolver;
+import academy.devonline.javamm.compiler.component.impl.error.JavammLineSyntaxError;
 
 import java.util.List;
 import java.util.ListIterator;
@@ -30,6 +31,8 @@ import java.util.Optional;
 import static academy.devonline.javamm.code.syntax.Keywords.ELSE;
 import static academy.devonline.javamm.code.syntax.Keywords.IF;
 import static academy.devonline.javamm.compiler.component.impl.util.SyntaxParseUtils.getTokensBetweenBrackets;
+import static academy.devonline.javamm.compiler.component.impl.util.SyntaxValidationUtils.validateThatLineEndsWithOpeningCurlyBrace;
+import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -47,6 +50,11 @@ public class IfElseOperationReader extends AbstractBlockOperationReader<IfElseOp
     @Override
     protected Optional<String> getOperationKeyword() {
         return Optional.of(IF);
+    }
+
+    @Override
+    protected void validate(final SourceLine sourceLine) {
+        validateIfOrElseIf(sourceLine, false);
     }
 
     @Override
@@ -94,9 +102,11 @@ public class IfElseOperationReader extends AbstractBlockOperationReader<IfElseOp
             final SourceLine sourceLine = iterator.next();
             if (ELSE.equals(sourceLine.getFirst())) {
                 if (isIfAfterElse(sourceLine)) {
+                    validateIfOrElseIf(sourceLine, true);
                     final Operation elseIfOperation = get(sourceLine, iterator);
                     return Optional.of(new Block(elseIfOperation, sourceLine));
                 } else {
+                    validateElse(sourceLine);
                     return Optional.of(getBlockOperationReader().read(sourceLine, iterator));
                 }
             } else {
@@ -104,6 +114,25 @@ public class IfElseOperationReader extends AbstractBlockOperationReader<IfElseOp
             }
         }
         return Optional.empty();
+    }
+
+    protected void validateIfOrElseIf(final SourceLine sourceLine,
+                                      final boolean isElseIf) {
+        validateThatLineEndsWithOpeningCurlyBrace(sourceLine);
+        final int expectedOpeningCurlyBraceIndex = isElseIf ? 2 : 1;
+        if (!"(".equals(sourceLine.getToken(expectedOpeningCurlyBraceIndex))) {
+            throw new JavammLineSyntaxError(format("'(' expected after '%s'", IF), sourceLine);
+        }
+        if (!")".equals(sourceLine.getToken(sourceLine.getTokenCount() - 2))) {
+            throw new JavammLineSyntaxError("')' expected before '{'", sourceLine);
+        }
+    }
+
+    protected void validateElse(final SourceLine sourceLine) {
+        validateThatLineEndsWithOpeningCurlyBrace(sourceLine);
+        if (sourceLine.getTokenCount() > 2) {
+            throw new JavammLineSyntaxError(format("'{' expected after '%s'", ELSE), sourceLine);
+        }
     }
 
     private boolean isIfAfterElse(final SourceLine sourceLine) {

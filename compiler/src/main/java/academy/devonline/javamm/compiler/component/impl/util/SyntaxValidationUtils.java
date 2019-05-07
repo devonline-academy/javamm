@@ -34,6 +34,18 @@ public final class SyntaxValidationUtils {
     private SyntaxValidationUtils() {
     }
 
+    public static void validateThatLineEndsWithOpeningCurlyBrace(final SourceLine sourceLine) {
+        if (!"{".equals(sourceLine.getLast())) {
+            throw new JavammLineSyntaxError("'{' expected at the end of the line", sourceLine);
+        }
+    }
+
+    public static void validateThatLineContainsClosingCurlyBraceOnly(final SourceLine sourceLine) {
+        if (!(sourceLine.getTokenCount() == 1 && "}".equals(sourceLine.getFirst()))) {
+            throw new JavammLineSyntaxError("'}' expected only", sourceLine);
+        }
+    }
+
     public static void validateThatFirstCharacterIsLetter(final DeveloperObject developerObject,
                                                           final String name,
                                                           final SourceLine sourceLine) {

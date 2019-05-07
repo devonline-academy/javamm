@@ -71,12 +71,12 @@ public final class SyntaxParseUtils {
                 return List.of();
             } else {
                 throw new JavammLineSyntaxError(format(
-                    "An expression is expected between %s and %s",
+                    "An expression is expected between '%s' and '%s'",
                     firstOpeningBracket, lastClosingBracket), sourceLine);
             }
         } else {
             throw new JavammLineSyntaxError(format(
-                "Expected %s before %s", firstOpeningBracket, lastClosingBracket), sourceLine);
+                "Expected '%s' before '%s'", firstOpeningBracket, lastClosingBracket), sourceLine);
         }
     }
 }
