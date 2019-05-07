@@ -33,6 +33,7 @@ class WhileOperationReader_Expected_success_IntegrationTest extends AbstractOper
 
     @Override
     protected Class<? extends Operation> getResultOperationClass() {
+        // FIXME: Replace Operation.class by WhileOperation.class
         return Operation.class;
     }
 
