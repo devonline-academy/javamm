@@ -16,27 +16,12 @@
 
 package academy.devonline.javamm.interpreter.component;
 
-import academy.devonline.javamm.code.component.ExpressionContext;
-import academy.devonline.javamm.code.fragment.Expression;
-import academy.devonline.javamm.code.fragment.operator.BinaryOperator;
-import academy.devonline.javamm.code.fragment.operator.UnaryOperator;
-
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-public interface CalculatorFacade {
+public interface BlockOperationInterpreterAware {
 
-    Object calculate(ExpressionContext expressionContext,
-                     Expression operand1,
-                     BinaryOperator operator,
-                     Expression operand2);
+    void setBlockOperationInterpreter(BlockOperationInterpreter blockOperationInterpreter);
 
-
-    Object calculate(ExpressionContext expressionContext,
-                     UnaryOperator operator,
-                     Expression operand);
-
-    boolean isTrue(ExpressionContext expressionContext,
-                   Expression condition);
 }

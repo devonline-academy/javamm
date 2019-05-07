@@ -57,6 +57,7 @@ import academy.devonline.javamm.interpreter.component.impl.calculator.predicate.
 import academy.devonline.javamm.interpreter.component.impl.expression.evaluator.PostfixNotationComplexExpressionEvaluator;
 import academy.devonline.javamm.interpreter.component.impl.expression.evaluator.VariableExpressionEvaluator;
 import academy.devonline.javamm.interpreter.component.impl.expression.updater.VariableExpressionUpdater;
+import academy.devonline.javamm.interpreter.component.impl.operation.block.IfElseOperationInterpreter;
 import academy.devonline.javamm.interpreter.component.impl.operation.simple.PrintlnOperationInterpreter;
 import academy.devonline.javamm.interpreter.component.impl.operation.simple.VariableDeclarationOperationInterpreter;
 
@@ -138,7 +139,8 @@ public class InterpreterConfigurator {
 
     private Set<OperationInterpreter<?>> operationInterpreters = Set.of(
         new PrintlnOperationInterpreter(expressionContext),
-        new VariableDeclarationOperationInterpreter(expressionContext)
+        new VariableDeclarationOperationInterpreter(expressionContext),
+        new IfElseOperationInterpreter(expressionContext, calculatorFacade)
     );
 
     private BlockOperationInterpreter blockOperationInterpreter =

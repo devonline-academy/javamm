@@ -20,6 +20,7 @@ import academy.devonline.javamm.code.exception.ConfigException;
 import academy.devonline.javamm.code.fragment.Operation;
 import academy.devonline.javamm.code.fragment.operation.Block;
 import academy.devonline.javamm.interpreter.component.BlockOperationInterpreter;
+import academy.devonline.javamm.interpreter.component.BlockOperationInterpreterAware;
 import academy.devonline.javamm.interpreter.component.OperationInterpreter;
 
 import java.util.Collection;
@@ -48,7 +49,14 @@ public final class BlockOperationInterpreterImpl implements BlockOperationInterp
     private Map<Class<? extends Operation>, OperationInterpreter> buildOperationInterpreterMap(
         final Collection<OperationInterpreter<?>> operationInterpreters) {
         return operationInterpreters.stream()
+            .peek(this::setBlockOperationInterpreterIfRequired)
             .collect(toUnmodifiableMap(OperationInterpreter::getOperationClass, identity(), checkDuplicates()));
+    }
+
+    private void setBlockOperationInterpreterIfRequired(final Object instance) {
+        if (instance instanceof BlockOperationInterpreterAware) {
+            ((BlockOperationInterpreterAware) instance).setBlockOperationInterpreter(this);
+        }
     }
 
     //Functional

@@ -25,11 +25,14 @@ import academy.devonline.javamm.code.fragment.operator.UnaryOperator;
 import academy.devonline.javamm.interpreter.component.BinaryExpressionCalculator;
 import academy.devonline.javamm.interpreter.component.CalculatorFacade;
 import academy.devonline.javamm.interpreter.component.UnaryExpressionCalculator;
+import academy.devonline.javamm.interpreter.component.impl.error.JavammLineRuntimeError;
 
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
 
+import static academy.devonline.javamm.code.util.TypeUtils.getType;
+import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toUnmodifiableMap;
@@ -78,5 +81,16 @@ public class CalculatorFacadeImpl implements CalculatorFacade {
                             final Expression operand) {
         final UnaryExpressionCalculator calculator = unaryExpressionCalculatorMap.get(requireNonNull(operator));
         return calculator.calculate(expressionContext, operand);
+    }
+
+    @Override
+    public boolean isTrue(final ExpressionContext expressionContext, final Expression condition) {
+        final Object value = condition.getValue(expressionContext);
+        if (value instanceof Boolean) {
+            return (boolean) value;
+        } else {
+            throw new JavammLineRuntimeError(format(
+                "Condition expression should be boolean. Current type is %s", getType(value)));
+        }
     }
 }
