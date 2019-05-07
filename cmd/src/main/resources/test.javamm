@@ -1,7 +1,3 @@
-var a = 10
-if ( a > 2 ) {
-    //
-}
-else {
-    //
-}
+//function main(){
+    if
+//}

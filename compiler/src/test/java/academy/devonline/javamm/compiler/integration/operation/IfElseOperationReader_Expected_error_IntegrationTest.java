@@ -77,7 +77,14 @@ class IfElseOperationReader_Expected_error_IntegrationTest extends AbstractOpera
                     "if ( i < 10 ) {",
 
                     "} var a = 5"
-                ), "Syntax error in 'module1' [Line: 3]: '}' expected only")
+                ), "Syntax error in 'module1' [Line: 3]: '}' expected only"),
+            arguments(
+                of(
+                    "if ( i < 10 ) {",
+
+                    "}",
+                    "else"
+                ), "Syntax error in 'module1' [Line: 4]: '{' expected at the end of the line")
         ), "block");
     }
 
@@ -138,6 +145,41 @@ class IfElseOperationReader_Expected_error_IntegrationTest extends AbstractOpera
                     "if ( i < 10 ) {",
 
                     "}",
+                    "else if {"
+                ), "Syntax error in 'module1' [Line: 4]: '(' expected after 'if'"),
+            arguments(
+                of(
+                    "if ( i < 10 ) {",
+
+                    "}",
+                    "else if i < 10 {"
+                ), "Syntax error in 'module1' [Line: 4]: '(' expected after 'if'"),
+            arguments(
+                of(
+                    "if ( i < 10 ) {",
+
+                    "}",
+                    "else if i < 10 ) {"
+                ), "Syntax error in 'module1' [Line: 4]: '(' expected after 'if'"),
+            arguments(
+                of(
+                    "if ( i < 10 ) {",
+
+                    "}",
+                    "else if ( i < 10 {"
+                ), "Syntax error in 'module1' [Line: 4]: ')' expected before '{'"),
+            arguments(
+                of(
+                    "if ( i < 10 ) {",
+
+                    "}",
+                    "else if ) i < 10 ( {"
+                ), "Syntax error in 'module1' [Line: 4]: '(' expected after 'if'"),
+            arguments(
+                of(
+                    "if ( i < 10 ) {",
+
+                    "}",
                     "else if a ( i < 10 ) {"
                 ), "Syntax error in 'module1' [Line: 4]: '(' expected after 'if'"),
             arguments(
@@ -161,18 +203,11 @@ class IfElseOperationReader_Expected_error_IntegrationTest extends AbstractOpera
                     "}",
                     "else if ( i < 10 ) then should be {"
                 ), "Syntax error in 'module1' [Line: 4]: ')' expected before '{'")
-        ), "else if");
+        ), "elseif");
     }
 
     private Stream<Arguments> elseValidation() {
         return named(Stream.of(
-            arguments(
-                of(
-                    "if ( i < 10 ) {",
-
-                    "}",
-                    "else"
-                ), "Syntax error in 'module1' [Line: 4]: '{' expected at the end of the line"),
             arguments(
                 of(
                     "if ( i < 10 ) {",

@@ -54,11 +54,16 @@ public abstract class AbstractOperationReaderErrorIntegrationTest extends Abstra
             if (names.add(name)) {
                 index[0] = 0;
             }
-            final String subName = name != null ? format(" [%s {%s}]", args.get()[2], ++index[0]) : "";
+            final String subName = name != null ? format(" [%s-%s]", args.get()[2], ++index[0]) : "";
+
+            final List<String> validLines = new ArrayList<>();
+            validLines.add(""); // TODO Add function declaration
+            validLines.addAll(lines);
+
             return dynamicTest(
-                format("%s -> '%s'", subName, String.join(" ", lines), expectedMessage),
+                format("%s :: %s -> '%s'", subName, String.join(" ", lines), expectedMessage),
                 () -> {
-                    final JavammSyntaxError error = assertThrows(JavammSyntaxError.class, () -> compile(lines));
+                    final JavammSyntaxError error = assertThrows(JavammSyntaxError.class, () -> compile(validLines));
                     assertEquals(expectedMessage, error.getMessage());
                 });
         });
@@ -69,7 +74,7 @@ public abstract class AbstractOperationReaderErrorIntegrationTest extends Abstra
     protected final Stream<Arguments> named(final Stream<Arguments> stream, final String name) {
         return stream.map(arguments -> {
             final List<Object> args = new ArrayList<>(Arrays.asList(arguments.get()));
-            args.add(name);
+            args.add(name.toUpperCase());
             return arguments(args.toArray());
         });
     }
