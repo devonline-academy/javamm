@@ -22,7 +22,6 @@ import academy.devonline.javamm.code.fragment.SourceLine;
 import academy.devonline.javamm.code.fragment.operation.Block;
 import academy.devonline.javamm.code.fragment.operation.IfElseOperation;
 import academy.devonline.javamm.compiler.component.ExpressionResolver;
-import academy.devonline.javamm.compiler.component.impl.operation.AbstractOperationReader;
 
 import java.util.List;
 import java.util.ListIterator;
@@ -38,7 +37,7 @@ import static java.util.Objects.requireNonNull;
  * @link http://devonline.academy/javamm
  */
 public class IfElseOperationReader extends AbstractBlockOperationReader<IfElseOperation> {
-    
+
     private final ExpressionResolver expressionResolver;
 
     public IfElseOperationReader(final ExpressionResolver expressionResolver) {
