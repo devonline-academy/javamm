@@ -16,13 +16,15 @@
 
 package academy.devonline.javamm.compiler.component.impl;
 
+import academy.devonline.javamm.code.fragment.Expression;
 import academy.devonline.javamm.code.fragment.Operation;
 import academy.devonline.javamm.code.fragment.SourceLine;
 import academy.devonline.javamm.code.fragment.operation.Block;
 import academy.devonline.javamm.compiler.component.BlockOperationReader;
 import academy.devonline.javamm.compiler.component.BlockOperationReaderAware;
+import academy.devonline.javamm.compiler.component.ExpressionOperationBuilder;
+import academy.devonline.javamm.compiler.component.ExpressionResolver;
 import academy.devonline.javamm.compiler.component.OperationReader;
-import academy.devonline.javamm.compiler.component.impl.error.JavammLineSyntaxError;
 import academy.devonline.javamm.compiler.component.impl.error.JavammStructSyntaxError;
 
 import java.util.ArrayList;
@@ -34,6 +36,7 @@ import java.util.Set;
 
 import static academy.devonline.javamm.compiler.component.impl.util.SyntaxParseUtils.isClosingBlockOperation;
 import static academy.devonline.javamm.compiler.component.impl.util.SyntaxValidationUtils.validateThatLineContainsClosingCurlyBraceOnly;
+import static java.util.Objects.requireNonNull;
 
 /**
  * @author devonline
@@ -42,12 +45,20 @@ import static academy.devonline.javamm.compiler.component.impl.util.SyntaxValida
 public final class BlockOperationReaderImpl implements BlockOperationReader {
 
     private final Collection<OperationReader> operationReaders;
+    
+    private final ExpressionResolver expressionResolver;
+    
+    private final ExpressionOperationBuilder expressionOperationBuilder;
 
-    public BlockOperationReaderImpl(final Set<OperationReader> operationReaders) {
+    public BlockOperationReaderImpl(final Set<OperationReader> operationReaders,
+                                    final ExpressionResolver expressionResolver, 
+                                    final ExpressionOperationBuilder expressionOperationBuilder) {
         this.operationReaders = List.of(operationReaders
             .stream()
             .peek(this::setBlockOperationReaderIfRequired)
             .toArray(OperationReader[]::new));
+        this.expressionResolver = requireNonNull(expressionResolver);
+        this.expressionOperationBuilder = requireNonNull(expressionOperationBuilder);
     }
 
     private void setBlockOperationReaderIfRequired(final OperationReader operationReader) {
@@ -90,8 +101,8 @@ public final class BlockOperationReaderImpl implements BlockOperationReader {
         if (optionalOperationReader.isPresent()) {
             return optionalOperationReader.get().read(sourceLine, iterator);
         } else {
-            //FIXME Replace by expression resolver
-            throw new JavammLineSyntaxError("Unsupported operation: " + sourceLine.getCommand(), sourceLine);
+            final Expression expression = expressionResolver.resolve(sourceLine.getTokens(), sourceLine);
+            return expressionOperationBuilder.build(expression, sourceLine);
         }
     }
 
@@ -107,10 +118,12 @@ public final class BlockOperationReaderImpl implements BlockOperationReader {
     /*
     // Functional
     private Operation getOperation(final SourceLine sourceLine, final ListIterator<SourceLine> iterator) {
-        return findOperationReader(sourceLine).orElseThrow(() -> {
-            //FIXME Replace by expression resolver
-            throw new JavammLineSyntaxError("Unsupported operation: " + sourceLine.getTokens(), sourceLine);
-        }).read(sourceLine, iterator);
+        return findOperationReader(sourceLine)
+                .map(operationReader -> operationReader.read(sourceLine, iterator))
+                .orElseGet(() -> {
+                    final Expression expression = expressionResolver.resolve(sourceLine.getTokens(), sourceLine);
+                    return expressionOperationBuilder.build(expression, sourceLine);
+                });
     }
 
     private Optional<OperationReader> findOperationReader(final SourceLine sourceLine) {

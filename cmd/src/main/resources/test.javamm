@@ -1,5 +1,7 @@
-var a
-a = 5
-println (a)
-a = 50
+var a = 0
+a++
+++a
+
+a += 23 + 5
+
 println (a)

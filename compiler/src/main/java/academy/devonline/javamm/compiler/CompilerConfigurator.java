@@ -20,6 +20,7 @@ import academy.devonline.javamm.compiler.component.BlockOperationReader;
 import academy.devonline.javamm.compiler.component.ComplexExpressionBuilder;
 import academy.devonline.javamm.compiler.component.ComplexLexemeValidator;
 import academy.devonline.javamm.compiler.component.ExpressionBuilder;
+import academy.devonline.javamm.compiler.component.ExpressionOperationBuilder;
 import academy.devonline.javamm.compiler.component.ExpressionResolver;
 import academy.devonline.javamm.compiler.component.LexemeBuilder;
 import academy.devonline.javamm.compiler.component.OperationReader;
@@ -32,6 +33,7 @@ import academy.devonline.javamm.compiler.component.VariableBuilder;
 import academy.devonline.javamm.compiler.component.impl.BlockOperationReaderImpl;
 import academy.devonline.javamm.compiler.component.impl.CompilerImpl;
 import academy.devonline.javamm.compiler.component.impl.ComplexLexemeValidatorImpl;
+import academy.devonline.javamm.compiler.component.impl.ExpressionOperationBuilderImpl;
 import academy.devonline.javamm.compiler.component.impl.ExpressionResolverImpl;
 import academy.devonline.javamm.compiler.component.impl.LexemeBuilderImpl;
 import academy.devonline.javamm.compiler.component.impl.PrecedenceOperatorResolverImpl;
@@ -97,7 +99,12 @@ public class CompilerConfigurator {
         new SimpleBlockOperationReader()
     );
 
-    private BlockOperationReader blockOperationReader = new BlockOperationReaderImpl(operationReaders);
+    private ExpressionOperationBuilder expressionOperationBuilder = new ExpressionOperationBuilderImpl();
+
+    private BlockOperationReader blockOperationReader = new BlockOperationReaderImpl(
+        operationReaders,
+        expressionResolver,
+        expressionOperationBuilder);
 
     private Compiler compiler = new CompilerImpl(sourceLineReader, blockOperationReader);
 
