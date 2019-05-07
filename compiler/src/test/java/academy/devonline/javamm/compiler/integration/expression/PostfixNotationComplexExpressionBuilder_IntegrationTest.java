@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package academy.devonline.javamm.compiler.integration;
+package academy.devonline.javamm.compiler.integration.expression;
 
 import academy.devonline.javamm.code.fragment.Lexeme;
 import academy.devonline.javamm.code.fragment.SourceLine;

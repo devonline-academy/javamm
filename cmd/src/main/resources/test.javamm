@@ -1,25 +1,7 @@
-/*
+var a = 10
 if ( a > 2 ) {
-
+    //
 }
-
-var a = array [ 12 + 6 * d ] + d * 6
-
-var result = sum (1, 2 + 4) + (2 + a) + 8
-
-
-var arr = { 1, 2, 3, 4 }
-*/
-//------------------------------------------
-var t = "Hello  world!!!!!!        "
-var a = 1
-var b =    a++
-var c =             ++a
-var d = c+= 4 + a * b
-var e = 2*b+            (c+=4+a*b)
-
-println(a)
-println(        b)
-println(c)
-println(d)
-println(e)
+else {
+    //
+}
