@@ -55,7 +55,7 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
  */
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class WhileOperation_IntegrationTest extends AbstractIntegrationTest {
+class WhileOperationInterpreter_IntegrationTest extends AbstractIntegrationTest {
 
     private static final ExecutorService EXECUTOR_SERVICE = Executors.newSingleThreadExecutor();
 
