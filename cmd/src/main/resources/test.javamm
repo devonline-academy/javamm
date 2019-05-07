@@ -1,4 +1,5 @@
 var a = 2
-while( a > 1 ) {
+do {
     println('a > 1')
 }
+while( a > 1 )
