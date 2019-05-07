@@ -17,6 +17,7 @@
 package academy.devonline.javamm.compiler.integration.operation;
 
 import academy.devonline.javamm.code.fragment.Operation;
+import academy.devonline.javamm.code.fragment.operation.IfElseOperation;
 import academy.devonline.javamm.compiler.integration.AbstractOperationReaderSuccessIntegrationTest;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
@@ -36,8 +37,7 @@ class IfElseOperationReader_Expected_success_IntegrationTest extends AbstractOpe
 
     @Override
     protected Class<? extends Operation> getResultOperationClass() {
-        // FIXME
-        return Operation.class;
+        return IfElseOperation.class;
     }
 
     @Override

@@ -20,6 +20,7 @@ import academy.devonline.javamm.code.fragment.Operation;
 import academy.devonline.javamm.code.fragment.SourceLine;
 import academy.devonline.javamm.code.fragment.operation.Block;
 import academy.devonline.javamm.compiler.component.BlockOperationReader;
+import academy.devonline.javamm.compiler.component.BlockOperationReaderAware;
 import academy.devonline.javamm.compiler.component.OperationReader;
 import academy.devonline.javamm.compiler.component.impl.error.JavammLineSyntaxError;
 
@@ -30,6 +31,8 @@ import java.util.ListIterator;
 import java.util.Optional;
 import java.util.Set;
 
+import static academy.devonline.javamm.compiler.component.impl.util.SyntaxParseUtils.isClosingBlockOperation;
+
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
@@ -39,7 +42,16 @@ public final class BlockOperationReaderImpl implements BlockOperationReader {
     private final Collection<OperationReader> operationReaders;
 
     public BlockOperationReaderImpl(final Set<OperationReader> operationReaders) {
-        this.operationReaders = List.copyOf(operationReaders);
+        this.operationReaders = List.of(operationReaders
+            .stream()
+            .peek(this::setBlockOperationReaderIfRequired)
+            .toArray(OperationReader[]::new));
+    }
+
+    private void setBlockOperationReaderIfRequired(final OperationReader operationReader) {
+        if (operationReader instanceof BlockOperationReaderAware) {
+            ((BlockOperationReaderAware) operationReader).setBlockOperationReader(this);
+        }
     }
 
     @Override
@@ -52,32 +64,22 @@ public final class BlockOperationReaderImpl implements BlockOperationReader {
     private void readBlockOperations(final List<Operation> operations, final ListIterator<SourceLine> iterator) {
         while (iterator.hasNext()) {
             final SourceLine sourceLine = iterator.next();
-            // Case 1
-            /*
-            findOperationReader(sourceLine).ifPresentOrElse(
-                    or -> operations.add(or.readOperation(sourceLine, iterator)),
-                    () -> {
-                        //FIXME Replace by expression resolver
-                        throw new JavammLineSyntaxError("Unsupported operation: " + sourceLine.getTokens(), sourceLine);
-                    });
-            */
-
-            // Case 2
-            /*
-            operations.add(findOperationReader(sourceLine).orElseThrow(() -> {
-                //FIXME Replace by expression resolver
-                throw new JavammLineSyntaxError("Unsupported operation: " + sourceLine.getTokens(), sourceLine);
-            }).readOperation(sourceLine, iterator));
-            */
-
-            // Case 3
-            final Optional<OperationReader> optionalOperationReader = findOperationReader(sourceLine);
-            if (optionalOperationReader.isPresent()) {
-                operations.add(optionalOperationReader.get().read(sourceLine, iterator));
+            if (isClosingBlockOperation(sourceLine)) {
+                return;
             } else {
-                //FIXME Replace by expression resolver
-                throw new JavammLineSyntaxError("Unsupported operation: " + sourceLine.getCommand(), sourceLine);
+                operations.add(getOperation(sourceLine, iterator));
             }
+        }
+    }
+
+    // Imperative
+    private Operation getOperation(final SourceLine sourceLine, final ListIterator<SourceLine> iterator) {
+        final Optional<OperationReader> optionalOperationReader = findOperationReader(sourceLine);
+        if (optionalOperationReader.isPresent()) {
+            return optionalOperationReader.get().read(sourceLine, iterator);
+        } else {
+            //FIXME Replace by expression resolver
+            throw new JavammLineSyntaxError("Unsupported operation: " + sourceLine.getCommand(), sourceLine);
         }
     }
 
@@ -91,6 +93,14 @@ public final class BlockOperationReaderImpl implements BlockOperationReader {
     }
 
     /*
+    // Functional
+    private Operation getOperation(final SourceLine sourceLine, final ListIterator<SourceLine> iterator) {
+        return findOperationReader(sourceLine).orElseThrow(() -> {
+            //FIXME Replace by expression resolver
+            throw new JavammLineSyntaxError("Unsupported operation: " + sourceLine.getTokens(), sourceLine);
+        }).read(sourceLine, iterator);
+    }
+
     private Optional<OperationReader> findOperationReader(final SourceLine sourceLine) {
         return operationReaders.stream().filter(o -> o.canRead(sourceLine)).findFirst();
     }

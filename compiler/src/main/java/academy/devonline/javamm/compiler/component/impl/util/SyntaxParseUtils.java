@@ -35,6 +35,10 @@ public final class SyntaxParseUtils {
     private SyntaxParseUtils() {
     }
 
+    public static boolean isClosingBlockOperation(final SourceLine sourceLine) {
+        return "}".equals(sourceLine.getFirst());
+    }
+
     public static List<String> getTokensBetweenBrackets(final String firstOpeningBracket,
                                                         final String lastClosingBracket,
                                                         final SourceLine sourceLine,

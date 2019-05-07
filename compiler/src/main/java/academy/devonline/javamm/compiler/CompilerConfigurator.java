@@ -41,6 +41,7 @@ import academy.devonline.javamm.compiler.component.impl.TokenParserImpl;
 import academy.devonline.javamm.compiler.component.impl.UnaryOperatorUpdaterImpl;
 import academy.devonline.javamm.compiler.component.impl.VariableBuilderImpl;
 import academy.devonline.javamm.compiler.component.impl.expression.builder.PostfixNotationComplexExpressionBuilder;
+import academy.devonline.javamm.compiler.component.impl.operation.block.IfElseOperationReader;
 import academy.devonline.javamm.compiler.component.impl.operation.simple.FinalDeclarationOperationReader;
 import academy.devonline.javamm.compiler.component.impl.operation.simple.PrintlnOperationReader;
 import academy.devonline.javamm.compiler.component.impl.operation.simple.VariableDeclarationOperationReader;
@@ -83,7 +84,8 @@ public class CompilerConfigurator {
     private Set<OperationReader> operationReaders = Set.of(
         new PrintlnOperationReader(expressionResolver),
         new VariableDeclarationOperationReader(variableBuilder, expressionResolver),
-        new FinalDeclarationOperationReader(variableBuilder, expressionResolver)
+        new FinalDeclarationOperationReader(variableBuilder, expressionResolver),
+        new IfElseOperationReader(expressionResolver)
     );
 
     private BlockOperationReader blockOperationReader = new BlockOperationReaderImpl(operationReaders);
