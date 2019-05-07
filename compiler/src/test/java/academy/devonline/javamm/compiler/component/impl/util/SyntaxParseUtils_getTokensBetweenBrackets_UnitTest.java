@@ -144,7 +144,7 @@ class SyntaxParseUtils_getTokensBetweenBrackets_UnitTest {
         final JavammLineSyntaxError error = assertThrows(JavammLineSyntaxError.class, () ->
             getTokensBetweenBrackets(openingBracket, closingBracket, sourceLine, false));
         assertEquals(format(
-            "Syntax error in 'module1' [Line: 5]: An expression is expected between %s and %s",
+            "Syntax error in 'module1' [Line: 5]: An expression is expected between '%s' and '%s'",
             openingBracket, closingBracket),
             error.getMessage());
     }
@@ -163,7 +163,7 @@ class SyntaxParseUtils_getTokensBetweenBrackets_UnitTest {
         final JavammLineSyntaxError error = assertThrows(JavammLineSyntaxError.class, () ->
             getTokensBetweenBrackets(openingBracket, closingBracket, sourceLine, false));
         assertEquals(format(
-            "Syntax error in 'module1' [Line: 5]: Expected %s before %s",
+            "Syntax error in 'module1' [Line: 5]: Expected '%s' before '%s'",
             openingBracket, closingBracket),
             error.getMessage());
     }
