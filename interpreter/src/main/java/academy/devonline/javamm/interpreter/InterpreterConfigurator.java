@@ -62,6 +62,7 @@ import academy.devonline.javamm.interpreter.component.impl.operation.block.Simpl
 import academy.devonline.javamm.interpreter.component.impl.operation.block.loop.DoWhileOperationInterpreter;
 import academy.devonline.javamm.interpreter.component.impl.operation.block.loop.WhileOperationInterpreter;
 import academy.devonline.javamm.interpreter.component.impl.operation.simple.PrintlnOperationInterpreter;
+import academy.devonline.javamm.interpreter.component.impl.operation.simple.VariableAssignmentOperationInterpreter;
 import academy.devonline.javamm.interpreter.component.impl.operation.simple.VariableDeclarationOperationInterpreter;
 
 import java.util.Set;
@@ -143,6 +144,8 @@ public class InterpreterConfigurator {
     private Set<OperationInterpreter<?>> operationInterpreters = Set.of(
         new PrintlnOperationInterpreter(expressionContext),
         new VariableDeclarationOperationInterpreter(expressionContext),
+        new VariableAssignmentOperationInterpreter(expressionContext),
+
         new IfElseOperationInterpreter(expressionContext, calculatorFacade),
         new WhileOperationInterpreter(expressionContext, calculatorFacade),
         new DoWhileOperationInterpreter(expressionContext, calculatorFacade),
