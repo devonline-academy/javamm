@@ -34,7 +34,7 @@ abstract class AbstractLoopBlockOperationInterpreter<T extends AbstractLoopOpera
     private final CalculatorFacade calculatorFacade;
 
     AbstractLoopBlockOperationInterpreter(final ExpressionContext expressionContext,
-                                                    final CalculatorFacade calculatorFacade) {
+                                          final CalculatorFacade calculatorFacade) {
         super(expressionContext);
         this.calculatorFacade = requireNonNull(calculatorFacade);
     }

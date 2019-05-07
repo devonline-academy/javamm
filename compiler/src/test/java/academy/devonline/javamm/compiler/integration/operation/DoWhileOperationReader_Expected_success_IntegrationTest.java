@@ -17,6 +17,7 @@
 package academy.devonline.javamm.compiler.integration.operation;
 
 import academy.devonline.javamm.code.fragment.Operation;
+import academy.devonline.javamm.code.fragment.operation.DoWhileOperation;
 import academy.devonline.javamm.compiler.integration.AbstractOperationReaderSuccessIntegrationTest;
 import org.junit.jupiter.params.provider.Arguments;
 
@@ -33,8 +34,7 @@ class DoWhileOperationReader_Expected_success_IntegrationTest extends AbstractOp
 
     @Override
     protected Class<? extends Operation> getResultOperationClass() {
-        // FIXME Replace Operation.class by DoWhileOperation.class
-        return Operation.class;
+        return DoWhileOperation.class;
     }
 
     @Override
