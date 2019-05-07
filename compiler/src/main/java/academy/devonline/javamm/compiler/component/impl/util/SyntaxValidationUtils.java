@@ -46,6 +46,12 @@ public final class SyntaxValidationUtils {
         }
     }
 
+    public static void validateThatLineContainsOpeningCurlyBraceOnly(final SourceLine sourceLine) {
+        if (!(sourceLine.getTokenCount() == 1 && "{".equals(sourceLine.getFirst()))) {
+            throw new JavammLineSyntaxError("'{' expected only", sourceLine);
+        }
+    }
+
     public static void validateThatFirstCharacterIsLetter(final DeveloperObject developerObject,
                                                           final String name,
                                                           final SourceLine sourceLine) {
