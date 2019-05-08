@@ -41,7 +41,7 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
 class SimpleBlockOperationInterpreter_IntegrationTest extends AbstractIntegrationTest {
 
     @ParameterizedTest
-    @ArgumentsSource(BlockScopeProvider.class)
+    @ArgumentsSource(SimpleBlockProvider.class)
     void Should_throw_runtime_error(final List<String> lines) {
         assertDoesNotThrow(() -> {
             runBlock(lines);
@@ -53,7 +53,7 @@ class SimpleBlockOperationInterpreter_IntegrationTest extends AbstractIntegratio
      * @author devonline
      * @link http://devonline.academy/javamm
      */
-    static final class BlockScopeProvider implements ArgumentsProvider {
+    static final class SimpleBlockProvider implements ArgumentsProvider {
 
         @Override
         public Stream<Arguments> provideArguments(final ExtensionContext context) {
