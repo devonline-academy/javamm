@@ -60,6 +60,7 @@ import academy.devonline.javamm.interpreter.component.impl.expression.updater.Va
 import academy.devonline.javamm.interpreter.component.impl.operation.block.IfElseOperationInterpreter;
 import academy.devonline.javamm.interpreter.component.impl.operation.block.SimpleBlockOperationInterpreter;
 import academy.devonline.javamm.interpreter.component.impl.operation.block.loop.DoWhileOperationInterpreter;
+import academy.devonline.javamm.interpreter.component.impl.operation.block.loop.ForOperationInterpreter;
 import academy.devonline.javamm.interpreter.component.impl.operation.block.loop.WhileOperationInterpreter;
 import academy.devonline.javamm.interpreter.component.impl.operation.simple.ExpressionOperationInterpreter;
 import academy.devonline.javamm.interpreter.component.impl.operation.simple.PrintlnOperationInterpreter;
@@ -151,7 +152,8 @@ public class InterpreterConfigurator {
         new IfElseOperationInterpreter(expressionContext, calculatorFacade),
         new WhileOperationInterpreter(expressionContext, calculatorFacade),
         new DoWhileOperationInterpreter(expressionContext, calculatorFacade),
-        new SimpleBlockOperationInterpreter(expressionContext)
+        new SimpleBlockOperationInterpreter(expressionContext),
+        new ForOperationInterpreter(expressionContext, calculatorFacade)
     );
 
     private BlockOperationInterpreter blockOperationInterpreter =
