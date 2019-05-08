@@ -17,7 +17,6 @@
 package academy.devonline.javamm.compiler.integration.operation;
 
 import academy.devonline.javamm.code.fragment.Operation;
-import academy.devonline.javamm.code.fragment.operation.Block;
 import academy.devonline.javamm.compiler.integration.AbstractOperationReaderSuccessIntegrationTest;
 import org.junit.jupiter.params.provider.Arguments;
 
@@ -43,22 +42,6 @@ class ContinueOperationReader_Expected_success_IntegrationTest extends AbstractO
         return Stream.of(
             arguments(of(
                 "continue"
-            )),
-            arguments(of(
-                "while ( true ) {",
-                "   continue",
-                "}"
-            )),
-            arguments(of(
-                "do {",
-                "   continue",
-                "}",
-                "while ( true )"
-            )),
-            arguments(of(
-                "for ( ; ; ) {",
-                "   continue",
-                "}"
             ))
         );
     }
