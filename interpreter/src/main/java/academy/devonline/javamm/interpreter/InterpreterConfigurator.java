@@ -28,6 +28,7 @@ import academy.devonline.javamm.interpreter.component.impl.CalculatorFacadeImpl;
 import academy.devonline.javamm.interpreter.component.impl.ExpressionContextImpl;
 import academy.devonline.javamm.interpreter.component.impl.InterpreterImpl;
 import academy.devonline.javamm.interpreter.component.impl.RuntimeBuilderImpl;
+import academy.devonline.javamm.interpreter.component.impl.calculator.HashCodeUnaryExpressionCalculator;
 import academy.devonline.javamm.interpreter.component.impl.calculator.arithmetic.AdditionBinaryExpressionCalculator;
 import academy.devonline.javamm.interpreter.component.impl.calculator.arithmetic.DecrementUnaryExpressionCalculator;
 import academy.devonline.javamm.interpreter.component.impl.calculator.arithmetic.DivisionBinaryExpressionCalculator;
@@ -132,7 +133,8 @@ public class InterpreterConfigurator {
         // ------ Bitwise -------------------------------------------------
         new BitwiseInverseUnaryExpressionCalculator(),
         // ------ Logic -------------------------------------------------
-        new LogicNotUnaryExpressionCalculator()
+        new LogicNotUnaryExpressionCalculator(),
+        new HashCodeUnaryExpressionCalculator()
     ));
 
     private Set<ExpressionEvaluator<?>> expressionEvaluators = Set.of(

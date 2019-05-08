@@ -1,15 +1,2 @@
-var a = 11
-switch (a) {
-    case 1 : {
-        println (1)
-        break
-    }
-    case 2 : {
-        println (2)
-        break
-    }
-    default: {
-        println ('default')
-        break
-    }
-}
+var a = #"Hello world"
+println(a)
