@@ -61,7 +61,6 @@ import static academy.devonline.javamm.code.fragment.operator.UnaryOperator.ARIT
 import static academy.devonline.javamm.code.fragment.operator.UnaryOperator.ARITHMETIC_UNARY_PLUS;
 import static academy.devonline.javamm.code.fragment.operator.UnaryOperator.BITWISE_INVERSE;
 import static academy.devonline.javamm.code.fragment.operator.UnaryOperator.DECREMENT;
-import static academy.devonline.javamm.code.fragment.operator.UnaryOperator.HASH_CODE;
 import static academy.devonline.javamm.code.fragment.operator.UnaryOperator.INCREMENT;
 import static academy.devonline.javamm.code.fragment.operator.UnaryOperator.LOGIC_NOT;
 import static java.util.Map.entry;
@@ -124,9 +123,7 @@ public class PrecedenceOperatorResolverImpl implements PrecedenceOperatorResolve
         entry(ASSIGNMENT_BITWISE_SHIFT_RIGHT_ZERO_FILL, MAX_PRECEDENCE - 12),
         entry(ASSIGNMENT_BITWISE_AND, MAX_PRECEDENCE - 12),
         entry(ASSIGNMENT_BITWISE_XOR, MAX_PRECEDENCE - 12),
-        entry(ASSIGNMENT_BITWISE_OR, MAX_PRECEDENCE - 12),
-
-        entry(HASH_CODE, 0)
+        entry(ASSIGNMENT_BITWISE_OR, MAX_PRECEDENCE - 12)
     );
 
     static {
