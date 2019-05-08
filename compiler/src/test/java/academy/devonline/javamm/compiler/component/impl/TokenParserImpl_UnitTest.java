@@ -16,6 +16,8 @@
 
 package academy.devonline.javamm.compiler.component.impl;
 
+import academy.devonline.javamm.code.fragment.operator.BinaryOperator;
+import academy.devonline.javamm.code.fragment.operator.UnaryOperator;
 import academy.devonline.javamm.compiler.component.TokenParser;
 import academy.devonline.javamm.compiler.model.TokenParserResult;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -29,6 +31,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.EnumSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import java.util.List;
@@ -178,17 +181,23 @@ class TokenParserImpl_UnitTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {
-        "+", "++", "+=", "-", "--", "-=", "*", "*=", "/", "/=", "%", "%=",
-        ">", ">>", ">=", ">>>", ">>=", ">>>=", "<", "<<", "<=", "<<=",
-        "!", "!=", "=", "==", "&", "&&", "&=", "|", "||", "|=", "^", "^=", "~"
-    })
+    @EnumSource(value = BinaryOperator.class, names = "PREDICATE_TYPEOF", mode = EnumSource.Mode.EXCLUDE)
     @Order(9)
-    void Should_support_all_operator_tokens(final String token) {
-        final String sourceLine = format("var a=b%sc", token);
+    void Should_support_all_binary_operator_tokens(final BinaryOperator operator) {
+        final String sourceLine = format("var a=b%sc", operator.getCode());
 
         final TokenParserResult result = tokenParser.parseLine(sourceLine, false);
-        assertEquals(List.of("var", "a", "=", "b", token, "c"), result.getTokens());
+        assertEquals(List.of("var", "a", "=", "b", operator.getCode(), "c"), result.getTokens());
+    }
+
+    @ParameterizedTest
+    @EnumSource(UnaryOperator.class)
+    @Order(10)
+    void Should_support_all_unary_operator_tokens(final UnaryOperator operator) {
+        final String sourceLine = format("var a=%sc", operator.getCode());
+
+        final TokenParserResult result = tokenParser.parseLine(sourceLine, false);
+        assertEquals(List.of("var", "a", "=", operator.getCode(), "c"), result.getTokens());
     }
 
     /**

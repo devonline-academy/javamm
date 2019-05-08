@@ -16,9 +16,15 @@
 
 package academy.devonline.javamm.code.syntax;
 
+import academy.devonline.javamm.code.fragment.operator.BinaryOperator;
+import academy.devonline.javamm.code.fragment.operator.UnaryOperator;
+
+import java.util.Arrays;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static academy.devonline.javamm.code.fragment.operator.BinaryOperator.PREDICATE_TYPEOF;
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toUnmodifiableSet;
 
@@ -38,12 +44,18 @@ public final class Delimiters {
 
     public static final Set<Character> STRING_DELIMITERS = Set.of('\'', '"');
 
-    public static final Set<String> OPERATOR_TOKEN_DELIMITERS =
-        Set.of(
+    /*Set.of(
             "+", "++", "+=", "-", "--", "-=", "*", "*=", "/", "/=", "%", "%=",
             ">", ">>", ">=", ">>>", ">>=", ">>>=", "<", "<<", "<=", "<<=",
             "!", "!=", "=", "==", "&", "&&", "&=", "|", "||", "|=", "^", "^=", "~"
-        );
+    );*/
+    public static final Set<String> OPERATOR_TOKEN_DELIMITERS =
+        Stream.of(
+            Arrays.stream(BinaryOperator.values()).filter(op -> op != PREDICATE_TYPEOF)
+                .map(BinaryOperator::getCode),
+            Arrays.stream(UnaryOperator.values())
+                .map(UnaryOperator::getCode)
+        ).flatMap(identity()).collect(Collectors.toUnmodifiableSet());
 
     /**
      * https://www.cis.upenn.edu/~matuszek/General/JavaSyntax/parentheses.html
