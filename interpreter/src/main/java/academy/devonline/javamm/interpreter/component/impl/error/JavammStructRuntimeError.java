@@ -14,15 +14,23 @@
  * limitations under the License.
  */
 
-package academy.devonline.javamm.code.fragment;
+package academy.devonline.javamm.interpreter.component.impl.error;
 
-import academy.devonline.javamm.code.fragment.function.DeveloperFunction;
+import academy.devonline.javamm.interpreter.JavammRuntimeError;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-public interface ByteCode extends FunctionStorage<DeveloperFunction> {
+public class JavammStructRuntimeError extends JavammRuntimeError {
 
-    FunctionName getMainFunctionName();
+    public JavammStructRuntimeError(final String message) {
+        super(buildErrorMessage(message));
+    }
+
+    private static String buildErrorMessage(final String message) {
+        return String.format("Runtime error: %s", requireNonNull(message));
+    }
 }

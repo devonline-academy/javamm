@@ -1,11 +1,5 @@
+println("Hello world")
+/*--------------------------
 function main(){
-
-}
-
-function sum(a, b){
-
-}
-
-function sum(a, b, c){
-
-}
+    println("Hello world")
+}*/

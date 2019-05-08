@@ -22,6 +22,7 @@ import academy.devonline.javamm.compiler.component.ComplexLexemeValidator;
 import academy.devonline.javamm.compiler.component.ExpressionBuilder;
 import academy.devonline.javamm.compiler.component.ExpressionOperationBuilder;
 import academy.devonline.javamm.compiler.component.ExpressionResolver;
+import academy.devonline.javamm.compiler.component.FunctionNameBuilder;
 import academy.devonline.javamm.compiler.component.LexemeBuilder;
 import academy.devonline.javamm.compiler.component.OperationReader;
 import academy.devonline.javamm.compiler.component.PrecedenceOperatorResolver;
@@ -35,6 +36,7 @@ import academy.devonline.javamm.compiler.component.impl.CompilerImpl;
 import academy.devonline.javamm.compiler.component.impl.ComplexLexemeValidatorImpl;
 import academy.devonline.javamm.compiler.component.impl.ExpressionOperationBuilderImpl;
 import academy.devonline.javamm.compiler.component.impl.ExpressionResolverImpl;
+import academy.devonline.javamm.compiler.component.impl.FunctionNameBuilderImpl;
 import academy.devonline.javamm.compiler.component.impl.LexemeBuilderImpl;
 import academy.devonline.javamm.compiler.component.impl.PrecedenceOperatorResolverImpl;
 import academy.devonline.javamm.compiler.component.impl.SingleTokenExpressionBuilderImpl;
@@ -127,7 +129,9 @@ public class CompilerConfigurator {
         expressionResolver,
         expressionOperationBuilder);
 
-    private Compiler compiler = new CompilerImpl(sourceLineReader, blockOperationReader);
+    private FunctionNameBuilder functionNameBuilder = new FunctionNameBuilderImpl();
+
+    private Compiler compiler = new CompilerImpl(functionNameBuilder, sourceLineReader, blockOperationReader);
 
     public Compiler getCompiler() {
         return compiler;

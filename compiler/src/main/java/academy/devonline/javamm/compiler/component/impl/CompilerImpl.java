@@ -16,16 +16,21 @@
 
 package academy.devonline.javamm.compiler.component.impl;
 
+import academy.devonline.javamm.code.component.AbstractFunctionStorage;
 import academy.devonline.javamm.code.fragment.ByteCode;
+import academy.devonline.javamm.code.fragment.FunctionName;
 import academy.devonline.javamm.code.fragment.SourceCode;
 import academy.devonline.javamm.code.fragment.SourceLine;
+import academy.devonline.javamm.code.fragment.function.DeveloperFunction;
 import academy.devonline.javamm.code.fragment.operation.Block;
 import academy.devonline.javamm.compiler.Compiler;
 import academy.devonline.javamm.compiler.JavammSyntaxError;
 import academy.devonline.javamm.compiler.component.BlockOperationReader;
+import academy.devonline.javamm.compiler.component.FunctionNameBuilder;
 import academy.devonline.javamm.compiler.component.SourceLineReader;
 
 import java.util.List;
+import java.util.Map;
 
 import static java.util.Objects.requireNonNull;
 
@@ -35,23 +40,52 @@ import static java.util.Objects.requireNonNull;
  */
 public class CompilerImpl implements Compiler {
 
+    private final FunctionNameBuilder functionNameBuilder;
+
     private final SourceLineReader sourceLineReader;
 
     private final BlockOperationReader blockOperationReader;
 
-    public CompilerImpl(final SourceLineReader sourceLineReader,
+    public CompilerImpl(final FunctionNameBuilder functionNameBuilder, 
+                        final SourceLineReader sourceLineReader,
                         final BlockOperationReader blockOperationReader) {
+        this.functionNameBuilder = requireNonNull(functionNameBuilder);
         this.sourceLineReader = requireNonNull(sourceLineReader);
         this.blockOperationReader = requireNonNull(blockOperationReader);
     }
 
     @Override
     public ByteCode compile(final SourceCode... sourceCodes) throws JavammSyntaxError {
-        final List<SourceLine> sourceLines = sourceLineReader.read(sourceCodes[0]);
-        final Block block = blockOperationReader.read(
-            SourceLine.EMPTY_SOURCE_LINE,
-            sourceLines.listIterator(),
-            false);
-        return () -> block;
+        final SourceCode sourceCode = sourceCodes[0];
+        final List<SourceLine> sourceLines = sourceLineReader.read(sourceCode);
+        final SourceLine sourceLine = new SourceLine(sourceCode.getModuleName(), 0, List.of());
+        final Block block = blockOperationReader.read(sourceLine, sourceLines.listIterator(), false);
+
+        final FunctionName mainFunctionName = functionNameBuilder.build("main", List.of(), sourceLine);
+        final DeveloperFunction mainFunction = new DeveloperFunction.Builder()
+            .setName(mainFunctionName)
+            .setBody(block)
+            .build();
+        return new ByteCodeImpl(Map.of(mainFunctionName, mainFunction), mainFunctionName);
+    }
+
+    /**
+     * @author devonline
+     * @link http://devonline.academy/javamm
+     */
+    private static final class ByteCodeImpl extends AbstractFunctionStorage<DeveloperFunction> implements ByteCode {
+
+        private final FunctionName mainFunctionName;
+
+        private ByteCodeImpl(final Map<FunctionName, DeveloperFunction> functionMap,
+                             final FunctionName mainFunctionName) {
+            super(functionMap);
+            this.mainFunctionName = requireNonNull(mainFunctionName);
+        }
+
+        @Override
+        public FunctionName getMainFunctionName() {
+            return mainFunctionName;
+        }
     }
 }

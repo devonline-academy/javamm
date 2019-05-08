@@ -48,7 +48,7 @@ public abstract class AbstractOperationReaderSuccessIntegrationTest extends Abst
                 String.join(" ", lines),
                 () -> {
                     final ByteCode byteCode = assertDoesNotThrow(() -> compile(lines));
-                    final Block block = byteCode.getCode();
+                    final Block block = byteCode.getFunction(byteCode.getMainFunctionName()).orElseThrow().getBody();
                     assertEquals(
                         List.of(getResultOperationClass()),
                         block.getOperations().stream().map(Operation::getClass).collect(toList()),
