@@ -79,4 +79,9 @@ public final class SyntaxParseUtils {
                 "Expected '%s' before '%s'", firstOpeningBracket, lastClosingBracket), sourceLine);
         }
     }
+
+    public static List<List<String>> groupTokensByComma(final List<String> tokens,
+                                                        final SourceLine sourceLine) {
+        return List.of();
+    }
 }
