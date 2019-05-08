@@ -46,7 +46,7 @@ public class CompilerImpl implements Compiler {
 
     private final BlockOperationReader blockOperationReader;
 
-    public CompilerImpl(final FunctionNameBuilder functionNameBuilder, 
+    public CompilerImpl(final FunctionNameBuilder functionNameBuilder,
                         final SourceLineReader sourceLineReader,
                         final BlockOperationReader blockOperationReader) {
         this.functionNameBuilder = requireNonNull(functionNameBuilder);

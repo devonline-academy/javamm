@@ -80,6 +80,8 @@ class SyntaxParseUtils_groupTokensByComma_UnitTest {
         // Missing or redundant comma error is not expected here
         "a , sum ( 4 , a ) , fun ( 3 , fun ( 3 , , 5 ) );           a|sum ( 4 , a )|fun ( 3 , fun ( 3 , , 5 ) )",
         "sum ( 4 , , a ) , { 1 , , 2 } , a [ sum ( 3 , , 5 ) ] );   sum ( 4 , , a )|{ 1 , , 2 }|a [ sum ( 3 , , 5 ) ] )",
+
+        "a [ b , ( c , { d , e } , ) , ] , 2;                       a [ b , ( c , { d , e } , ) , ]|2"
     })
     void Should_support_all_valid_test_cases(final String source,
                                              final String expected) {

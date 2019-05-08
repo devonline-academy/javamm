@@ -19,6 +19,7 @@ package academy.devonline.javamm.compiler.component.impl.util;
 import academy.devonline.javamm.code.fragment.SourceLine;
 import academy.devonline.javamm.compiler.component.impl.error.JavammLineSyntaxError;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -82,6 +83,46 @@ public final class SyntaxParseUtils {
 
     public static List<List<String>> groupTokensByComma(final List<String> tokens,
                                                         final SourceLine sourceLine) {
-        return List.of();
+        if (tokens.isEmpty()) {
+            return List.of();
+        } else {
+            final List<List<String>> result = new ArrayList<>();
+            List<String> tokenBuilder = new ArrayList<>();
+            int parenthesesCount = 0;
+            int bracketsCount = 0;
+            int curlyBracesCount = 0;
+            for (final String token : tokens) {
+                if (",".equals(token) && parenthesesCount == 0 && bracketsCount == 0 && curlyBracesCount == 0) {
+                    addGroup(result, tokenBuilder, sourceLine);
+                    tokenBuilder = new ArrayList<>();
+                } else {
+                    tokenBuilder.add(token);
+                    if ("(".equals(token)) {
+                        parenthesesCount++;
+                    } else if (")".equals(token)) {
+                        parenthesesCount--;
+                    } else if ("{".equals(token)) {
+                        curlyBracesCount++;
+                    } else if ("}".equals(token)) {
+                        curlyBracesCount--;
+                    } else if ("[".equals(token)) {
+                        bracketsCount++;
+                    } else if ("]".equals(token)) {
+                        bracketsCount--;
+                    }
+                }
+            }
+            addGroup(result, tokenBuilder, sourceLine);
+            return Collections.unmodifiableList(result);
+        }
+    }
+
+    private static void addGroup(final List<List<String>> result,
+                                 final List<String> tokenBuilder,
+                                 final SourceLine sourceLine) {
+        if (tokenBuilder.isEmpty()) {
+            throw new JavammLineSyntaxError("Missing a value or redundant ','", sourceLine);
+        }
+        result.add(Collections.unmodifiableList(tokenBuilder));
     }
 }
