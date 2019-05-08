@@ -22,11 +22,14 @@ import academy.devonline.javamm.interpreter.JavammRuntimeError;
 import academy.devonline.javamm.interpreter.TerminateInterpreterException;
 import academy.devonline.javamm.interpreter.component.BlockOperationInterpreter;
 import academy.devonline.javamm.interpreter.component.RuntimeBuilder;
+import academy.devonline.javamm.interpreter.component.impl.error.JavammLineRuntimeError;
+import academy.devonline.javamm.interpreter.component.impl.operation.exception.InterruptOperationException;
 import academy.devonline.javamm.interpreter.model.CurrentRuntime;
 import academy.devonline.javamm.interpreter.model.LocalContext;
 
 import static academy.devonline.javamm.interpreter.model.CurrentRuntimeProvider.releaseCurrentRuntime;
 import static academy.devonline.javamm.interpreter.model.CurrentRuntimeProvider.setCurrentRuntime;
+import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -54,6 +57,8 @@ public class InterpreterImpl implements Interpreter {
 
         try {
             blockOperationInterpreter.interpret(byteCode.getCode());
+        } catch (final InterruptOperationException exception) {
+            throw new JavammLineRuntimeError(format("Operation '%s' not expected here", exception.getOperation()));
         } finally {
             releaseCurrentRuntime();
         }

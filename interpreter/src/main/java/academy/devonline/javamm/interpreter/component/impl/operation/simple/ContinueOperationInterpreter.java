@@ -14,35 +14,30 @@
  * limitations under the License.
  */
 
-package academy.devonline.javamm.compiler.integration.operation;
+package academy.devonline.javamm.interpreter.component.impl.operation.simple;
 
-import academy.devonline.javamm.code.fragment.Operation;
+import academy.devonline.javamm.code.component.ExpressionContext;
 import academy.devonline.javamm.code.fragment.operation.ContinueOperation;
-import academy.devonline.javamm.compiler.integration.AbstractOperationReaderSuccessIntegrationTest;
-import org.junit.jupiter.params.provider.Arguments;
-
-import java.util.stream.Stream;
-
-import static java.util.List.of;
-import static org.junit.jupiter.params.provider.Arguments.arguments;
+import academy.devonline.javamm.interpreter.component.impl.operation.AbstractOperationInterpreter;
+import academy.devonline.javamm.interpreter.component.impl.operation.exception.ContinueOperationException;
 
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-class ContinueOperationReader_Expected_success_IntegrationTest extends AbstractOperationReaderSuccessIntegrationTest {
+public class ContinueOperationInterpreter extends AbstractOperationInterpreter<ContinueOperation> {
+
+    public ContinueOperationInterpreter(final ExpressionContext expressionContext) {
+        super(expressionContext);
+    }
 
     @Override
-    protected Class<? extends Operation> getResultOperationClass() {
+    public Class<ContinueOperation> getOperationClass() {
         return ContinueOperation.class;
     }
 
     @Override
-    protected Stream<Arguments> validSourceLineProvider() {
-        return Stream.of(
-            arguments(of(
-                "continue"
-            ))
-        );
+    protected void interpretOperation(final ContinueOperation operation) {
+        throw new ContinueOperationException();
     }
 }

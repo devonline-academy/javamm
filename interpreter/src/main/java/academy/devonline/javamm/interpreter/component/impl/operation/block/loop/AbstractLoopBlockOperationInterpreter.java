@@ -20,6 +20,7 @@ import academy.devonline.javamm.code.component.ExpressionContext;
 import academy.devonline.javamm.code.fragment.operation.AbstractLoopOperation;
 import academy.devonline.javamm.interpreter.component.CalculatorFacade;
 import academy.devonline.javamm.interpreter.component.impl.operation.block.AbstractBlockOperationInterpreter;
+import academy.devonline.javamm.interpreter.component.impl.operation.exception.ContinueOperationException;
 
 import static academy.devonline.javamm.interpreter.model.CurrentRuntimeProvider.getCurrentRuntime;
 import static java.util.Objects.requireNonNull;
@@ -45,7 +46,11 @@ abstract class AbstractLoopBlockOperationInterpreter<T extends AbstractLoopOpera
 
     final void interpretLoopBody(final AbstractLoopOperation loopOperation) {
         checkForTerminate();
-        interpretBlock(loopOperation.getBody());
+        try {
+            interpretBlock(loopOperation.getBody());
+        } catch (final ContinueOperationException e) {
+            //do nothing. Current iteration skipped
+        }
         getCurrentRuntime().setCurrentOperation(loopOperation);
     }
 }
