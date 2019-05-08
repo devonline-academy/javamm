@@ -14,28 +14,20 @@
  * limitations under the License.
  */
 
-package academy.devonline.javamm.code.fragment.operation;
+package academy.devonline.javamm.compiler.component.impl.operation;
 
-import academy.devonline.javamm.code.fragment.Expression;
 import academy.devonline.javamm.code.fragment.SourceLine;
+import academy.devonline.javamm.code.fragment.operation.ForInitOperation;
+import academy.devonline.javamm.compiler.component.OperationReader;
 
-import static java.util.Objects.requireNonNull;
+import java.util.ListIterator;
 
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-public final class PrintlnOperation extends AbstractOperation
-    implements ForInitOperation, ForUpdateOperation {
+public interface ForInitOperationReader extends OperationReader {
 
-    private final Expression expression;
-
-    public PrintlnOperation(final SourceLine sourceLine, final Expression expression) {
-        super(sourceLine);
-        this.expression = requireNonNull(expression);
-    }
-
-    public Expression getExpression() {
-        return expression;
-    }
+    @Override
+    ForInitOperation read(SourceLine sourceLine, ListIterator<SourceLine> iterator);
 }

@@ -26,7 +26,8 @@ import static java.util.Objects.requireNonNull;
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-public final class VariableAssignmentOperation extends AbstractOperation {
+public final class VariableAssignmentOperation extends AbstractOperation
+    implements ForInitOperation, ForUpdateOperation {
 
     private final VariableExpression variableExpression;
 

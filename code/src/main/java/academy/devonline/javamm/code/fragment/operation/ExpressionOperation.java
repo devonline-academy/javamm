@@ -23,7 +23,8 @@ import academy.devonline.javamm.code.fragment.SourceLine;
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-public final class ExpressionOperation extends AbstractOperation {
+public final class ExpressionOperation extends AbstractOperation
+    implements ForInitOperation, ForUpdateOperation {
 
     private final Expression expression;
 

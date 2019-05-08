@@ -25,6 +25,7 @@ import academy.devonline.javamm.compiler.component.ExpressionResolver;
 import academy.devonline.javamm.compiler.component.VariableBuilder;
 import academy.devonline.javamm.compiler.component.impl.error.JavammLineSyntaxError;
 import academy.devonline.javamm.compiler.component.impl.operation.AbstractOperationReader;
+import academy.devonline.javamm.compiler.component.impl.operation.ForInitOperationReader;
 
 import java.util.ListIterator;
 import java.util.Optional;
@@ -36,7 +37,8 @@ import static java.util.Objects.requireNonNull;
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-public class VariableDeclarationOperationReader extends AbstractOperationReader<VariableDeclarationOperation> {
+public class VariableDeclarationOperationReader extends AbstractOperationReader<VariableDeclarationOperation>
+    implements ForInitOperationReader {
 
     private final VariableBuilder variableBuilder;
 

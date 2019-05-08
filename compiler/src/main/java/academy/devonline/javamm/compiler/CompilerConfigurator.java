@@ -44,6 +44,7 @@ import academy.devonline.javamm.compiler.component.impl.UnaryOperatorUpdaterImpl
 import academy.devonline.javamm.compiler.component.impl.VariableBuilderImpl;
 import academy.devonline.javamm.compiler.component.impl.expression.builder.PostfixNotationComplexExpressionBuilder;
 import academy.devonline.javamm.compiler.component.impl.operation.block.DoWhileOperationReader;
+import academy.devonline.javamm.compiler.component.impl.operation.block.ForOperationReader;
 import academy.devonline.javamm.compiler.component.impl.operation.block.IfElseOperationReader;
 import academy.devonline.javamm.compiler.component.impl.operation.block.SimpleBlockOperationReader;
 import academy.devonline.javamm.compiler.component.impl.operation.block.WhileOperationReader;
@@ -87,6 +88,8 @@ public class CompilerConfigurator {
     private ExpressionResolver expressionResolver = new ExpressionResolverImpl(
         expressionBuilders, lexemeBuilder, unaryOperatorUpdater, complexLexemeValidator, complexExpressionBuilder);
 
+    private ExpressionOperationBuilder expressionOperationBuilder = new ExpressionOperationBuilderImpl();
+
     private Set<OperationReader> operationReaders = Set.of(
         new PrintlnOperationReader(expressionResolver),
         new VariableDeclarationOperationReader(variableBuilder, expressionResolver),
@@ -96,10 +99,22 @@ public class CompilerConfigurator {
         new IfElseOperationReader(expressionResolver),
         new WhileOperationReader(expressionResolver),
         new DoWhileOperationReader(expressionResolver),
-        new SimpleBlockOperationReader()
+        new SimpleBlockOperationReader(),
+        new ForOperationReader(
+            Set.of(
+                new PrintlnOperationReader(expressionResolver),
+                new VariableDeclarationOperationReader(variableBuilder, expressionResolver),
+                new FinalDeclarationOperationReader(variableBuilder, expressionResolver),
+                new VariableAssignmentOperationReader(expressionResolver)
+            ),
+            expressionResolver,
+            Set.of(
+                new PrintlnOperationReader(expressionResolver),
+                new VariableAssignmentOperationReader(expressionResolver)
+            ),
+            expressionOperationBuilder
+        )
     );
-
-    private ExpressionOperationBuilder expressionOperationBuilder = new ExpressionOperationBuilderImpl();
 
     private BlockOperationReader blockOperationReader = new BlockOperationReaderImpl(
         operationReaders,

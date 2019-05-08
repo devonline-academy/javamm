@@ -23,6 +23,8 @@ import academy.devonline.javamm.code.fragment.operation.VariableAssignmentOperat
 import academy.devonline.javamm.compiler.component.ExpressionResolver;
 import academy.devonline.javamm.compiler.component.impl.error.JavammLineSyntaxError;
 import academy.devonline.javamm.compiler.component.impl.operation.AbstractOperationReader;
+import academy.devonline.javamm.compiler.component.impl.operation.ForInitOperationReader;
+import academy.devonline.javamm.compiler.component.impl.operation.ForUpdateOperationReader;
 
 import java.util.List;
 import java.util.ListIterator;
@@ -34,7 +36,8 @@ import static java.util.Objects.requireNonNull;
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-public class VariableAssignmentOperationReader extends AbstractOperationReader<VariableAssignmentOperation> {
+public class VariableAssignmentOperationReader extends AbstractOperationReader<VariableAssignmentOperation>
+    implements ForInitOperationReader, ForUpdateOperationReader {
 
     private final ExpressionResolver expressionResolver;
 

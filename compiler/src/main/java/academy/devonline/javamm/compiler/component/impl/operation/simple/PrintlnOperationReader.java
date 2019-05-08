@@ -20,10 +20,12 @@ import academy.devonline.javamm.code.fragment.Expression;
 import academy.devonline.javamm.code.fragment.SourceLine;
 import academy.devonline.javamm.code.fragment.operation.PrintlnOperation;
 import academy.devonline.javamm.compiler.component.ExpressionResolver;
-import academy.devonline.javamm.compiler.component.OperationReader;
 import academy.devonline.javamm.compiler.component.impl.error.JavammLineSyntaxError;
 import academy.devonline.javamm.compiler.component.impl.operation.AbstractOperationReader;
+import academy.devonline.javamm.compiler.component.impl.operation.ForInitOperationReader;
+import academy.devonline.javamm.compiler.component.impl.operation.ForUpdateOperationReader;
 
+import java.util.List;
 import java.util.ListIterator;
 import java.util.Optional;
 
@@ -33,7 +35,8 @@ import static java.util.Objects.requireNonNull;
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-public class PrintlnOperationReader extends AbstractOperationReader<PrintlnOperation> implements OperationReader {
+public class PrintlnOperationReader extends AbstractOperationReader<PrintlnOperation>
+    implements ForInitOperationReader, ForUpdateOperationReader {
 
     private final ExpressionResolver expressionResolver;
 
@@ -57,9 +60,9 @@ public class PrintlnOperationReader extends AbstractOperationReader<PrintlnOpera
     }
 
     @Override
-    // println (1)(
     protected PrintlnOperation get(final SourceLine sourceLine, final ListIterator<SourceLine> iterator) {
-        Expression expression = expressionResolver.resolve(sourceLine.subList(2, sourceLine.getTokenCount() - 1), sourceLine);
+        final List<String> expressionTokens = sourceLine.subList(2, sourceLine.getTokenCount() - 1);
+        final Expression expression = expressionResolver.resolve(expressionTokens, sourceLine);
         return new PrintlnOperation(sourceLine, expression);
     }
 }

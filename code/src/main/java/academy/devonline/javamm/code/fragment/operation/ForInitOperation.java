@@ -16,26 +16,11 @@
 
 package academy.devonline.javamm.code.fragment.operation;
 
-import academy.devonline.javamm.code.fragment.Expression;
-import academy.devonline.javamm.code.fragment.SourceLine;
-
-import static java.util.Objects.requireNonNull;
+import academy.devonline.javamm.code.fragment.Operation;
 
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-public final class PrintlnOperation extends AbstractOperation
-    implements ForInitOperation, ForUpdateOperation {
-
-    private final Expression expression;
-
-    public PrintlnOperation(final SourceLine sourceLine, final Expression expression) {
-        super(sourceLine);
-        this.expression = requireNonNull(expression);
-    }
-
-    public Expression getExpression() {
-        return expression;
-    }
+public interface ForInitOperation extends Operation {
 }

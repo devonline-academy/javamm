@@ -1,7 +1,3 @@
-var a = 0
-a++
-++a
-
-a += 23 + 5
-
-println (a)
+for ( var i = 0 ; i < 10 ; i ++ ) {
+    println (i)
+}

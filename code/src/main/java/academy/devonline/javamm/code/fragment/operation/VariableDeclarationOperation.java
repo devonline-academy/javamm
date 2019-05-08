@@ -26,7 +26,8 @@ import static java.util.Objects.requireNonNull;
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-public final class VariableDeclarationOperation extends AbstractOperation {
+public final class VariableDeclarationOperation extends AbstractOperation
+    implements ForInitOperation {
 
     private final boolean constant;
 
