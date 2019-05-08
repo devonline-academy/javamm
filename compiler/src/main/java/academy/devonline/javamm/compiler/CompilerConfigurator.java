@@ -48,6 +48,7 @@ import academy.devonline.javamm.compiler.component.impl.operation.block.ForOpera
 import academy.devonline.javamm.compiler.component.impl.operation.block.IfElseOperationReader;
 import academy.devonline.javamm.compiler.component.impl.operation.block.SimpleBlockOperationReader;
 import academy.devonline.javamm.compiler.component.impl.operation.block.WhileOperationReader;
+import academy.devonline.javamm.compiler.component.impl.operation.simple.BreakOperationReader;
 import academy.devonline.javamm.compiler.component.impl.operation.simple.ContinueOperationReader;
 import academy.devonline.javamm.compiler.component.impl.operation.simple.FinalDeclarationOperationReader;
 import academy.devonline.javamm.compiler.component.impl.operation.simple.PrintlnOperationReader;
@@ -97,6 +98,7 @@ public class CompilerConfigurator {
         new FinalDeclarationOperationReader(variableBuilder, expressionResolver),
         new VariableAssignmentOperationReader(expressionResolver),
         new ContinueOperationReader(),
+        new BreakOperationReader(),
 
         new IfElseOperationReader(expressionResolver),
         new WhileOperationReader(expressionResolver),

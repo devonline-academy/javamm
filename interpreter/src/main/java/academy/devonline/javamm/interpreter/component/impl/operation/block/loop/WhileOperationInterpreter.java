@@ -19,6 +19,7 @@ package academy.devonline.javamm.interpreter.component.impl.operation.block.loop
 import academy.devonline.javamm.code.component.ExpressionContext;
 import academy.devonline.javamm.code.fragment.operation.WhileOperation;
 import academy.devonline.javamm.interpreter.component.CalculatorFacade;
+import academy.devonline.javamm.interpreter.component.impl.operation.exception.BreakOperationException;
 
 /**
  * @author devonline
@@ -39,7 +40,11 @@ public class WhileOperationInterpreter extends AbstractLoopBlockOperationInterpr
     @Override
     protected void interpretOperation(final WhileOperation operation) {
         while (isConditionTrue(operation)) {
-            interpretLoopBody(operation);
+            try {
+                interpretLoopBody(operation);
+            } catch (final BreakOperationException e) {
+                break;
+            }
         }
     }
 }

@@ -14,35 +14,30 @@
  * limitations under the License.
  */
 
-package academy.devonline.javamm.compiler.integration.operation;
+package academy.devonline.javamm.interpreter.component.impl.operation.simple;
 
-import academy.devonline.javamm.code.fragment.Operation;
+import academy.devonline.javamm.code.component.ExpressionContext;
 import academy.devonline.javamm.code.fragment.operation.BreakOperation;
-import academy.devonline.javamm.compiler.integration.AbstractOperationReaderSuccessIntegrationTest;
-import org.junit.jupiter.params.provider.Arguments;
-
-import java.util.stream.Stream;
-
-import static java.util.List.of;
-import static org.junit.jupiter.params.provider.Arguments.arguments;
+import academy.devonline.javamm.interpreter.component.impl.operation.AbstractOperationInterpreter;
+import academy.devonline.javamm.interpreter.component.impl.operation.exception.BreakOperationException;
 
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-class BreakOperationReader_Expected_success_IntegrationTest extends AbstractOperationReaderSuccessIntegrationTest {
+public class BreakOperationInterpreter extends AbstractOperationInterpreter<BreakOperation> {
+
+    public BreakOperationInterpreter(final ExpressionContext expressionContext) {
+        super(expressionContext);
+    }
 
     @Override
-    protected Class<? extends Operation> getResultOperationClass() {
+    public Class<BreakOperation> getOperationClass() {
         return BreakOperation.class;
     }
 
     @Override
-    protected Stream<Arguments> validSourceLineProvider() {
-        return Stream.of(
-            arguments(of(
-                "break"
-            ))
-        );
+    protected void interpretOperation(final BreakOperation operation) {
+        throw new BreakOperationException();
     }
 }

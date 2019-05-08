@@ -26,6 +26,7 @@ import academy.devonline.javamm.code.fragment.operation.Block;
 import academy.devonline.javamm.code.fragment.operation.ForOperation;
 import academy.devonline.javamm.code.fragment.operation.VariableDeclarationOperation;
 import academy.devonline.javamm.interpreter.component.CalculatorFacade;
+import academy.devonline.javamm.interpreter.component.impl.operation.exception.BreakOperationException;
 import academy.devonline.javamm.interpreter.model.LocalContext;
 
 import static academy.devonline.javamm.interpreter.model.CurrentRuntimeProvider.getCurrentRuntime;
@@ -64,7 +65,11 @@ public class ForOperationInterpreter extends AbstractLoopBlockOperationInterpret
 
     private void interpretForOperation(final ForOperation operation) {
         for (interpretInitOperation(operation); isConditionTrue(operation); interpretUpdateOperation(operation)) {
-            interpretLoopBody(operation);
+            try {
+                interpretLoopBody(operation);
+            } catch (final BreakOperationException e) {
+                break;
+            }
         }
     }
 
