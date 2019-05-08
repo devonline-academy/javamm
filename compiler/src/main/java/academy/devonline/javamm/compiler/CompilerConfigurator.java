@@ -47,6 +47,7 @@ import academy.devonline.javamm.compiler.component.impl.operation.block.DoWhileO
 import academy.devonline.javamm.compiler.component.impl.operation.block.ForOperationReader;
 import academy.devonline.javamm.compiler.component.impl.operation.block.IfElseOperationReader;
 import academy.devonline.javamm.compiler.component.impl.operation.block.SimpleBlockOperationReader;
+import academy.devonline.javamm.compiler.component.impl.operation.block.SwitchOperationReader;
 import academy.devonline.javamm.compiler.component.impl.operation.block.WhileOperationReader;
 import academy.devonline.javamm.compiler.component.impl.operation.simple.BreakOperationReader;
 import academy.devonline.javamm.compiler.component.impl.operation.simple.ContinueOperationReader;
@@ -117,7 +118,8 @@ public class CompilerConfigurator {
                 new VariableAssignmentOperationReader(expressionResolver)
             ),
             expressionOperationBuilder
-        )
+        ),
+        new SwitchOperationReader(expressionResolver)
     );
 
     private BlockOperationReader blockOperationReader = new BlockOperationReaderImpl(

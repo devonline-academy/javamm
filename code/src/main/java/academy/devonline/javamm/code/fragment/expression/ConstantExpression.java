@@ -34,7 +34,7 @@ import java.util.Set;
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-public final class ConstantExpression implements Expression {
+public final class ConstantExpression implements Expression, CaseValueExpression {
 
     private static final Set<Class<?>> SUPPORTED_CLASSES =
         Set.of(Boolean.class, Integer.class, Double.class, String.class);
@@ -83,6 +83,11 @@ public final class ConstantExpression implements Expression {
 
     @Override
     public Object getValue(final ExpressionContext expressionContext) {
+        return value;
+    }
+
+    @Override
+    public Object getValue() {
         return value;
     }
 

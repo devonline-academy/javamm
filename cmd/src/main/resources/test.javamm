@@ -1,5 +1,15 @@
-for ( var i = 0 ; i < 10 ; i ++ ) {
-    println (i + " -> before")
-    break
-    println (i + " -> after")
+var a = 1
+switch (a) {
+    case 1 : {
+        println (1)
+        break
+    }
+    case 2 : {
+        println (2)
+        break
+    }
+    default: {
+        println ('default')
+        break
+    }
 }
