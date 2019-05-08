@@ -1,2 +1,11 @@
-var a = "Hello world"
-println(a)
+function main(){
+
+}
+
+function sum(a, b){
+
+}
+
+function sum(a, b, c){
+
+}
