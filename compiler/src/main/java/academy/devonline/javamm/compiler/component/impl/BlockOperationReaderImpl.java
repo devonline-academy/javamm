@@ -45,13 +45,13 @@ import static java.util.Objects.requireNonNull;
 public final class BlockOperationReaderImpl implements BlockOperationReader {
 
     private final Collection<OperationReader> operationReaders;
-    
+
     private final ExpressionResolver expressionResolver;
-    
+
     private final ExpressionOperationBuilder expressionOperationBuilder;
 
     public BlockOperationReaderImpl(final Set<OperationReader> operationReaders,
-                                    final ExpressionResolver expressionResolver, 
+                                    final ExpressionResolver expressionResolver,
                                     final ExpressionOperationBuilder expressionOperationBuilder) {
         this.operationReaders = List.of(operationReaders
             .stream()

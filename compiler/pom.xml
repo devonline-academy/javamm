@@ -20,6 +20,7 @@
                 <configuration>
                     <argLine>
                         @{argLine}
+                        --add-opens javamm.compiler/academy.devonline.javamm.compiler=ALL-UNNAMED
                         --add-opens javamm.compiler/academy.devonline.javamm.compiler.component.impl=ALL-UNNAMED
                         --add-opens javamm.compiler/academy.devonline.javamm.compiler.component.impl.util=ALL-UNNAMED
                         --add-opens
