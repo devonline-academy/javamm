@@ -19,6 +19,7 @@ package academy.devonline.javamm.compiler.component.impl;
 import academy.devonline.javamm.code.fragment.Expression;
 import academy.devonline.javamm.code.fragment.Lexeme;
 import academy.devonline.javamm.code.fragment.SourceLine;
+import academy.devonline.javamm.code.fragment.expression.FunctionInvokeExpression;
 import academy.devonline.javamm.code.fragment.expression.PostfixNotationComplexExpression;
 import academy.devonline.javamm.code.fragment.expression.UnaryPostfixAssignmentExpression;
 import academy.devonline.javamm.code.fragment.expression.UnaryPrefixAssignmentExpression;
@@ -41,7 +42,8 @@ public class ExpressionOperationBuilderImpl implements ExpressionOperationBuilde
 
     private final Set<Class<? extends Expression>> allowedExpressionSet = Set.of(
         UnaryPrefixAssignmentExpression.class,
-        UnaryPostfixAssignmentExpression.class
+        UnaryPostfixAssignmentExpression.class,
+        FunctionInvokeExpression.class
     );
 
     @Override

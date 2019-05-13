@@ -20,16 +20,23 @@ import academy.devonline.javamm.code.fragment.Lexeme;
 import academy.devonline.javamm.code.fragment.Operator;
 import academy.devonline.javamm.code.fragment.Parenthesis;
 import academy.devonline.javamm.code.fragment.SourceLine;
+import academy.devonline.javamm.code.fragment.expression.FunctionInvokeExpression;
 import academy.devonline.javamm.code.fragment.operator.BinaryOperator;
 import academy.devonline.javamm.code.fragment.operator.UnaryOperator;
+import academy.devonline.javamm.compiler.component.ExpressionResolver;
+import academy.devonline.javamm.compiler.component.FunctionNameBuilder;
 import academy.devonline.javamm.compiler.component.LexemeBuilder;
 import academy.devonline.javamm.compiler.component.SingleTokenExpressionBuilder;
 import academy.devonline.javamm.compiler.component.impl.error.JavammLineSyntaxError;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import static academy.devonline.javamm.compiler.component.impl.util.SyntaxParseUtils.getTokensBetweenBracketsWhenOpeningOneAlreadyFound;
+import static academy.devonline.javamm.compiler.component.impl.util.SyntaxParseUtils.groupTokensByComma;
 import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.joining;
@@ -42,18 +49,66 @@ public class LexemeBuilderImpl implements LexemeBuilder {
 
     private final SingleTokenExpressionBuilder singleTokenExpressionBuilder;
 
-    public LexemeBuilderImpl(final SingleTokenExpressionBuilder singleTokenExpressionBuilder) {
+    private final FunctionNameBuilder functionNameBuilder;
+
+    private ExpressionResolver expressionResolver;
+
+    public LexemeBuilderImpl(final SingleTokenExpressionBuilder singleTokenExpressionBuilder,
+                             final FunctionNameBuilder functionNameBuilder) {
         this.singleTokenExpressionBuilder = requireNonNull(singleTokenExpressionBuilder);
+        this.functionNameBuilder = requireNonNull(functionNameBuilder);
+    }
+
+    @Override
+    public void setExpressionResolver(final ExpressionResolver expressionResolver) {
+        this.expressionResolver = expressionResolver;
     }
 
     @Override
     public List<Lexeme> build(final List<String> tokens, final SourceLine sourceLine) {
-        final List<Lexeme> result = new ArrayList<>();
-        for (final String token : tokens) {
-            final Lexeme lexeme = buildSimpleLexeme(token, sourceLine);
-            result.add(lexeme);
+        final List<Lexeme> lexemes = new ArrayList<>();
+        final ListIterator<String> iterator = tokens.listIterator();
+        while (iterator.hasNext()) {
+            final String currentLexeme = iterator.next();
+            if (iterator.hasNext()) {
+                processCurrentAndNextTokens(lexemes, iterator, currentLexeme, sourceLine);
+            } else {
+                lexemes.add(buildSimpleLexeme(currentLexeme, sourceLine));
+            }
         }
-        return List.copyOf(result);
+        return List.copyOf(lexemes);
+    }
+
+    private void processCurrentAndNextTokens(final List<Lexeme> lexemes,
+                                             final ListIterator<String> iterator,
+                                             final String currentLexeme,
+                                             final SourceLine sourceLine) {
+        final String nextLexeme = iterator.next();
+        if ("(".equals(nextLexeme)) {
+            if (functionNameBuilder.isValid(currentLexeme)) {
+                lexemes.add(readInvokeFunctionExpression(currentLexeme, iterator, sourceLine));
+            } else {
+                iterator.previous();
+                lexemes.add(buildSimpleLexeme(currentLexeme, sourceLine));
+            }
+        } else {
+            iterator.previous();
+            lexemes.add(buildSimpleLexeme(currentLexeme, sourceLine));
+        }
+    }
+
+    private Lexeme readInvokeFunctionExpression(final String functionName,
+                                                final ListIterator<String> iterator,
+                                                final SourceLine sourceLine) {
+        final List<String> functionParams =
+            getTokensBetweenBracketsWhenOpeningOneAlreadyFound("(", ")", iterator, sourceLine, true);
+        final List<List<String>> params = groupTokensByComma(functionParams, sourceLine);
+        return new FunctionInvokeExpression(
+            functionNameBuilder.build(functionName, params, sourceLine),
+            params.stream()
+                .map(p -> expressionResolver.resolve(p, sourceLine))
+                .collect(Collectors.toUnmodifiableList())
+        );
     }
 
     @SuppressWarnings("unchecked")

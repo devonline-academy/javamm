@@ -21,6 +21,7 @@ import academy.devonline.javamm.compiler.component.impl.error.JavammLineSyntaxEr
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import static java.lang.String.format;
@@ -79,6 +80,32 @@ public final class SyntaxParseUtils {
             throw new JavammLineSyntaxError(format(
                 "Expected '%s' before '%s'", firstOpeningBracket, lastClosingBracket), sourceLine);
         }
+    }
+
+    public static List<String> getTokensBetweenBracketsWhenOpeningOneAlreadyFound(final String openingBracket,
+                                                                                  final String closingBracket,
+                                                                                  final Iterator<String> iterator,
+                                                                                  final SourceLine sourceLine,
+                                                                                  final boolean allowEmptyResult) {
+        final List<String> tokens = new ArrayList<>();
+        int parenthesisCounter = 1;
+        while (iterator.hasNext()) {
+            final String token = iterator.next();
+            if (openingBracket.equals(token)) {
+                parenthesisCounter++;
+            } else if (closingBracket.equals(token)) {
+                parenthesisCounter--;
+            }
+            if (parenthesisCounter == 0) {
+                if (tokens.isEmpty() && !allowEmptyResult) {
+                    throw new JavammLineSyntaxError(format(
+                        "An expression is expected between '%s' and '%s'", openingBracket, closingBracket), sourceLine);
+                }
+                return Collections.unmodifiableList(tokens);
+            }
+            tokens.add(token);
+        }
+        throw new JavammLineSyntaxError("Missing " + closingBracket, sourceLine);
     }
 
     public static List<List<String>> groupTokensByComma(final List<String> tokens,

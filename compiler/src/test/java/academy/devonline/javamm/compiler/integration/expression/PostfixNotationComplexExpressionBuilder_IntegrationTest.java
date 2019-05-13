@@ -21,6 +21,7 @@ import academy.devonline.javamm.code.fragment.SourceLine;
 import academy.devonline.javamm.code.fragment.expression.ComplexExpression;
 import academy.devonline.javamm.compiler.CompilerConfigurator;
 import academy.devonline.javamm.compiler.component.ComplexExpressionBuilder;
+import academy.devonline.javamm.compiler.component.FunctionNameBuilder;
 import academy.devonline.javamm.compiler.component.LexemeBuilder;
 import academy.devonline.javamm.compiler.component.SingleTokenExpressionBuilder;
 import academy.devonline.javamm.compiler.component.VariableBuilder;
@@ -65,10 +66,13 @@ class PostfixNotationComplexExpressionBuilder_IntegrationTest {
 
     private ComplexExpressionBuilder complexExpressionBuilder = new CompilerConfigurator().getComplexExpressionBuilder();
 
+    @Mock
+    private FunctionNameBuilder functionNameBuilder;
+
     @BeforeEach
     void beforeEach() {
         final SingleTokenExpressionBuilder singleTokenExpressionBuilder = new SingleTokenExpressionBuilderImpl(variableBuilder);
-        lexemeBuilder = new LexemeBuilderImpl(singleTokenExpressionBuilder);
+        lexemeBuilder = new LexemeBuilderImpl(singleTokenExpressionBuilder, functionNameBuilder);
     }
 
     private ComplexExpression build(final String source) {

@@ -82,7 +82,9 @@ public class CompilerConfigurator {
     private SingleTokenExpressionBuilder singleTokenExpressionBuilder =
         new SingleTokenExpressionBuilderImpl(variableBuilder);
 
-    private LexemeBuilder lexemeBuilder = new LexemeBuilderImpl(singleTokenExpressionBuilder);
+    private FunctionNameBuilder functionNameBuilder = new FunctionNameBuilderImpl();
+
+    private LexemeBuilder lexemeBuilder = new LexemeBuilderImpl(singleTokenExpressionBuilder, functionNameBuilder);
 
     private Set<ExpressionBuilder> expressionBuilders = Set.of(
         singleTokenExpressionBuilder
@@ -130,8 +132,6 @@ public class CompilerConfigurator {
         operationReaders,
         expressionResolver,
         expressionOperationBuilder);
-
-    private FunctionNameBuilder functionNameBuilder = new FunctionNameBuilderImpl();
 
     private int maxFunctionParameterCount = 5;
 
