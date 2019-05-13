@@ -133,7 +133,13 @@ public class CompilerConfigurator {
 
     private FunctionNameBuilder functionNameBuilder = new FunctionNameBuilderImpl();
 
-    private FunctionReader functionReader = new FunctionReaderImpl(blockOperationReader);
+    private int maxFunctionParameterCount = 5;
+
+    private FunctionReader functionReader = new FunctionReaderImpl(
+        functionNameBuilder,
+        variableBuilder,
+        blockOperationReader,
+        maxFunctionParameterCount);
 
     private Compiler compiler = new CompilerImpl(functionNameBuilder, sourceLineReader, functionReader);
 
