@@ -84,6 +84,8 @@ import java.util.Set;
  */
 public class InterpreterConfigurator {
 
+    private final int maxStackSize = 10;
+
     private CalculatorFacade calculatorFacade = new CalculatorFacadeImpl(Set.of(
         // ------- Arithmetic -----------------------------------------
         AdditionBinaryExpressionCalculator.createArithmeticCalculator(),
@@ -172,8 +174,6 @@ public class InterpreterConfigurator {
 
     private BlockOperationInterpreter blockOperationInterpreter =
         new BlockOperationInterpreterImpl(operationInterpreters);
-
-    private final int maxStackSize = 10;
 
     private RuntimeBuilder runtimeBuilder = new RuntimeBuilderImpl(maxStackSize);
 

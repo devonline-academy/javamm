@@ -40,7 +40,7 @@ public class JavammLineRuntimeError extends JavammRuntimeError {
 
     @Override
     public String getMessage() {
-        return String.format("Runtime error: %s%s%s",
+        return String.format("%s%s%s",
             super.getMessage(),
             System.lineSeparator(),
             String.join(
@@ -56,13 +56,5 @@ public class JavammLineRuntimeError extends JavammRuntimeError {
     @Override
     public List<StackTraceItem> getCurrentStackTrace() {
         return currentStackTrace;
-    }
-
-    //TODO Remove in future
-    public static String buildRuntimeErrorMessage(final String message) {
-        return format("Runtime error in '%s' [Line: %s]: %s",
-            getCurrentRuntime().getCurrentModuleName(),
-            getCurrentRuntime().getCurrentSourceLine().getNumber(),
-            message);
     }
 }

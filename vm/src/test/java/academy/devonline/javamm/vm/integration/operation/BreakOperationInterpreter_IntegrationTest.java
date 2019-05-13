@@ -76,8 +76,8 @@ class BreakOperationInterpreter_IntegrationTest extends AbstractIntegrationTest 
         );
         final JavammRuntimeError error = assertThrows(JavammRuntimeError.class, () -> runBlock(lines));
         assertEquals(
-            "Runtime error in 'test' [Line: 2]: Operation 'break' not expected here",
-            error.getMessage());
+            "Runtime error: Operation 'break' not expected here",
+            error.getSimpleMessage());
     }
 
     /**

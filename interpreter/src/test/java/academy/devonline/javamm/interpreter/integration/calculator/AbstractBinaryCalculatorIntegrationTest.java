@@ -98,6 +98,6 @@ public abstract class AbstractBinaryCalculatorIntegrationTest extends AbstractCa
         setCurrentRuntime(getCurrentTestRuntime(EMPTY_SOURCE_LINE));
         final JavammRuntimeError error = assertThrows(JavammRuntimeError.class, () ->
             calculate(operand1, operator, operand2));
-        assertEquals(expectedMessage, error.getMessage());
+        assertEquals(expectedMessage, error.getSimpleMessage());
     }
 }

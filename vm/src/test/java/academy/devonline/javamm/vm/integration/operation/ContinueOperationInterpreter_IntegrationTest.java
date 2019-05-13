@@ -76,8 +76,8 @@ class ContinueOperationInterpreter_IntegrationTest extends AbstractIntegrationTe
         );
         final JavammRuntimeError error = assertThrows(JavammRuntimeError.class, () -> runBlock(lines));
         assertEquals(
-            "Runtime error in 'test' [Line: 2]: Operation 'continue' not expected here",
-            error.getMessage());
+            "Runtime error: Operation 'continue' not expected here",
+            error.getSimpleMessage());
     }
 
     /**

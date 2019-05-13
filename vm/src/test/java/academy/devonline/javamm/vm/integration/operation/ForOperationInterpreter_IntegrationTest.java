@@ -87,8 +87,8 @@ class ForOperationInterpreter_IntegrationTest extends AbstractIntegrationTest {
         );
         final JavammRuntimeError error = assertThrows(JavammRuntimeError.class, () -> runBlock(lines));
         assertEquals(
-            "Runtime error in 'test' [Line: 2]: Condition expression should be boolean. Current type is integer",
-            error.getMessage());
+            "Runtime error: Condition expression should be boolean. Current type is integer",
+            error.getSimpleMessage());
     }
 
     @ParameterizedTest
@@ -124,7 +124,7 @@ class ForOperationInterpreter_IntegrationTest extends AbstractIntegrationTest {
             "println (i)"
         );
         final JavammRuntimeError error = assertThrows(JavammRuntimeError.class, () -> runBlock(lines));
-        assertEquals("Runtime error in 'test' [Line: 5]: Variable 'i' is not defined", error.getMessage());
+        assertEquals("Runtime error: Variable 'i' is not defined", error.getSimpleMessage());
         assertEquals(of(0, 1, 2, 3, 4), getOutput());
     }
 

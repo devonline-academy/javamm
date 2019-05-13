@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package academy.devonline.javamm.vm.integration.operation;
+package academy.devonline.javamm.vm.integration.function;
 
 import academy.devonline.javamm.code.fragment.Void;
 import academy.devonline.javamm.vm.integration.AbstractIntegrationTest;

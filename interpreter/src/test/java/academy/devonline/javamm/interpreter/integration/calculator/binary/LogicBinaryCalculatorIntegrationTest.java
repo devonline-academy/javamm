@@ -23,7 +23,6 @@ import org.junit.jupiter.params.provider.Arguments;
 
 import java.util.stream.Stream;
 
-import static academy.devonline.javamm.interpreter.component.impl.error.JavammLineRuntimeError.buildRuntimeErrorMessage;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
@@ -67,14 +66,14 @@ class LogicBinaryCalculatorIntegrationTest extends AbstractBinaryCalculatorInteg
     protected Stream<Arguments> invalidExpressionProvider() {
         return Stream.of(
             arguments(true, "&&", 3,
-                buildRuntimeErrorMessage("Operator '&&' is not supported for types: boolean and integer")),
+                "Runtime error: Operator '&&' is not supported for types: boolean and integer"),
             arguments(3, "&&", true,
-                buildRuntimeErrorMessage("First operand for operator '&&' has invalid type: integer")),
+                "Runtime error: First operand for operator '&&' has invalid type: integer"),
 
             arguments(false, "||", 3,
-                buildRuntimeErrorMessage("Operator '||' is not supported for types: boolean and integer")),
+                "Runtime error: Operator '||' is not supported for types: boolean and integer"),
             arguments(3, "||", true,
-                buildRuntimeErrorMessage("First operand for operator '||' has invalid type: integer"))
+                "Runtime error: First operand for operator '||' has invalid type: integer")
         );
     }
 }

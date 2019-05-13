@@ -68,8 +68,8 @@ class IfElseOperationInterpreter_IntegrationTest extends AbstractIntegrationTest
         );
         final JavammRuntimeError error = assertThrows(JavammRuntimeError.class, () -> runBlock(lines));
         assertEquals(
-            "Runtime error in 'test' [Line: 2]: Condition expression should be boolean. Current type is integer",
-            error.getMessage());
+            "Runtime error: Condition expression should be boolean. Current type is integer",
+            error.getSimpleMessage());
     }
 
     /**

@@ -21,7 +21,6 @@ import org.junit.jupiter.params.provider.Arguments;
 
 import java.util.stream.Stream;
 
-import static academy.devonline.javamm.interpreter.component.impl.error.JavammLineRuntimeError.buildRuntimeErrorMessage;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 /**
@@ -57,19 +56,19 @@ class AllUnaryCalculatorsIntegrationTest extends AbstractUnaryCalculatorIntegrat
     protected Stream<Arguments> invalidExpressionProvider() {
         return Stream.of(
             arguments("+", "hello",
-                buildRuntimeErrorMessage("Operator '+' is not supported for type: string")),
+                "Runtime error: Operator '+' is not supported for type: string"),
             arguments("-", "hello",
-                buildRuntimeErrorMessage("Operator '-' is not supported for type: string")),
+                "Runtime error: Operator '-' is not supported for type: string"),
             arguments("++", "hello",
-                buildRuntimeErrorMessage("Operator '++' is not supported for type: string")),
+                "Runtime error: Operator '++' is not supported for type: string"),
             arguments("--", "hello",
-                buildRuntimeErrorMessage("Operator '--' is not supported for type: string")),
+                "Runtime error: Operator '--' is not supported for type: string"),
             arguments("~", "hello",
-                buildRuntimeErrorMessage("Operator '~' is not supported for type: string")),
+                "Runtime error: Operator '~' is not supported for type: string"),
             arguments("~", "hello",
-                buildRuntimeErrorMessage("Operator '~' is not supported for type: string")),
+                "Runtime error: Operator '~' is not supported for type: string"),
             arguments("!", "hello",
-                buildRuntimeErrorMessage("Operator '!' is not supported for type: string"))
+                "Runtime error: Operator '!' is not supported for type: string")
         );
     }
 }

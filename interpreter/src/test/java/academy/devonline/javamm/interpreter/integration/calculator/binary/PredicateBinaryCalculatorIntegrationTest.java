@@ -26,7 +26,6 @@ import static academy.devonline.javamm.code.fragment.expression.TypeExpression.D
 import static academy.devonline.javamm.code.fragment.expression.TypeExpression.INTEGER;
 import static academy.devonline.javamm.code.fragment.expression.TypeExpression.STRING;
 import static academy.devonline.javamm.code.syntax.Keywords.TYPEOF;
-import static academy.devonline.javamm.interpreter.component.impl.error.JavammLineRuntimeError.buildRuntimeErrorMessage;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
 
 /**
@@ -152,31 +151,31 @@ class PredicateBinaryCalculatorIntegrationTest extends AbstractBinaryCalculatorI
     protected Stream<Arguments> invalidExpressionProvider() {
         return Stream.of(
             arguments(3, "==", true,
-                buildRuntimeErrorMessage("Operator '==' is not supported for types: integer and boolean")),
+                "Runtime error: Operator '==' is not supported for types: integer and boolean"),
             arguments(3, "!=", true,
-                buildRuntimeErrorMessage("Operator '!=' is not supported for types: integer and boolean")),
+                "Runtime error: Operator '!=' is not supported for types: integer and boolean"),
 
             arguments(3, ">", true,
-                buildRuntimeErrorMessage("Operator '>' is not supported for types: integer and boolean")),
+                "Runtime error: Operator '>' is not supported for types: integer and boolean"),
             arguments(3, ">=", true,
-                buildRuntimeErrorMessage("Operator '>=' is not supported for types: integer and boolean")),
+                "Runtime error: Operator '>=' is not supported for types: integer and boolean"),
             arguments(3, "<", true,
-                buildRuntimeErrorMessage("Operator '<' is not supported for types: integer and boolean")),
+                "Runtime error: Operator '<' is not supported for types: integer and boolean"),
             arguments(3, "<=", true,
-                buildRuntimeErrorMessage("Operator '<=' is not supported for types: integer and boolean")),
+                "Runtime error: Operator '<=' is not supported for types: integer and boolean"),
             arguments(3, TYPEOF, true,
-                buildRuntimeErrorMessage("Operator 'typeof' is not supported for types: integer and boolean")),
+                "Runtime error: Operator 'typeof' is not supported for types: integer and boolean"),
 
             arguments(true, ">", 3,
-                buildRuntimeErrorMessage("Operator '>' is not supported for types: boolean and integer")),
+                "Runtime error: Operator '>' is not supported for types: boolean and integer"),
             arguments(true, ">=", 3,
-                buildRuntimeErrorMessage("Operator '>=' is not supported for types: boolean and integer")),
+                "Runtime error: Operator '>=' is not supported for types: boolean and integer"),
             arguments(true, "<", 3,
-                buildRuntimeErrorMessage("Operator '<' is not supported for types: boolean and integer")),
+                "Runtime error: Operator '<' is not supported for types: boolean and integer"),
             arguments(true, "<=", 3,
-                buildRuntimeErrorMessage("Operator '<=' is not supported for types: boolean and integer")),
+                "Runtime error: Operator '<=' is not supported for types: boolean and integer"),
             arguments(true, TYPEOF, 3,
-                buildRuntimeErrorMessage("Operator 'typeof' is not supported for types: boolean and integer"))
+                "Runtime error: Operator 'typeof' is not supported for types: boolean and integer")
         );
     }
 }

@@ -36,6 +36,8 @@ import static org.mockito.Mockito.mock;
  */
 public abstract class AbstractIntegrationTest {
 
+    private static final String MODULE_NAME = "integration-vm-test";
+
     private final PrintStream systemOut = System.out;
 
     private final TestPrintStream testPrintStream = new TestPrintStream();
@@ -105,7 +107,7 @@ public abstract class AbstractIntegrationTest {
 
         @Override
         public String getModuleName() {
-            return "test";
+            return MODULE_NAME;
         }
 
         @Override

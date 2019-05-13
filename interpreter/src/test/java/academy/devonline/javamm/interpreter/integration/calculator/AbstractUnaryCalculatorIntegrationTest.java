@@ -92,6 +92,6 @@ public abstract class AbstractUnaryCalculatorIntegrationTest extends AbstractCal
                                   final String expectedMessage) {
         setCurrentRuntime(getCurrentTestRuntime(EMPTY_SOURCE_LINE));
         final JavammRuntimeError error = assertThrows(JavammRuntimeError.class, () -> calculate(operator, operand));
-        assertEquals(expectedMessage, error.getMessage());
+        assertEquals(expectedMessage, error.getSimpleMessage());
     }
 }

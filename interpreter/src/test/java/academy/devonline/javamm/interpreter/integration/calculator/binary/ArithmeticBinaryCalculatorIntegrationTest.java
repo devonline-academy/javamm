@@ -25,7 +25,6 @@ import static academy.devonline.javamm.code.fragment.expression.TypeExpression.B
 import static academy.devonline.javamm.code.fragment.expression.TypeExpression.DOUBLE;
 import static academy.devonline.javamm.code.fragment.expression.TypeExpression.INTEGER;
 import static academy.devonline.javamm.code.fragment.expression.TypeExpression.STRING;
-import static academy.devonline.javamm.interpreter.component.impl.error.JavammLineRuntimeError.buildRuntimeErrorMessage;
 import static java.lang.Double.NaN;
 import static java.lang.Double.POSITIVE_INFINITY;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
@@ -99,31 +98,31 @@ class ArithmeticBinaryCalculatorIntegrationTest extends AbstractBinaryCalculator
     protected Stream<Arguments> invalidExpressionProvider() {
         return Stream.of(
             arguments(3, "+", true,
-                buildRuntimeErrorMessage("Operator '+' is not supported for types: integer and boolean")),
+                "Runtime error: Operator '+' is not supported for types: integer and boolean"),
             arguments(3, "-", true,
-                buildRuntimeErrorMessage("Operator '-' is not supported for types: integer and boolean")),
+                "Runtime error: Operator '-' is not supported for types: integer and boolean"),
             arguments(3, "*", true,
-                buildRuntimeErrorMessage("Operator '*' is not supported for types: integer and boolean")),
+                "Runtime error: Operator '*' is not supported for types: integer and boolean"),
             arguments(3, "/", true,
-                buildRuntimeErrorMessage("Operator '/' is not supported for types: integer and boolean")),
+                "Runtime error: Operator '/' is not supported for types: integer and boolean"),
             arguments(3, "%", true,
-                buildRuntimeErrorMessage("Operator '%' is not supported for types: integer and boolean")),
+                "Runtime error: Operator '%' is not supported for types: integer and boolean"),
 
             arguments(true, "+", 3,
-                buildRuntimeErrorMessage("Operator '+' is not supported for types: boolean and integer")),
+                "Runtime error: Operator '+' is not supported for types: boolean and integer"),
             arguments(true, "-", 3,
-                buildRuntimeErrorMessage("Operator '-' is not supported for types: boolean and integer")),
+                "Runtime error: Operator '-' is not supported for types: boolean and integer"),
             arguments(true, "*", 3,
-                buildRuntimeErrorMessage("Operator '*' is not supported for types: boolean and integer")),
+                "Runtime error: Operator '*' is not supported for types: boolean and integer"),
             arguments(true, "/", 3,
-                buildRuntimeErrorMessage("Operator '/' is not supported for types: boolean and integer")),
+                "Runtime error: Operator '/' is not supported for types: boolean and integer"),
             arguments(true, "%", 3,
-                buildRuntimeErrorMessage("Operator '%' is not supported for types: boolean and integer")),
+                "Runtime error: Operator '%' is not supported for types: boolean and integer"),
 
             arguments(3, "/", 0,
-                buildRuntimeErrorMessage("/ by zero")),
+                "Runtime error: / by zero"),
             arguments(3, "%", 0,
-                buildRuntimeErrorMessage("/ by zero"))
+                "Runtime error: / by zero")
         );
     }
 }

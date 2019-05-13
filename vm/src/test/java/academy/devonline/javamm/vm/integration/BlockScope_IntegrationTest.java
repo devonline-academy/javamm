@@ -46,7 +46,7 @@ class BlockScope_IntegrationTest extends AbstractIntegrationTest {
                                     final List<Object> expectedOutput,
                                     final String expectedError) {
         final JavammRuntimeError error = assertThrows(JavammRuntimeError.class, () -> runBlock(lines));
-        assertEquals(expectedError, error.getMessage());
+        assertEquals(expectedError, error.getSimpleMessage());
 
         assertEquals(expectedOutput, getOutput());
     }
@@ -69,7 +69,7 @@ class BlockScope_IntegrationTest extends AbstractIntegrationTest {
                     "}",
                     "println (a)",
                     "println (b)"
-                ), of(5, 3), "Runtime error in 'test' [Line: 8]: Variable 'b' is not defined"),
+                ), of(5, 3), "Runtime error: Variable 'b' is not defined"),
                 // 2 -----------------------------------
                 arguments(of(
                     "var a = 3",
@@ -80,7 +80,7 @@ class BlockScope_IntegrationTest extends AbstractIntegrationTest {
                     "}",
                     "println (a)",
                     "println (b)"
-                ), of(3, 5, 3), "Runtime error in 'test' [Line: 9]: Variable 'b' is not defined"),
+                ), of(3, 5, 3), "Runtime error: Variable 'b' is not defined"),
                 // 3 -----------------------------------
                 arguments(of(
                     "var a = 3",
@@ -91,7 +91,7 @@ class BlockScope_IntegrationTest extends AbstractIntegrationTest {
                     "}",
                     "println (a)",
                     "println (b)"
-                ), of(3, 5, 4), "Runtime error in 'test' [Line: 9]: Variable 'b' is not defined")
+                ), of(3, 5, 4), "Runtime error: Variable 'b' is not defined")
             );
         }
     }

@@ -21,6 +21,8 @@ import academy.devonline.javamm.interpreter.model.StackTraceItem;
 
 import java.util.List;
 
+import static java.lang.String.format;
+
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
@@ -29,6 +31,15 @@ public abstract class JavammRuntimeError extends JavammError {
 
     protected JavammRuntimeError(final String message) {
         super(message);
+    }
+
+    @Override
+    public String getMessage() {
+        return getSimpleMessage();
+    }
+
+    public final String getSimpleMessage() {
+        return format("Runtime error: %s", super.getMessage());
     }
 
     public List<StackTraceItem> getCurrentStackTrace() {

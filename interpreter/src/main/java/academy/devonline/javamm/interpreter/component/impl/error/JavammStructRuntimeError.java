@@ -18,8 +18,6 @@ package academy.devonline.javamm.interpreter.component.impl.error;
 
 import academy.devonline.javamm.interpreter.JavammRuntimeError;
 
-import static java.util.Objects.requireNonNull;
-
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
@@ -27,10 +25,6 @@ import static java.util.Objects.requireNonNull;
 public class JavammStructRuntimeError extends JavammRuntimeError {
 
     public JavammStructRuntimeError(final String message) {
-        super(buildErrorMessage(message));
-    }
-
-    private static String buildErrorMessage(final String message) {
-        return String.format("Runtime error: %s", requireNonNull(message));
+        super(message);
     }
 }
