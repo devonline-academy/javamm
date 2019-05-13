@@ -65,12 +65,14 @@ public class DeveloperFunctionInvokerImpl implements DeveloperFunctionInvoker {
         final LocalContext functionLocalContext = runtimeBuilder.buildLocalContext();
         setParameters(developerFunction, arguments, functionLocalContext);
         try {
+            currentRuntime.enterToFunction(developerFunction);
             currentRuntime.setCurrentSourceLine(developerFunction.getDeclarationSourceLine());
             currentRuntime.setCurrentLocalContext(functionLocalContext);
             return interpretBody(developerFunction);
         } finally {
             currentRuntime.setCurrentLocalContext(localContext);
             currentRuntime.setCurrentSourceLine(sourceLine);
+            currentRuntime.exitFromFunction();
         }
     }
 
@@ -79,9 +81,14 @@ public class DeveloperFunctionInvokerImpl implements DeveloperFunctionInvoker {
         final CurrentRuntime currentRuntime = getCurrentRuntime();
         final LocalContext localContext = runtimeBuilder.buildLocalContext();
 
-        currentRuntime.setCurrentSourceLine(developerFunction.getDeclarationSourceLine());
-        currentRuntime.setCurrentLocalContext(localContext);
-        return interpretBody(developerFunction);
+        try {
+            currentRuntime.setCurrentSourceLine(developerFunction.getDeclarationSourceLine());
+            currentRuntime.setCurrentLocalContext(localContext);
+            currentRuntime.enterToFunction(developerFunction);
+            return interpretBody(developerFunction);
+        } finally {
+            currentRuntime.exitFromFunction();
+        }
     }
 
     protected void setParameters(final DeveloperFunction developerFunction,

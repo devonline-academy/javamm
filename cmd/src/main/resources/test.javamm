@@ -1,5 +1,17 @@
-function main(){
-    println(sum(2, 3))
+function main ( ) {
+    var a = 1
+    var b = 2
+    var c = sum (a, b)
+
+    a = b >> 2
+    final d = sum(a, b)
+
+    a = b > 2
+    final e = sum(a, b)
+
+    println(c)
+    println(d)
+    println(e)
 }
 
 function sum(a, b){

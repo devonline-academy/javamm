@@ -17,10 +17,13 @@
 package academy.devonline.javamm.interpreter.component.impl.error;
 
 import academy.devonline.javamm.interpreter.JavammRuntimeError;
+import academy.devonline.javamm.interpreter.model.StackTraceItem;
+
+import java.util.List;
 
 import static academy.devonline.javamm.interpreter.model.CurrentRuntimeProvider.getCurrentRuntime;
 import static java.lang.String.format;
-import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.toUnmodifiableList;
 
 /**
  * @author devonline
@@ -28,10 +31,34 @@ import static java.util.Objects.requireNonNull;
  */
 public class JavammLineRuntimeError extends JavammRuntimeError {
 
+    private final List<StackTraceItem> currentStackTrace;
+
     public JavammLineRuntimeError(final String message) {
-        super(buildRuntimeErrorMessage(requireNonNull(message)));
+        super(message);
+        this.currentStackTrace = getCurrentRuntime().getCurrentStackTrace();
     }
 
+    @Override
+    public String getMessage() {
+        return String.format("Runtime error: %s%s%s",
+            super.getMessage(),
+            System.lineSeparator(),
+            String.join(
+                System.lineSeparator(),
+                currentStackTrace.stream().map(this::toString).collect(toUnmodifiableList())
+            ));
+    }
+
+    private String toString(final StackTraceItem s) {
+        return format("    at %s [%s:%s]", s.getFunction(), s.getModuleName(), s.getSourceLineNumber());
+    }
+
+    @Override
+    public List<StackTraceItem> getCurrentStackTrace() {
+        return currentStackTrace;
+    }
+
+    //TODO Remove in future
     public static String buildRuntimeErrorMessage(final String message) {
         return format("Runtime error in '%s' [Line: %s]: %s",
             getCurrentRuntime().getCurrentModuleName(),

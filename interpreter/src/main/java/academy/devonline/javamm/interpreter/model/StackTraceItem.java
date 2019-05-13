@@ -14,24 +14,19 @@
  * limitations under the License.
  */
 
-package academy.devonline.javamm.interpreter;
+package academy.devonline.javamm.interpreter.model;
 
-import academy.devonline.javamm.code.exception.JavammError;
-import academy.devonline.javamm.interpreter.model.StackTraceItem;
-
-import java.util.List;
+import academy.devonline.javamm.code.fragment.function.DeveloperFunction;
 
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-public abstract class JavammRuntimeError extends JavammError {
+public interface StackTraceItem {
 
-    protected JavammRuntimeError(final String message) {
-        super(message);
-    }
+    DeveloperFunction getFunction();
 
-    public List<StackTraceItem> getCurrentStackTrace() {
-        return List.of();
-    }
+    String getModuleName();
+
+    int getSourceLineNumber();
 }

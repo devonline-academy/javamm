@@ -17,9 +17,16 @@
 package academy.devonline.javamm.interpreter.component.impl;
 
 import academy.devonline.javamm.code.fragment.SourceLine;
+import academy.devonline.javamm.code.fragment.function.DeveloperFunction;
 import academy.devonline.javamm.interpreter.component.FunctionInvoker;
+import academy.devonline.javamm.interpreter.component.impl.model.StackTraceItemImpl;
 import academy.devonline.javamm.interpreter.model.CurrentRuntime;
 import academy.devonline.javamm.interpreter.model.LocalContext;
+import academy.devonline.javamm.interpreter.model.StackTraceItem;
+
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.List;
 
 import static java.util.Objects.requireNonNull;
 
@@ -31,11 +38,13 @@ public class CurrentRuntimeImpl implements CurrentRuntime {
 
     private final FunctionInvoker functionInvoker;
 
+    private final Deque<StackTraceItem> currentStack = new ArrayDeque<>();
+
     private SourceLine currentSourceLine;
 
     private LocalContext currentLocalContext;
 
-    public CurrentRuntimeImpl(final FunctionInvoker functionInvoker) {
+    CurrentRuntimeImpl(final FunctionInvoker functionInvoker) {
         this.functionInvoker = requireNonNull(functionInvoker);
     }
 
@@ -67,5 +76,20 @@ public class CurrentRuntimeImpl implements CurrentRuntime {
     @Override
     public void setCurrentLocalContext(final LocalContext currentLocalContext) {
         this.currentLocalContext = requireNonNull(currentLocalContext, "currentLocalContext can't be null");
+    }
+
+    @Override
+    public void enterToFunction(final DeveloperFunction developerFunction) {
+        currentStack.push(new StackTraceItemImpl(developerFunction, currentSourceLine));
+    }
+
+    @Override
+    public void exitFromFunction() {
+        currentStack.poll();
+    }
+
+    @Override
+    public List<StackTraceItem> getCurrentStackTrace() {
+        return List.copyOf(currentStack);
     }
 }

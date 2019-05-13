@@ -18,7 +18,10 @@ package academy.devonline.javamm.interpreter.model;
 
 import academy.devonline.javamm.code.fragment.Operation;
 import academy.devonline.javamm.code.fragment.SourceLine;
+import academy.devonline.javamm.code.fragment.function.DeveloperFunction;
 import academy.devonline.javamm.interpreter.component.FunctionInvoker;
+
+import java.util.List;
 
 /**
  * @author devonline
@@ -41,4 +44,10 @@ public interface CurrentRuntime {
     default void setCurrentOperation(final Operation operation) {
         setCurrentSourceLine(operation.getSourceLine());
     }
+
+    void enterToFunction(DeveloperFunction developerFunction);
+
+    void exitFromFunction();
+
+    List<StackTraceItem> getCurrentStackTrace();
 }
