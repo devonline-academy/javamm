@@ -42,7 +42,7 @@ import static org.junit.jupiter.params.provider.Arguments.arguments;
  */
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class Return_IntegrationTest extends AbstractIntegrationTest {
+class ReturnOperationInterpreter_IntegrationTest extends AbstractIntegrationTest {
 
     @ParameterizedTest
     @ArgumentsSource(ReturnOperationProvider.class)
