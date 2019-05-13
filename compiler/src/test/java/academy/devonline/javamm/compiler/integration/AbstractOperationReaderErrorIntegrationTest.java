@@ -56,14 +56,11 @@ public abstract class AbstractOperationReaderErrorIntegrationTest extends Abstra
             }
             final String subName = name != null ? format(" [%s-%s]", args.get()[2], ++index[0]) : "";
 
-            final List<String> validLines = new ArrayList<>();
-            validLines.add(""); // TODO Add function declaration
-            validLines.addAll(lines);
-
             return dynamicTest(
                 format("%s :: %s -> '%s'", subName, String.join(" ", lines), expectedMessage),
                 () -> {
-                    final JavammSyntaxError error = assertThrows(JavammSyntaxError.class, () -> compile(validLines));
+                    final JavammSyntaxError error = assertThrows(JavammSyntaxError.class, () ->
+                        wrapMainFunctionAndCompile(lines, false));
                     assertEquals(expectedMessage, error.getMessage());
                 });
         });

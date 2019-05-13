@@ -47,7 +47,8 @@ public abstract class AbstractOperationReaderSuccessIntegrationTest extends Abst
             return dynamicTest(
                 String.join(" ", lines),
                 () -> {
-                    final ByteCode byteCode = assertDoesNotThrow(() -> compile(lines));
+                    final ByteCode byteCode = assertDoesNotThrow(() ->
+                        wrapMainFunctionAndCompile(lines, true));
                     final Block block = byteCode.getFunction(byteCode.getMainFunctionName()).orElseThrow().getBody();
                     assertEquals(
                         List.of(getResultOperationClass()),

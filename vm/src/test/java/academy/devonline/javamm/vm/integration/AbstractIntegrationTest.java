@@ -49,8 +49,9 @@ public abstract class AbstractIntegrationTest {
 
     protected final void runBlock(final List<String> operations) {
         final List<String> validOperations = new ArrayList<>();
-        validOperations.add(""); //TODO Add function declaration here
+        validOperations.add("function main(){");
         validOperations.addAll(operations);
+        validOperations.add("}");
 
         virtualMachine.run(new TestSourceCode(validOperations));
     }

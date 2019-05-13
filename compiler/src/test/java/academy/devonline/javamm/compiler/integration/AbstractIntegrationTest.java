@@ -21,6 +21,7 @@ import academy.devonline.javamm.code.fragment.SourceCode;
 import academy.devonline.javamm.compiler.Compiler;
 import academy.devonline.javamm.compiler.CompilerConfigurator;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -44,5 +45,16 @@ public abstract class AbstractIntegrationTest {
                 return Collections.unmodifiableList(lines);
             }
         });
+    }
+
+    ByteCode wrapMainFunctionAndCompile(final List<String> lines,
+                                        final boolean withClosingCurlyBrace) {
+        final List<String> validLines = new ArrayList<>();
+        validLines.add("function main(){");
+        validLines.addAll(lines);
+        if (withClosingCurlyBrace) {
+            validLines.add("}");
+        }
+        return compile(validLines);
     }
 }
