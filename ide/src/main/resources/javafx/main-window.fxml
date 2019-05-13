@@ -16,7 +16,6 @@
   ~ limitations under the License.
   -->
 
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
@@ -25,10 +24,10 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
-
-<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="academy.devonline.javamm.ide.controller.MainWindowController">
+<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.172-ea"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="academy.devonline.javamm.ide.controller.MainWindowController">
     <top>
         <VBox fx:id="actionPane" BorderPane.alignment="CENTER">
             <children>
@@ -36,41 +35,27 @@
                     <menus>
                         <Menu mnemonicParsing="false" text="File">
                             <items>
-                                <MenuItem mnemonicParsing="false" text="Close22" />
-                            </items>
-                        </Menu>
-                        <Menu mnemonicParsing="false" text="Edit">
-                            <items>
-                                <MenuItem mnemonicParsing="false" text="Delete" />
-                            </items>
-                        </Menu>
-                        <Menu mnemonicParsing="false" text="Help">
-                            <items>
-                                <MenuItem mnemonicParsing="false" text="About" />
+                                <MenuItem mnemonicParsing="false" onAction="#onCloseAction" text="Close"/>
                             </items>
                         </Menu>
                     </menus>
                 </MenuBar>
-                <HBox prefHeight="35.0" prefWidth="200.0">
-                    <children>
-                        <Button mnemonicParsing="false" text="Button" />
-                    </children>
-                </HBox>
             </children>
         </VBox>
     </top>
     <center>
-        <SplitPane dividerPositions="0.8" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" BorderPane.alignment="CENTER">
+        <SplitPane dividerPositions="0.8" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0"
+                   BorderPane.alignment="CENTER">
             <TabPane fx:id="codeTabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="ALL_TABS">
                 <Tab text="Untitled-0.javamm">
                     <BorderPane prefHeight="200.0" prefWidth="200.0">
                         <center>
-                            <TextArea prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+                            <TextArea prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER"/>
                         </center>
                     </BorderPane>
                 </Tab>
             </TabPane>
-            <BorderPane fx:id="consolePane" prefHeight="200.0" prefWidth="600.0" />
+            <BorderPane fx:id="consolePane" prefHeight="200.0" prefWidth="600.0"/>
         </SplitPane>
     </center>
 </BorderPane>

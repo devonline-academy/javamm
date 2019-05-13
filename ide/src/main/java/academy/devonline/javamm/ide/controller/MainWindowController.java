@@ -16,6 +16,7 @@
 
 package academy.devonline.javamm.ide.controller;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
@@ -35,5 +36,10 @@ public class MainWindowController {
 
     @FXML
     private BorderPane consolePane;
+
+    @FXML
+    private void onCloseAction(final ActionEvent event) {
+        System.exit(0);
+    }
 }
 
