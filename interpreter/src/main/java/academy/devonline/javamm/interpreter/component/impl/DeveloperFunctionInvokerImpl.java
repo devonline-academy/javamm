@@ -26,6 +26,7 @@ import academy.devonline.javamm.interpreter.component.DeveloperFunctionInvoker;
 import academy.devonline.javamm.interpreter.component.RuntimeBuilder;
 import academy.devonline.javamm.interpreter.component.impl.error.JavammLineRuntimeError;
 import academy.devonline.javamm.interpreter.component.impl.operation.exception.InterruptOperationException;
+import academy.devonline.javamm.interpreter.component.impl.operation.exception.ReturnOperationException;
 import academy.devonline.javamm.interpreter.model.CurrentRuntime;
 import academy.devonline.javamm.interpreter.model.LocalContext;
 
@@ -97,6 +98,8 @@ public class DeveloperFunctionInvokerImpl implements DeveloperFunctionInvoker {
         try {
             blockOperationInterpreter.interpret(developerFunction.getBody());
             return academy.devonline.javamm.code.fragment.Void.INSTANCE;
+        } catch (final ReturnOperationException exception) {
+            return exception.getResult();
         } catch (final InterruptOperationException exception) {
             throw new JavammLineRuntimeError(format("Operation '%s' not expected here", exception.getOperation()));
         }

@@ -1,14 +1,7 @@
-function main ( ) {
-    var message = 'Hello'
-    var res = say(message)
-
-    var type = void
-    println(res typeof void)
-    println(res typeof type)
-    println(res)
-    println(res + null)
+function main(){
+    println(sum(2, 3))
 }
 
-function say(message){
-    println(message)
+function sum(a, b){
+    return a + b
 }

@@ -57,6 +57,7 @@ import academy.devonline.javamm.compiler.component.impl.operation.simple.BreakOp
 import academy.devonline.javamm.compiler.component.impl.operation.simple.ContinueOperationReader;
 import academy.devonline.javamm.compiler.component.impl.operation.simple.FinalDeclarationOperationReader;
 import academy.devonline.javamm.compiler.component.impl.operation.simple.PrintlnOperationReader;
+import academy.devonline.javamm.compiler.component.impl.operation.simple.ReturnOperationReader;
 import academy.devonline.javamm.compiler.component.impl.operation.simple.VariableAssignmentOperationReader;
 import academy.devonline.javamm.compiler.component.impl.operation.simple.VariableDeclarationOperationReader;
 
@@ -106,6 +107,7 @@ public class CompilerConfigurator {
         new VariableAssignmentOperationReader(expressionResolver),
         new ContinueOperationReader(),
         new BreakOperationReader(),
+        new ReturnOperationReader(expressionResolver),
 
         new IfElseOperationReader(expressionResolver),
         new WhileOperationReader(expressionResolver),

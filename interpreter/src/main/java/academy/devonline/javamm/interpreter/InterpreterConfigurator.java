@@ -72,6 +72,7 @@ import academy.devonline.javamm.interpreter.component.impl.operation.simple.Brea
 import academy.devonline.javamm.interpreter.component.impl.operation.simple.ContinueOperationInterpreter;
 import academy.devonline.javamm.interpreter.component.impl.operation.simple.ExpressionOperationInterpreter;
 import academy.devonline.javamm.interpreter.component.impl.operation.simple.PrintlnOperationInterpreter;
+import academy.devonline.javamm.interpreter.component.impl.operation.simple.ReturnOperationInterpreter;
 import academy.devonline.javamm.interpreter.component.impl.operation.simple.VariableAssignmentOperationInterpreter;
 import academy.devonline.javamm.interpreter.component.impl.operation.simple.VariableDeclarationOperationInterpreter;
 
@@ -159,6 +160,7 @@ public class InterpreterConfigurator {
         new ExpressionOperationInterpreter(expressionContext),
         new ContinueOperationInterpreter(expressionContext),
         new BreakOperationInterpreter(expressionContext),
+        new ReturnOperationInterpreter(expressionContext),
 
         new IfElseOperationInterpreter(expressionContext, calculatorFacade),
         new WhileOperationInterpreter(expressionContext, calculatorFacade),
