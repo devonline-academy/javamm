@@ -14,26 +14,20 @@
  * limitations under the License.
  */
 
-package academy.devonline.javamm.interpreter.component.impl;
+package academy.devonline.javamm.interpreter.component;
 
-import academy.devonline.javamm.interpreter.component.FunctionInvoker;
-import academy.devonline.javamm.interpreter.component.RuntimeBuilder;
-import academy.devonline.javamm.interpreter.model.CurrentRuntime;
-import academy.devonline.javamm.interpreter.model.LocalContext;
+import academy.devonline.javamm.code.fragment.Expression;
+import academy.devonline.javamm.code.fragment.function.DeveloperFunction;
+
+import java.util.List;
 
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-public class RuntimeBuilderImpl implements RuntimeBuilder {
+public interface DeveloperFunctionInvoker {
 
-    @Override
-    public LocalContext buildLocalContext() {
-        return new LocalContextImpl();
-    }
+    Object invoke(DeveloperFunction developerFunction, List<Expression> arguments);
 
-    @Override
-    public CurrentRuntime buildCurrentRuntime(final FunctionInvoker functionInvoker) {
-        return new CurrentRuntimeImpl(functionInvoker);
-    }
+    Object invokeMain(DeveloperFunction developerFunction);
 }

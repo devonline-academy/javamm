@@ -19,13 +19,17 @@ package academy.devonline.javamm.interpreter;
 import academy.devonline.javamm.code.component.ExpressionContext;
 import academy.devonline.javamm.interpreter.component.BlockOperationInterpreter;
 import academy.devonline.javamm.interpreter.component.CalculatorFacade;
+import academy.devonline.javamm.interpreter.component.DeveloperFunctionInvoker;
 import academy.devonline.javamm.interpreter.component.ExpressionEvaluator;
 import academy.devonline.javamm.interpreter.component.ExpressionUpdater;
+import academy.devonline.javamm.interpreter.component.FunctionInvokerBuilder;
 import academy.devonline.javamm.interpreter.component.OperationInterpreter;
 import academy.devonline.javamm.interpreter.component.RuntimeBuilder;
 import academy.devonline.javamm.interpreter.component.impl.BlockOperationInterpreterImpl;
 import academy.devonline.javamm.interpreter.component.impl.CalculatorFacadeImpl;
+import academy.devonline.javamm.interpreter.component.impl.DeveloperFunctionInvokerImpl;
 import academy.devonline.javamm.interpreter.component.impl.ExpressionContextImpl;
+import academy.devonline.javamm.interpreter.component.impl.FunctionInvokerBuilderImpl;
 import academy.devonline.javamm.interpreter.component.impl.InterpreterImpl;
 import academy.devonline.javamm.interpreter.component.impl.RuntimeBuilderImpl;
 import academy.devonline.javamm.interpreter.component.impl.calculator.arithmetic.AdditionBinaryExpressionCalculator;
@@ -54,6 +58,7 @@ import academy.devonline.javamm.interpreter.component.impl.calculator.predicate.
 import academy.devonline.javamm.interpreter.component.impl.calculator.predicate.IsLessOrEqualsBinaryExpressionCalculator;
 import academy.devonline.javamm.interpreter.component.impl.calculator.predicate.IsNotEqualsBinaryExpressionCalculator;
 import academy.devonline.javamm.interpreter.component.impl.calculator.predicate.TypeOfBinaryExpressionCalculator;
+import academy.devonline.javamm.interpreter.component.impl.expression.evaluator.FunctionInvokeExpressionEvaluator;
 import academy.devonline.javamm.interpreter.component.impl.expression.evaluator.PostfixNotationComplexExpressionEvaluator;
 import academy.devonline.javamm.interpreter.component.impl.expression.evaluator.VariableExpressionEvaluator;
 import academy.devonline.javamm.interpreter.component.impl.expression.updater.VariableExpressionUpdater;
@@ -137,7 +142,8 @@ public class InterpreterConfigurator {
 
     private Set<ExpressionEvaluator<?>> expressionEvaluators = Set.of(
         new VariableExpressionEvaluator(),
-        new PostfixNotationComplexExpressionEvaluator(calculatorFacade)
+        new PostfixNotationComplexExpressionEvaluator(calculatorFacade),
+        new FunctionInvokeExpressionEvaluator()
     );
 
     private Set<ExpressionUpdater<?>> expressionUpdaters = Set.of(
@@ -167,7 +173,14 @@ public class InterpreterConfigurator {
 
     private RuntimeBuilder runtimeBuilder = new RuntimeBuilderImpl();
 
-    private Interpreter interpreter = new InterpreterImpl(blockOperationInterpreter, runtimeBuilder);
+    private DeveloperFunctionInvoker developerFunctionInvoker = new DeveloperFunctionInvokerImpl(
+        runtimeBuilder,
+        blockOperationInterpreter,
+        expressionContext);
+
+    private FunctionInvokerBuilder functionInvokerBuilder = new FunctionInvokerBuilderImpl(developerFunctionInvoker);
+
+    private Interpreter interpreter = new InterpreterImpl(functionInvokerBuilder, runtimeBuilder);
 
     public Interpreter getInterpreter() {
         return interpreter;

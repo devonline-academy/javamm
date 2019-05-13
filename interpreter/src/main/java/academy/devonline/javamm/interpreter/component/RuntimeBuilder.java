@@ -27,5 +27,5 @@ public interface RuntimeBuilder {
 
     LocalContext buildLocalContext();
 
-    CurrentRuntime buildCurrentRuntime();
+    CurrentRuntime buildCurrentRuntime(FunctionInvoker functionInvoker);
 }

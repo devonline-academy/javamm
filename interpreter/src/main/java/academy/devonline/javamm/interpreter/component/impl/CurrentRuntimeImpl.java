@@ -17,6 +17,7 @@
 package academy.devonline.javamm.interpreter.component.impl;
 
 import academy.devonline.javamm.code.fragment.SourceLine;
+import academy.devonline.javamm.interpreter.component.FunctionInvoker;
 import academy.devonline.javamm.interpreter.model.CurrentRuntime;
 import academy.devonline.javamm.interpreter.model.LocalContext;
 
@@ -28,9 +29,20 @@ import static java.util.Objects.requireNonNull;
  */
 public class CurrentRuntimeImpl implements CurrentRuntime {
 
+    private final FunctionInvoker functionInvoker;
+
     private SourceLine currentSourceLine;
 
     private LocalContext currentLocalContext;
+
+    public CurrentRuntimeImpl(final FunctionInvoker functionInvoker) {
+        this.functionInvoker = requireNonNull(functionInvoker);
+    }
+
+    @Override
+    public FunctionInvoker getCurrentFunctionInvoker() {
+        return functionInvoker;
+    }
 
     @Override
     public String getCurrentModuleName() {

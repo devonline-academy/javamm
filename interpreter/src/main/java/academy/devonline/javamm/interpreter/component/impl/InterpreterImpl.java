@@ -17,25 +17,17 @@
 package academy.devonline.javamm.interpreter.component.impl;
 
 import academy.devonline.javamm.code.fragment.ByteCode;
-import academy.devonline.javamm.code.fragment.FunctionName;
-import academy.devonline.javamm.code.fragment.function.DeveloperFunction;
 import academy.devonline.javamm.interpreter.Interpreter;
 import academy.devonline.javamm.interpreter.JavammRuntimeError;
 import academy.devonline.javamm.interpreter.TerminateInterpreterException;
-import academy.devonline.javamm.interpreter.component.BlockOperationInterpreter;
+import academy.devonline.javamm.interpreter.component.FunctionInvoker;
+import academy.devonline.javamm.interpreter.component.FunctionInvokerBuilder;
 import academy.devonline.javamm.interpreter.component.RuntimeBuilder;
-import academy.devonline.javamm.interpreter.component.impl.error.JavammLineRuntimeError;
-import academy.devonline.javamm.interpreter.component.impl.error.JavammStructRuntimeError;
-import academy.devonline.javamm.interpreter.component.impl.operation.exception.InterruptOperationException;
-import academy.devonline.javamm.interpreter.model.CurrentRuntime;
-import academy.devonline.javamm.interpreter.model.LocalContext;
 
-import java.util.Optional;
+import java.util.List;
 
-import static academy.devonline.javamm.code.syntax.Keywords.FUNCTION;
 import static academy.devonline.javamm.interpreter.model.CurrentRuntimeProvider.releaseCurrentRuntime;
 import static academy.devonline.javamm.interpreter.model.CurrentRuntimeProvider.setCurrentRuntime;
-import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -44,40 +36,24 @@ import static java.util.Objects.requireNonNull;
  */
 public class InterpreterImpl implements Interpreter {
 
-    private final BlockOperationInterpreter blockOperationInterpreter;
+    private final FunctionInvokerBuilder functionInvokerBuilder;
 
     private final RuntimeBuilder runtimeBuilder;
 
-    public InterpreterImpl(final BlockOperationInterpreter blockOperationInterpreter,
+    public InterpreterImpl(final FunctionInvokerBuilder functionInvokerBuilder,
                            final RuntimeBuilder runtimeBuilder) {
-        this.blockOperationInterpreter = requireNonNull(blockOperationInterpreter);
+        this.functionInvokerBuilder = requireNonNull(functionInvokerBuilder);
         this.runtimeBuilder = requireNonNull(runtimeBuilder);
     }
 
     @Override
     public void interpret(final ByteCode byteCode) throws JavammRuntimeError, TerminateInterpreterException {
-        final FunctionName mainFunctionName = byteCode.getMainFunctionName();
-        final Optional<DeveloperFunction> mainFunctionOptional = byteCode.getFunction(mainFunctionName);
-        if (mainFunctionOptional.isPresent()) {
-            final CurrentRuntime currentRuntime = runtimeBuilder.buildCurrentRuntime();
-            final LocalContext localContext = runtimeBuilder.buildLocalContext();
-            currentRuntime.setCurrentLocalContext(localContext);
-
-            final DeveloperFunction mainFunction = mainFunctionOptional.get();
-            currentRuntime.setCurrentSourceLine(mainFunction.getDeclarationSourceLine());
-            setCurrentRuntime(currentRuntime);
-
-            try {
-                blockOperationInterpreter.interpret(mainFunction.getBody());
-            } catch (final InterruptOperationException exception) {
-                throw new JavammLineRuntimeError(format("Operation '%s' not expected here", exception.getOperation()));
-            } finally {
-                releaseCurrentRuntime();
-            }
-        } else {
-            throw new JavammStructRuntimeError(
-                format("Main function not found, please define the main function as: '%s %s'",
-                    FUNCTION, mainFunctionName));
+        final FunctionInvoker functionInvoker = functionInvokerBuilder.build(byteCode);
+        setCurrentRuntime(runtimeBuilder.buildCurrentRuntime(functionInvoker));
+        try {
+            functionInvoker.invoke(byteCode.getMainFunctionName(), List.of(), true);
+        } finally {
+            releaseCurrentRuntime();
         }
     }
 }

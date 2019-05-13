@@ -18,12 +18,15 @@ package academy.devonline.javamm.interpreter.model;
 
 import academy.devonline.javamm.code.fragment.Operation;
 import academy.devonline.javamm.code.fragment.SourceLine;
+import academy.devonline.javamm.interpreter.component.FunctionInvoker;
 
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
 public interface CurrentRuntime {
+
+    FunctionInvoker getCurrentFunctionInvoker();
 
     String getCurrentModuleName();
 
