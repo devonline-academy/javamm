@@ -21,4 +21,15 @@
 module temp {
     requires javamm.code;
     requires javamm.compiler;
+
+    // Awt & swing
+    requires java.desktop;
+
+    // SWT
+    requires swt;
+
+    // JavaFX
+    requires javafx.graphics;
+    requires javafx.controls;
+    exports academy.devonline.temp.gui.gui4_javafx to javafx.graphics;
 }

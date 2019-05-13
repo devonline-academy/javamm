@@ -21,5 +21,29 @@
             <artifactId>compiler</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
+        <dependency>
+            <groupId>academy.devonline</groupId>
+            <artifactId>vm</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-controls</artifactId>
+            <version>11.0.2</version>
+        </dependency>
+        <dependency>
+            <!-- http://maven.devonline.academy/org/eclipse/swt/4.10/ -->
+            <groupId>org.eclipse</groupId>
+            <artifactId>swt</artifactId>
+            <version>4.10</version>
+        </dependency>
     </dependencies>
+
+    <repositories>
+        <repository>
+            <id>devonline.academy</id>
+            <url>http://maven.devonline.academy</url>
+        </repository>
+    </repositories>
 </project>
