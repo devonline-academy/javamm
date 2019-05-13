@@ -1,19 +1,34 @@
-function main ( ) {
-    var a = 1
-    var b = 2
-    var c = sum (a, b)
-
-    a = b >> 2
-    final d = sum(a, b)
-
-    a = b >> 2
-    final e = sum(a, b)
-
-    println(c)
-    println(d)
-    println(e)
+function main() {
+	final a = 5
+	println(factorialRecursive(a))
+	println(factorialRecursive(a, 1))
+	println(factorialIterative(a))
 }
 
-function sum(a, b){
-    return a + b
+function factorialRecursive(value) {
+	if(value <= 1) {
+		return 1
+	}
+	else {
+		final prev = factorialRecursive(value - 1)
+		return value * prev
+	}
+}
+
+function factorialRecursive(value, initResult) {
+	if(value <= 1) {
+		return initResult
+	}
+	else {
+	    final newInitResult = initResult * value
+		return factorialRecursive(value - 1, newInitResult)
+	}
+}
+
+function factorialIterative(value) {
+	var res = 1
+	for(var i = 1; i <= value; i ++) {
+		res *= i
+	}
+	return res
 }

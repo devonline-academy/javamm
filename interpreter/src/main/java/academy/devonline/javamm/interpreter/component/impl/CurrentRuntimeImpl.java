@@ -19,6 +19,7 @@ package academy.devonline.javamm.interpreter.component.impl;
 import academy.devonline.javamm.code.fragment.SourceLine;
 import academy.devonline.javamm.code.fragment.function.DeveloperFunction;
 import academy.devonline.javamm.interpreter.component.FunctionInvoker;
+import academy.devonline.javamm.interpreter.component.impl.error.JavammLineRuntimeError;
 import academy.devonline.javamm.interpreter.component.impl.model.StackTraceItemImpl;
 import academy.devonline.javamm.interpreter.model.CurrentRuntime;
 import academy.devonline.javamm.interpreter.model.LocalContext;
@@ -26,7 +27,6 @@ import academy.devonline.javamm.interpreter.model.StackTraceItem;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Deque;
 import java.util.List;
 
@@ -43,14 +43,18 @@ public class CurrentRuntimeImpl implements CurrentRuntime {
 
     private final Deque<StackTraceItem> currentStack = new ArrayDeque<>();
 
+    private final int maxStackSize;
+
     private SourceLine currentSourceLine;
 
     private LocalContext currentLocalContext;
 
     private DeveloperFunction currentDeveloperFunction;
 
-    CurrentRuntimeImpl(final FunctionInvoker functionInvoker) {
+    CurrentRuntimeImpl(final FunctionInvoker functionInvoker,
+                       final int maxStackSize) {
         this.functionInvoker = requireNonNull(functionInvoker);
+        this.maxStackSize = maxStackSize;
     }
 
     @Override
@@ -89,6 +93,9 @@ public class CurrentRuntimeImpl implements CurrentRuntime {
             currentStack.push(new StackTraceItemImpl(currentDeveloperFunction, currentSourceLine));
         }
         currentDeveloperFunction = developerFunction;
+        if (maxStackSize - 1 == currentStack.size()) {
+            throw new JavammLineRuntimeError("Stack overflow error. Max stack size is " + maxStackSize);
+        }
     }
 
     @Override
