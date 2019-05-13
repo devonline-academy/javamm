@@ -56,6 +56,7 @@ public final class ExpressionResolverImpl implements ExpressionResolver {
                                   final ComplexExpressionBuilder complexExpressionBuilder) {
         this.expressionBuilders = List.copyOf(expressionBuilders);
         this.lexemeBuilder = requireNonNull(lexemeBuilder);
+        this.lexemeBuilder.setExpressionResolver(this);
         this.unaryOperatorUpdater = requireNonNull(unaryOperatorUpdater);
         this.complexLexemeValidator = requireNonNull(complexLexemeValidator);
         this.complexExpressionBuilder = requireNonNull(complexExpressionBuilder);
