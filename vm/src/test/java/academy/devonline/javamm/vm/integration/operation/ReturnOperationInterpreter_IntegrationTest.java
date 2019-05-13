@@ -49,7 +49,7 @@ class ReturnOperationInterpreter_IntegrationTest extends AbstractIntegrationTest
     void Should_throw_runtime_error(final List<String> lines,
                                     final List<Object> expectedOutput) {
         assertDoesNotThrow(() -> {
-            runBlock(lines);
+            runCode(lines);
             assertEquals(expectedOutput, getOutput());
         });
     }
