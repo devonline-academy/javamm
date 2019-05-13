@@ -6,7 +6,7 @@ function main ( ) {
     a = b >> 2
     final d = sum(a, b)
 
-    a = b > 2
+    a = b >> 2
     final e = sum(a, b)
 
     println(c)

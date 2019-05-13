@@ -25,9 +25,12 @@ import academy.devonline.javamm.interpreter.model.LocalContext;
 import academy.devonline.javamm.interpreter.model.StackTraceItem;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Deque;
 import java.util.List;
 
+import static java.util.Collections.unmodifiableList;
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -43,6 +46,8 @@ public class CurrentRuntimeImpl implements CurrentRuntime {
     private SourceLine currentSourceLine;
 
     private LocalContext currentLocalContext;
+
+    private DeveloperFunction currentDeveloperFunction;
 
     CurrentRuntimeImpl(final FunctionInvoker functionInvoker) {
         this.functionInvoker = requireNonNull(functionInvoker);
@@ -80,16 +85,29 @@ public class CurrentRuntimeImpl implements CurrentRuntime {
 
     @Override
     public void enterToFunction(final DeveloperFunction developerFunction) {
-        currentStack.push(new StackTraceItemImpl(developerFunction, currentSourceLine));
+        if (currentDeveloperFunction != null) {
+            currentStack.push(new StackTraceItemImpl(currentDeveloperFunction, currentSourceLine));
+        }
+        currentDeveloperFunction = developerFunction;
     }
 
     @Override
     public void exitFromFunction() {
-        currentStack.poll();
+        final StackTraceItem stackTraceItem = currentStack.poll();
+        if (stackTraceItem != null) {
+            currentDeveloperFunction = stackTraceItem.getFunction();
+        } else {
+            currentDeveloperFunction = null;
+        }
     }
 
     @Override
     public List<StackTraceItem> getCurrentStackTrace() {
-        return List.copyOf(currentStack);
+        final List<StackTraceItem> currentStackTrace = new ArrayList<>();
+        if (currentDeveloperFunction != null) {
+            currentStackTrace.add(new StackTraceItemImpl(currentDeveloperFunction, currentSourceLine));
+        }
+        currentStackTrace.addAll(currentStack);
+        return unmodifiableList(currentStackTrace);
     }
 }
