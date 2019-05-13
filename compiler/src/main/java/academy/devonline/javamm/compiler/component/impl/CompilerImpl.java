@@ -22,16 +22,20 @@ import academy.devonline.javamm.code.fragment.FunctionName;
 import academy.devonline.javamm.code.fragment.SourceCode;
 import academy.devonline.javamm.code.fragment.SourceLine;
 import academy.devonline.javamm.code.fragment.function.DeveloperFunction;
-import academy.devonline.javamm.code.fragment.operation.Block;
 import academy.devonline.javamm.compiler.Compiler;
 import academy.devonline.javamm.compiler.JavammSyntaxError;
-import academy.devonline.javamm.compiler.component.BlockOperationReader;
 import academy.devonline.javamm.compiler.component.FunctionNameBuilder;
+import academy.devonline.javamm.compiler.component.FunctionReader;
 import academy.devonline.javamm.compiler.component.SourceLineReader;
+import academy.devonline.javamm.compiler.component.impl.error.JavammLineSyntaxError;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 
+import static academy.devonline.javamm.code.fragment.SourceLine.EMPTY_SOURCE_LINE;
+import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -44,29 +48,33 @@ public class CompilerImpl implements Compiler {
 
     private final SourceLineReader sourceLineReader;
 
-    private final BlockOperationReader blockOperationReader;
+    private final FunctionReader functionReader;
 
     public CompilerImpl(final FunctionNameBuilder functionNameBuilder,
                         final SourceLineReader sourceLineReader,
-                        final BlockOperationReader blockOperationReader) {
+                        final FunctionReader functionReader) {
         this.functionNameBuilder = requireNonNull(functionNameBuilder);
         this.sourceLineReader = requireNonNull(sourceLineReader);
-        this.blockOperationReader = requireNonNull(blockOperationReader);
+        this.functionReader = requireNonNull(functionReader);
     }
 
     @Override
     public ByteCode compile(final SourceCode... sourceCodes) throws JavammSyntaxError {
-        final SourceCode sourceCode = sourceCodes[0];
-        final List<SourceLine> sourceLines = sourceLineReader.read(sourceCode);
-        final SourceLine sourceLine = new SourceLine(sourceCode.getModuleName(), 0, List.of());
-        final Block block = blockOperationReader.read(sourceLine, sourceLines.listIterator(), false);
-
-        final FunctionName mainFunctionName = functionNameBuilder.build("main", List.of(), sourceLine);
-        final DeveloperFunction mainFunction = new DeveloperFunction.Builder()
-            .setName(mainFunctionName)
-            .setBody(block)
-            .build();
-        return new ByteCodeImpl(Map.of(mainFunctionName, mainFunction), mainFunctionName);
+        final FunctionName mainFunctionName = functionNameBuilder.build("main", List.of(), EMPTY_SOURCE_LINE);
+        final Map<FunctionName, DeveloperFunction> functionMap = new LinkedHashMap<>();
+        for (final SourceCode sourceCode : sourceCodes) {
+            final List<SourceLine> lines = sourceLineReader.read(sourceCode);
+            final ListIterator<SourceLine> iterator = lines.listIterator();
+            while (iterator.hasNext()) {
+                final DeveloperFunction function = functionReader.read(iterator);
+                if (functionMap.put(function.getName(), function) != null) {
+                    throw new JavammLineSyntaxError(format(
+                        "Function '%s' is already defined", function.getName()),
+                        function.getDeclarationSourceLine());
+                }
+            }
+        }
+        return new ByteCodeImpl(functionMap, mainFunctionName);
     }
 
     /**

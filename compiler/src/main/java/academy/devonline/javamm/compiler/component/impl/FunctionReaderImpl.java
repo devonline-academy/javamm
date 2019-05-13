@@ -18,6 +18,7 @@ package academy.devonline.javamm.compiler.component.impl;
 
 import academy.devonline.javamm.code.fragment.SourceLine;
 import academy.devonline.javamm.code.fragment.function.DeveloperFunction;
+import academy.devonline.javamm.compiler.component.BlockOperationReader;
 import academy.devonline.javamm.compiler.component.FunctionReader;
 
 import java.util.ListIterator;
@@ -27,6 +28,10 @@ import java.util.ListIterator;
  * @link http://devonline.academy/javamm
  */
 public class FunctionReaderImpl implements FunctionReader {
+
+    public FunctionReaderImpl(final BlockOperationReader blockOperationReader) {
+
+    }
 
     @Override
     public DeveloperFunction read(final ListIterator<SourceLine> iterator) {

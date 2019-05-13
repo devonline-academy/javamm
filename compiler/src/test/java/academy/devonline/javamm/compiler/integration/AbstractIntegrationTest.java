@@ -28,11 +28,11 @@ import java.util.List;
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-abstract class AbstractIntegrationTest {
+public abstract class AbstractIntegrationTest {
 
     private final Compiler compiler = new CompilerConfigurator().getCompiler();
 
-    ByteCode compile(final List<String> lines) {
+    protected ByteCode compile(final List<String> lines) {
         return compiler.compile(new SourceCode() {
             @Override
             public String getModuleName() {
