@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright (c) 2019. http://devonline.academy
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.172-ea"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="academy.devonline.javamm.ide.controller.MainWindowController">
+    <top>
+        <VBox fx:id="actionPane" BorderPane.alignment="CENTER"/>
+    </top>
+    <center>
+        <SplitPane dividerPositions="0.8" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0"
+                   BorderPane.alignment="CENTER">
+            <TabPane fx:id="codeTabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="ALL_TABS">
+                <Tab text="Untitled-0.javamm">
+                    <BorderPane prefHeight="200.0" prefWidth="200.0">
+                        <center>
+                            <TextArea prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER"/>
+                        </center>
+                    </BorderPane>
+                </Tab>
+            </TabPane>
+            <BorderPane fx:id="consolePane" prefHeight="200.0" prefWidth="600.0"/>
+        </SplitPane>
+    </center>
+</BorderPane>
