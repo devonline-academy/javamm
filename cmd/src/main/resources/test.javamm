@@ -1,16 +1,14 @@
-function main(){
-    final message = 'Hello'
-    say(message)
-    println(message)
-    say()
+function main ( ) {
+    var message = 'Hello'
+    var res = say(message)
+
+    var type = void
+    println(res typeof void)
+    println(res typeof type)
+    println(res)
+    println(res + null)
 }
 
 function say(message){
     println(message)
-    message = 'Bye'
-    println(message)
-}
-
-function say(){
-    println('Java')
 }

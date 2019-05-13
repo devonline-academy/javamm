@@ -96,7 +96,7 @@ public class DeveloperFunctionInvokerImpl implements DeveloperFunctionInvoker {
     protected Object interpretBody(final DeveloperFunction developerFunction) {
         try {
             blockOperationInterpreter.interpret(developerFunction.getBody());
-            return null;
+            return academy.devonline.javamm.code.fragment.Void.INSTANCE;
         } catch (final InterruptOperationException exception) {
             throw new JavammLineRuntimeError(format("Operation '%s' not expected here", exception.getOperation()));
         }

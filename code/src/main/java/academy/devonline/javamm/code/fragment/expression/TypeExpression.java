@@ -37,7 +37,9 @@ public enum TypeExpression implements Expression, CaseValueExpression {
 
     BOOLEAN(Boolean.class),
 
-    DOUBLE(Double.class);
+    DOUBLE(Double.class),
+
+    VOID(academy.devonline.javamm.code.fragment.Void.class);
 
     // TODO Array
 
