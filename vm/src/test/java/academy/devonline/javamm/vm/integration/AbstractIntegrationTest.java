@@ -47,13 +47,17 @@ public abstract class AbstractIntegrationTest {
         System.setOut(testPrintStream);
     }
 
+    protected final void runCode(final List<String> operations) {
+        virtualMachine.run(new TestSourceCode(operations));
+    }
+
     protected final void runBlock(final List<String> operations) {
         final List<String> validOperations = new ArrayList<>();
         validOperations.add("function main(){");
         validOperations.addAll(operations);
         validOperations.add("}");
 
-        virtualMachine.run(new TestSourceCode(validOperations));
+        runCode(validOperations);
     }
 
     protected final void runBlock(final String operation) {
