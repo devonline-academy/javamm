@@ -16,6 +16,7 @@
 
 package academy.devonline.javamm.ide.component.impl;
 
+import academy.devonline.javamm.code.component.Console;
 import academy.devonline.javamm.code.fragment.SourceCode;
 import academy.devonline.javamm.compiler.JavammSyntaxError;
 import academy.devonline.javamm.ide.component.VirtualMachineRunner;
@@ -37,14 +38,18 @@ import static java.util.Objects.requireNonNull;
  */
 public class VirtualMachineRunnerImpl implements VirtualMachineRunner {
 
+    private final Console console;
+
     private final VirtualMachine virtualMachine;
 
     private final List<SourceCode> sourceCodes;
 
     private Thread runnerThread;
 
-    VirtualMachineRunnerImpl(final VirtualMachine virtualMachine,
+    VirtualMachineRunnerImpl(final Console console,
+                             final VirtualMachine virtualMachine,
                              final List<SourceCode> sourceCodes) {
+        this.console = requireNonNull(console);
         this.virtualMachine = requireNonNull(virtualMachine);
         this.sourceCodes = unmodifiableList(sourceCodes);
     }
@@ -78,15 +83,15 @@ public class VirtualMachineRunnerImpl implements VirtualMachineRunner {
             virtualMachine.run(sourceCodes.toArray(new SourceCode[0]));
         } catch (final JavammSyntaxError e) {
             status = CompleteStatus.SYNTAX_ERROR;
-            System.err.println(e.getMessage());
+            console.errPrintln(e.getMessage());
         } catch (final JavammRuntimeError e) {
             status = CompleteStatus.RUNTIME_ERROR;
-            System.err.println(e.getMessage());
+            console.errPrintln(e.getMessage());
         } catch (final TerminateInterpreterException e) {
             status = CompleteStatus.TERMINATED;
         } catch (final RuntimeException e) {
             status = CompleteStatus.INTERNAL_ERROR;
-            System.err.println(format("Internal error: %s", stackTraceToString(e)));
+            console.errPrintln(format("Internal error: %s", stackTraceToString(e)));
         } finally {
             listener.onRunCompleted(status);
         }

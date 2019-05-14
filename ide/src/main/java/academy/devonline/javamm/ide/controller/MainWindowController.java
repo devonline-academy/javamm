@@ -16,7 +16,6 @@
 
 package academy.devonline.javamm.ide.controller;
 
-import academy.devonline.javamm.code.component.Console;
 import academy.devonline.javamm.ide.component.VirtualMachineRunner;
 import academy.devonline.javamm.ide.ui.listener.ActionListener;
 import academy.devonline.javamm.ide.ui.pane.ActionPane;
@@ -106,19 +105,8 @@ public class MainWindowController implements ActionListener,
 
     @Override
     public void onRunAction() {
-        paneManager.getVisibleConsolePane(spWork);
         virtualMachineRunner = getComponentFactory().createVirtualMachineRunner(
-            new Console() {
-                @Override
-                public void outPrintln(final Object value) {
-                    System.out.println("TEMP->" + value);
-                }
-
-                @Override
-                public void errPrintln(final String message) {
-                    System.err.println(message);
-                }
-            },
+            paneManager.getVisibleConsolePane(spWork).getNewConsole(),
             codeTabPane.getAllSourceCodes());
         virtualMachineRunner.run(this);
     }
@@ -127,6 +115,11 @@ public class MainWindowController implements ActionListener,
     public void onRunCompleted(final VirtualMachineRunner.CompleteStatus status) {
         Platform.runLater(() -> {
             actionPane.onRunCompleted(status);
+            if (status == VirtualMachineRunner.CompleteStatus.SUCCESSFUL) {
+                paneManager.getVisibleConsolePane(spWork).displayCompletedMessage();
+            } else if (status == VirtualMachineRunner.CompleteStatus.TERMINATED) {
+                paneManager.getVisibleConsolePane(spWork).displayTerminatedMessage();
+            }
         });
     }
 

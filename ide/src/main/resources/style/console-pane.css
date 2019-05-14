@@ -1,0 +1,21 @@
+/* https://docs.oracle.com/javase/8/javafx/api/javafx/scene/doc-files/cssref.html#text */
+/* https://docs.oracle.com/javase/8/javafx/api/javafx/scene/doc-files/cssref.html#typefont */
+/* https://github.com/FXMisc/RichTextFX/wiki/RichTextFX-CSS-Reference-Guide */
+
+.err {
+    -fx-fill: #b71c1c;
+    -fx-font-weight: bold;
+}
+.out {
+    -fx-fill: #212121;
+    -fx-font-weight: bold;
+}
+.completed {
+    -fx-fill: rgb(0,0,127);
+    -fx-font-weight: 200;
+}
+
+.styled-text-area .selection {
+    -fx-fill: #D1C4E9;
+    -fx-stroke-width: 0;
+}

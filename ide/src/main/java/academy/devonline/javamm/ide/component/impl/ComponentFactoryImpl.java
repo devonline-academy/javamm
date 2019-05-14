@@ -48,7 +48,7 @@ public class ComponentFactoryImpl implements ComponentFactory {
         final VirtualMachine virtualMachine = new VirtualMachineBuilder()
             .setConsole(console)
             .build();
-        return new VirtualMachineRunnerImpl(virtualMachine, sourceCodes);
+        return new VirtualMachineRunnerImpl(console, virtualMachine, sourceCodes);
     }
 
     @Override
