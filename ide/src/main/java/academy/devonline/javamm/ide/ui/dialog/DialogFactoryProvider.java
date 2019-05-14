@@ -16,6 +16,7 @@
 
 package academy.devonline.javamm.ide.ui.dialog;
 
+import academy.devonline.javamm.ide.ui.dialog.impl.FileChooserFactoryImpl;
 import academy.devonline.javamm.ide.ui.dialog.impl.SimpleDialogFactoryImpl;
 
 import java.util.function.Supplier;
@@ -30,7 +31,8 @@ public final class DialogFactoryProvider {
 
     private static SimpleDialogFactory simpleDialogFactory = new SimpleDialogFactoryImpl();
 
-    private static Supplier<FileChooserFactory.Builder> fileChooserFactoryBuilderSupplier = () -> null;
+    private static Supplier<FileChooserFactory.Builder> fileChooserFactoryBuilderSupplier =
+        FileChooserFactoryImpl.Builder::new;
 
     private DialogFactoryProvider() {
     }
