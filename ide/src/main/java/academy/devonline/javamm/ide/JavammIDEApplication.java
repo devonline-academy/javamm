@@ -16,6 +16,7 @@
 
 package academy.devonline.javamm.ide;
 
+import academy.devonline.javamm.ide.ui.listener.ActionListener;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -41,6 +42,12 @@ public class JavammIDEApplication extends Application {
     public void start(final Stage primaryStage) throws Exception {
         final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/javafx/main-window.fxml"));
         final Scene scene = new Scene(fxmlLoader.load());
+        final ActionListener actionListener = fxmlLoader.getController();
+        primaryStage.setOnCloseRequest(we -> {
+            if (!actionListener.onExitAction()) {
+                we.consume();
+            }
+        });
         primaryStage.setTitle("Javamm Simple IDE");
         primaryStage.setScene(scene);
         centerByScreen(primaryStage, DEFAULT_WIDTH_PERCENTAGE, DEFAULT_HEIGHT_PERCENTAGE);

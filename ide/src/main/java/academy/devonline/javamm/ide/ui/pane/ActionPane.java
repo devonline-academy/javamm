@@ -26,14 +26,22 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.layout.VBox;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
+import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
+import static java.util.function.Function.identity;
+import static java.util.stream.Collectors.toMap;
 
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
 public final class ActionPane extends VBox implements ActionStateManager {
+
+    private Map<MenuItem, Boolean> beforeRunStates;
 
     @FXML
     private MenuItem miNew;
@@ -99,64 +107,122 @@ public final class ActionPane extends VBox implements ActionStateManager {
         this.actionListener = requireNonNull(actionListener);
     }
 
+    @FXML
+    private void initialize() {
+        bindDisableProperties();
+        setDefaultDisableState();
+        customizeTooltip();
+    }
+
+    private void bindDisableProperties() {
+        miNew.disableProperty().bindBidirectional(tbNew.disableProperty());
+        miOpen.disableProperty().bindBidirectional(tbOpen.disableProperty());
+        miSave.disableProperty().bindBidirectional(tbSave.disableProperty());
+
+        miUndo.disableProperty().bindBidirectional(tbUndo.disableProperty());
+        miRedo.disableProperty().bindBidirectional(tbRedo.disableProperty());
+        miFormat.disableProperty().bindBidirectional(tbFormat.disableProperty());
+
+        miRun.disableProperty().bindBidirectional(tbRun.disableProperty());
+        miTerminate.disableProperty().bindBidirectional(tbTerminate.disableProperty());
+    }
+
+    private void setDefaultDisableState() {
+        setSaveActionDisable(true);
+        setUndoActionDisable(true);
+        setRedoActionDisable(true);
+        setFormatActionDisable(true);
+        setRunActionDisable(true);
+        setTerminateActionDisable(true);
+    }
+
+    private void customizeTooltip() {
+        final String template = "%s (%s)";
+        tbNew.getTooltip().setText(format(template,
+            tbNew.getTooltip().getText(), miNew.getAccelerator().getDisplayText()));
+        tbOpen.getTooltip().setText(format(template,
+            tbOpen.getTooltip().getText(), miOpen.getAccelerator().getDisplayText()));
+        tbSave.getTooltip().setText(format(template,
+            tbSave.getTooltip().getText(), miSave.getAccelerator().getDisplayText()));
+
+        tbUndo.getTooltip().setText(format(template,
+            tbUndo.getTooltip().getText(), miUndo.getAccelerator().getDisplayText()));
+        tbRedo.getTooltip().setText(format(template,
+            tbRedo.getTooltip().getText(), miRedo.getAccelerator().getDisplayText()));
+        tbFormat.getTooltip().setText(format(template,
+            tbFormat.getTooltip().getText(), miFormat.getAccelerator().getDisplayText()));
+
+        tbRun.getTooltip().setText(format(template,
+            tbRun.getTooltip().getText(), miRun.getAccelerator().getDisplayText()));
+        tbTerminate.getTooltip().setText(format(template,
+            tbTerminate.getTooltip().getText(), miTerminate.getAccelerator().getDisplayText()));
+    }
+
     @Override
     public void setNewActionDisable(final boolean disable) {
-
+        miNew.setDisable(disable);
     }
 
     @Override
     public void setOpenActionDisable(final boolean disable) {
-
+        miOpen.setDisable(disable);
     }
 
     @Override
     public void setSaveActionDisable(final boolean disable) {
-
+        miSave.setDisable(disable);
     }
 
     @Override
     public void setExitActionDisable(final boolean disable) {
-
+        miExit.setDisable(disable);
     }
 
     @Override
     public void setUndoActionDisable(final boolean disable) {
-
+        miUndo.setDisable(disable);
     }
 
     @Override
     public void setRedoActionDisable(final boolean disable) {
-
+        miRedo.setDisable(disable);
     }
 
     @Override
     public void setFormatActionDisable(final boolean disable) {
-
+        miFormat.setDisable(disable);
     }
 
     @Override
     public void setRunActionDisable(final boolean disable) {
-
+        miRun.setDisable(disable);
     }
 
     @Override
     public void setTerminateActionDisable(final boolean disable) {
-
+        miTerminate.setDisable(disable);
     }
 
     @FXML
     private void onNewAction(final ActionEvent event) {
         actionListener.onNewAction();
+        setFormatActionDisable(false);
+        setRunActionDisable(false);
     }
 
     @FXML
     private void onOpenAction(final ActionEvent event) {
-        actionListener.onOpenAction();
+        if (actionListener.onOpenAction()) {
+            setFormatActionDisable(false);
+            setRunActionDisable(false);
+        }
     }
 
     @FXML
     private void onSaveAction(final ActionEvent event) {
-        actionListener.onSaveAction();
+        if (actionListener.onSaveAction()) {
+            setSaveActionDisable(true);
+        }
     }
 
     @FXML
@@ -181,11 +247,27 @@ public final class ActionPane extends VBox implements ActionStateManager {
 
     @FXML
     private void onRunAction(final ActionEvent event) {
+        final List<MenuItem> menuItems = Arrays.asList(miNew, miOpen, miSave, miExit, miUndo, miRedo, miFormat);
+        beforeRunStates = menuItems.stream().collect(toMap(identity(), MenuItem::isDisable));
+        menuItems.forEach(mi -> mi.setDisable(true));
+
+        setRunActionDisable(true);
+        setTerminateActionDisable(false);
+
         actionListener.onRunAction();
     }
 
     @FXML
     private void onTerminateAction(final ActionEvent event) {
         actionListener.onTerminateAction();
+
+        beforeRunStates.forEach(MenuItem::setDisable);
+        beforeRunStates = null;
+        setRunActionDisable(false);
+        setTerminateActionDisable(true);
+    }
+
+    public boolean isExitActionDisable() {
+        return miExit.isDisable();
     }
 }

@@ -66,6 +66,9 @@ public class MainWindowController implements ActionListener {
 
     @Override
     public boolean onExitAction() {
+        if (actionPane.isExitActionDisable()) {
+            return false;
+        }
         //TODO
         getStage().close();
         return false;
