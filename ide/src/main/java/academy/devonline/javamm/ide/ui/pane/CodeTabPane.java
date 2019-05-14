@@ -37,8 +37,6 @@ public final class CodeTabPane extends TabPane {
 
     private ActionStateManager actionStateManager;
 
-    private TabCloseConfirmationListener tabCloseConfirmationListener;
-
     private final ChangeListener<Tab> onTabChangeListener = (observable, oldValue, newValue) -> {
         if (newValue != null) {
             final CodeTab t = (CodeTab) newValue;
@@ -48,6 +46,8 @@ public final class CodeTabPane extends TabPane {
             actionStateManager.setInitActionsState();
         }
     };
+
+    private TabCloseConfirmationListener tabCloseConfirmationListener;
 
     private int untitledCounter = 1;
 

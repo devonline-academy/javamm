@@ -24,13 +24,14 @@ import academy.devonline.javamm.ide.ui.pane.CodeTab;
 import academy.devonline.javamm.ide.ui.pane.CodeTabPane;
 import academy.devonline.javamm.ide.ui.pane.PaneManager;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
 import javafx.stage.Stage;
 
 import static academy.devonline.javamm.ide.component.ComponentFactoryProvider.getComponentFactory;
+import static academy.devonline.javamm.ide.ui.dialog.DialogFactoryProvider.getSimpleDialogFactory;
 
 /**
  * @author devonline
@@ -60,11 +61,6 @@ public class MainWindowController implements ActionListener,
         codeTabPane.setTabCloseConfirmationListener(this);
     }
 
-    @FXML
-    private void onCloseAction(final ActionEvent event) {
-        System.exit(0);
-    }
-
     @Override
     public void onNewAction() {
         codeTabPane.newCodeEditor();
@@ -83,12 +79,23 @@ public class MainWindowController implements ActionListener,
     @Override
     public boolean isTabCloseEventCancelled(final CodeTab codeTab) {
         if (isRunning()) {
-            // TODO Show info message why close event cancelled
+            getSimpleDialogFactory().showInfoDialog(
+                "Javamm VM is running.\nWait for VM is completed or terminate it!");
             return true;
         } else if (codeTab.isChanged()) {
-            // TODO Display confirmation dialog
-            return true;
+            final ButtonBar.ButtonData result = getSimpleDialogFactory().showYesNoCancelDialog(
+                "Source code has unsaved changes",
+                "Save changes before close?");
+            if (result == ButtonBar.ButtonData.CANCEL_CLOSE) {
+                return true;
+            } else if (result == ButtonBar.ButtonData.YES) {
+                return !saveChanges(codeTab);
+            }
         }
+        return false;
+    }
+
+    private boolean saveChanges(final CodeTab codeTab) {
         return false;
     }
 
@@ -99,7 +106,8 @@ public class MainWindowController implements ActionListener,
     @Override
     public boolean onExitAction() {
         if (isRunning()) {
-            // TODO Show info message why close event cancelled
+            getSimpleDialogFactory().showInfoDialog(
+                "Javamm VM is running.\nWait for VM is completed or terminate it!");
             return false;
         }
         for (final Tab tab : codeTabPane.getTabs()) {
