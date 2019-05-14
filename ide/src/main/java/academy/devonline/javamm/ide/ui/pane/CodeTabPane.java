@@ -26,6 +26,7 @@ import javafx.scene.control.TabPane;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static java.lang.String.format;
@@ -67,12 +68,25 @@ public final class CodeTabPane extends TabPane {
     }
 
     public void newCodeEditor() {
-        final String tabTitle = format("Untitled-%s.javamm", untitledCounter++);
-        final CodeEditorPane codeEditorPane = new CodeEditorPane();
-        final Tab tab = new CodeTab(tabTitle, codeEditorPane, actionStateManager, tabCloseConfirmationListener);
+        showTab(buildTab(format("Untitled-%s.javamm", untitledCounter++)));
+    }
+
+    public void loadCodeToNewCodeEditor(final File selectedFile) throws IOException {
+        final CodeTab tab = buildTab(selectedFile.getName());
+        tab.loadCode(selectedFile);
+        showTab(tab);
+    }
+
+    private CodeTab buildTab(final String tabTitle) {
+        return new CodeTab(tabTitle, new CodeEditorPane(), actionStateManager, tabCloseConfirmationListener);
+    }
+
+    private void showTab(final CodeTab tab) {
         getTabs().add(tab);
         getSelectionModel().select(tab);
-        codeEditorPane.requestFocus();
+        actionStateManager.setUndoActionDisable(true);
+        actionStateManager.setRedoActionDisable(true);
+        tab.requestFocus();
     }
 
     public List<SourceCode> getAllSourceCodes() {
@@ -80,15 +94,19 @@ public final class CodeTabPane extends TabPane {
     }
 
     public boolean isFileAlreadyOpened(final File selectedFile) {
-        return false;
+        return getTabs().stream()
+            .flatMap(t -> ((CodeTab) t).getSourceCodeFile().stream())
+            .anyMatch(file -> file.equals(selectedFile));
     }
 
     public void gotoCodeTabByFile(final File selectedFile) {
-
-    }
-
-    public void loadCodeToNewCodeEditor(final File selectedFile) throws IOException {
-
+        for (final Tab tab : getTabs()) {
+            final Optional<File> optionalFile = ((CodeTab) tab).getSourceCodeFile();
+            if (optionalFile.isPresent() && optionalFile.get().equals(selectedFile)) {
+                getSelectionModel().select(tab);
+                return;
+            }
+        }
     }
 
     public CodeTab getSelectedCodeTab() {

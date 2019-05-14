@@ -89,10 +89,26 @@ public final class CodeTab extends Tab implements Releasable {
     }
 
     public Optional<File> getSourceCodeFile() {
-        return Optional.empty();
+        return getCodeEditorPane().getSourceCodeFile();
+    }
+
+    void loadCode(final File selectedFile) throws IOException {
+        getCodeEditorPane().loadCode(selectedFile);
+        updateTabState(selectedFile);
     }
 
     public void saveChanges(final File selectedFile) throws IOException {
+        getCodeEditorPane().saveCode(selectedFile);
+        updateTabState(selectedFile);
+    }
 
+    private void updateTabState(final File selectedFile) {
+        changed = false;
+        setText(selectedFile.getName());
+        moduleName = selectedFile.getName();
+    }
+
+    void requestFocus() {
+        getCodeEditorPane().requestFocus();
     }
 }
