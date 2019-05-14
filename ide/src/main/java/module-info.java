@@ -35,6 +35,7 @@ module javamm.ide {
 
     requires richtextfx;
     requires flowless;
+    requires reactfx;
 
     exports academy.devonline.javamm.ide to javafx.graphics;
     exports academy.devonline.javamm.ide.controller to javafx.fxml;

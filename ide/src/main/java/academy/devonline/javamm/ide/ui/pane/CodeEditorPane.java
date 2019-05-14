@@ -16,26 +16,41 @@
 
 package academy.devonline.javamm.ide.ui.pane;
 
+import academy.devonline.javamm.ide.component.AsyncSyntaxHighlighter;
+import academy.devonline.javamm.ide.component.Releasable;
 import javafx.scene.layout.StackPane;
 import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 
+import static academy.devonline.javamm.ide.component.ComponentFactoryProvider.getComponentFactory;
+import static academy.devonline.javamm.ide.util.ResourceUtils.getClasspathResource;
+
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-public final class CodeEditorPane extends StackPane {
+public final class CodeEditorPane extends StackPane implements Releasable {
 
     private final CodeArea codeArea = new CodeArea();
+
+    private final AsyncSyntaxHighlighter asyncSyntaxHighlighter =
+        getComponentFactory().createAsyncSyntaxHighlighter(codeArea);
 
     CodeEditorPane() {
         codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
         getChildren().add(new VirtualizedScrollPane<>(codeArea));
+        getStylesheets().add(getClasspathResource("/style/code-editor-pane.css").toExternalForm());
+        asyncSyntaxHighlighter.enable();
     }
 
     @Override
     public void requestFocus() {
         codeArea.requestFocus();
+    }
+
+    @Override
+    public void release() {
+        asyncSyntaxHighlighter.disable();
     }
 }

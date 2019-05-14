@@ -22,6 +22,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import static academy.devonline.javamm.ide.component.ComponentFactoryProvider.getComponentFactory;
 import static academy.devonline.javamm.ide.util.UIUtils.centerByScreen;
 
 /**
@@ -56,6 +57,6 @@ public class JavammIDEApplication extends Application {
 
     @Override
     public void stop() {
-        // TODO
+        getComponentFactory().release();
     }
 }
