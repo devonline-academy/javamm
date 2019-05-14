@@ -18,7 +18,6 @@
 
 <?import academy.devonline.javamm.ide.ui.pane.ActionPane?>
 <?import academy.devonline.javamm.ide.ui.pane.CodeTabPane?>
-<?import academy.devonline.javamm.ide.ui.pane.ConsolePane?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.BorderPane?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="600.0" prefWidth="800.0"
@@ -28,10 +27,8 @@
         <ActionPane fx:id="actionPane" BorderPane.alignment="CENTER"/>
     </top>
     <center>
-        <SplitPane dividerPositions="0.8" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0"
-                   BorderPane.alignment="CENTER">
-            <CodeTabPane fx:id="codeTabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="ALL_TABS"/>
-            <ConsolePane fx:id="consolePane" prefHeight="200.0" prefWidth="600.0"/>
+        <SplitPane fx:id="spWork" orientation="VERTICAL" BorderPane.alignment="CENTER">
+            <CodeTabPane fx:id="codeTabPane"/>
         </SplitPane>
     </center>
 </BorderPane>

@@ -16,7 +16,10 @@
 
 package academy.devonline.javamm.ide.util;
 
+import academy.devonline.javamm.ide.ui.pane.TitledPane;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Parent;
+import javafx.scene.control.SplitPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 
@@ -40,5 +43,21 @@ public final class UIUtils {
         stage.setHeight(height);
         stage.setX((primaryScreenBounds.getWidth() - width) / 2);
         stage.setY((primaryScreenBounds.getHeight() - height) / 2);
+    }
+
+
+    public static void closeTitledPane(final TitledPane titledPane) {
+        findSplitPane(titledPane).getItems().remove(titledPane);
+    }
+
+    private static SplitPane findSplitPane(final TitledPane titledPane) {
+        Parent parent = titledPane.getParent();
+        while (parent != null) {
+            if (parent instanceof SplitPane) {
+                return (SplitPane) parent;
+            }
+            parent = parent.getParent();
+        }
+        throw new IllegalStateException("SplitPane parent not found");
     }
 }

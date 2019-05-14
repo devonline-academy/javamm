@@ -17,7 +17,9 @@
 package academy.devonline.javamm.ide.util;
 
 import academy.devonline.javamm.code.exception.ConfigException;
+import javafx.fxml.FXMLLoader;
 
+import java.io.IOException;
 import java.net.URL;
 
 /**
@@ -35,5 +37,16 @@ public final class ResourceUtils {
             throw new ConfigException("Class path resource not found: " + classpathResourceName);
         }
         return url;
+    }
+
+    public static void loadFromFxmlResource(final Object component, final String resource) {
+        final FXMLLoader fxmlLoader = new FXMLLoader(component.getClass().getResource(resource));
+        fxmlLoader.setRoot(component);
+        fxmlLoader.setController(component);
+        try {
+            fxmlLoader.load();
+        } catch (final IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

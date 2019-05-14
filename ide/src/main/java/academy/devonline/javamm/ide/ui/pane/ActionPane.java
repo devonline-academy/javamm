@@ -21,16 +21,15 @@ import academy.devonline.javamm.ide.ui.listener.ActionListener;
 import academy.devonline.javamm.ide.ui.listener.ActionStateManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.VBox;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import static academy.devonline.javamm.ide.util.ResourceUtils.loadFromFxmlResource;
 import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
 import static java.util.function.Function.identity;
@@ -98,11 +97,8 @@ public final class ActionPane extends VBox implements ActionStateManager,
 
     private ActionListener actionListener;
 
-    public ActionPane() throws IOException {
-        final FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/javafx/action-pane.fxml"));
-        fxmlLoader.setRoot(this);
-        fxmlLoader.setController(this);
-        fxmlLoader.load();
+    public ActionPane() {
+        loadFromFxmlResource(this, "/javafx/action-pane.fxml");
     }
 
     public void setActionListener(final ActionListener actionListener) {

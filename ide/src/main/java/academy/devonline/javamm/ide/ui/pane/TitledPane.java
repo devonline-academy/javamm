@@ -16,13 +16,27 @@
 
 package academy.devonline.javamm.ide.ui.pane;
 
+import javafx.fxml.FXML;
+import javafx.scene.control.Tab;
+import javafx.scene.layout.BorderPane;
+
+import static academy.devonline.javamm.ide.util.ResourceUtils.loadFromFxmlResource;
+import static academy.devonline.javamm.ide.util.UIUtils.closeTitledPane;
+
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-public final class ConsolePane extends TitledPane {
+public abstract class TitledPane extends BorderPane {
 
-    ConsolePane() {
-        super("/javafx/console-pane.fxml");
+    @FXML
+    private Tab tbTitle;
+
+    TitledPane(final String fxmlResource) {
+        loadFromFxmlResource(this, fxmlResource);
+        tbTitle.setOnCloseRequest(event -> {
+            event.consume();
+            closeTitledPane(this);
+        });
     }
 }

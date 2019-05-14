@@ -21,10 +21,11 @@ import academy.devonline.javamm.ide.component.VirtualMachineRunner;
 import academy.devonline.javamm.ide.ui.listener.ActionListener;
 import academy.devonline.javamm.ide.ui.pane.ActionPane;
 import academy.devonline.javamm.ide.ui.pane.CodeTabPane;
-import academy.devonline.javamm.ide.ui.pane.ConsolePane;
+import academy.devonline.javamm.ide.ui.pane.PaneManager;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.SplitPane;
 import javafx.stage.Stage;
 
 import static academy.devonline.javamm.ide.component.ComponentFactoryProvider.getComponentFactory;
@@ -36,6 +37,8 @@ import static academy.devonline.javamm.ide.component.ComponentFactoryProvider.ge
 public class MainWindowController implements ActionListener,
     VirtualMachineRunner.VirtualMachineRunCompletedListener {
 
+    private final PaneManager paneManager = new PaneManager();
+
     @FXML
     private ActionPane actionPane;
 
@@ -43,7 +46,7 @@ public class MainWindowController implements ActionListener,
     private CodeTabPane codeTabPane;
 
     @FXML
-    private ConsolePane consolePane;
+    private SplitPane spWork;
 
     private VirtualMachineRunner virtualMachineRunner;
 
@@ -103,6 +106,7 @@ public class MainWindowController implements ActionListener,
 
     @Override
     public void onRunAction() {
+        paneManager.getVisibleConsolePane(spWork);
         virtualMachineRunner = getComponentFactory().createVirtualMachineRunner(
             new Console() {
                 @Override
