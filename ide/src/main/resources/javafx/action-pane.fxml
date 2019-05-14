@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright (c) 2019. http://devonline.academy
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import java.lang.Integer?>
+<?import java.lang.String?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuItem?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+<?import javafx.scene.input.KeyCodeCombination?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.Separator?>
+<fx:root xmlns:fx="http://javafx.com/fxml/1" type="javafx.scene.layout.VBox" xmlns="http://javafx.com/javafx/8.0.172-ea"
+         prefWidth="600.0">
+    <fx:define>
+        <!-- http://aalmiray.github.io/ikonli/#_javafx -->
+        <!-- size -->
+        <Integer fx:id="iconSize" fx:value="20"/>
+        <!-- colors -->
+        <Color fx:id="defaultIconColor" fx:value="#607D8B"/>
+        <Color fx:id="runIconColor" fx:value="#388E3C"/>
+        <Color fx:id="stopIconColor" fx:value="#F44336"/>
+        <!-- fonts -->
+        <String fx:id="fontIconNew" fx:value="di-code_badge"/>
+        <String fx:id="fontIconOpen" fx:value="typ-folder-open"/>
+        <String fx:id="fontIconSave" fx:value="mdi-floppy"/>
+        <String fx:id="fontIconExit" fx:value="mdi-exit-to-app"/>
+        <String fx:id="fontIconUndo" fx:value="mdi-undo"/>
+        <String fx:id="fontIconRedo" fx:value="mdi-redo"/>
+        <String fx:id="fontIconFormat" fx:value="mdi-format-line-style"/>
+        <String fx:id="fontIconRun" fx:value="mdi-play"/>
+        <String fx:id="fontIconTerminate" fx:value="mdi-stop"/>
+    </fx:define>
+    <MenuBar>
+        <Menu fx:id="mFile" text="_File">
+            <MenuItem fx:id="miNew" onAction="#onNewAction" text="_New">
+                <graphic>
+                    <FontIcon iconLiteral="$fontIconNew" iconSize="$iconSize" iconColor="$defaultIconColor"/>
+                </graphic>
+                <accelerator>
+                    <KeyCodeCombination alt="UP" code="N" control="UP" meta="UP" shift="UP" shortcut="DOWN"/>
+                </accelerator>
+            </MenuItem>
+            <MenuItem fx:id="miOpen" onAction="#onOpenAction" text="_Open">
+                <graphic>
+                    <FontIcon iconLiteral="$fontIconOpen" iconSize="$iconSize" iconColor="$defaultIconColor"/>
+                </graphic>
+                <accelerator>
+                    <KeyCodeCombination alt="UP" code="O" control="UP" meta="UP" shift="UP" shortcut="DOWN"/>
+                </accelerator>
+            </MenuItem>
+            <MenuItem fx:id="miSave" onAction="#onSaveAction" text="_Save">
+                <graphic>
+                    <FontIcon iconLiteral="$fontIconSave" iconSize="$iconSize" iconColor="$defaultIconColor"/>
+                </graphic>
+                <accelerator>
+                    <KeyCodeCombination alt="UP" code="S" control="UP" meta="UP" shift="UP" shortcut="DOWN"/>
+                </accelerator>
+            </MenuItem>
+            <SeparatorMenuItem mnemonicParsing="false"/>
+            <MenuItem fx:id="miExit" onAction="#onExitAction" text="E_xit">
+                <graphic>
+                    <FontIcon iconLiteral="$fontIconExit" iconSize="$iconSize" iconColor="$defaultIconColor"/>
+                </graphic>
+            </MenuItem>
+        </Menu>
+        <Menu fx:id="mEdit" text="_Edit">
+            <MenuItem fx:id="miUndo" onAction="#onUndoAction" text="Undo">
+                <graphic>
+                    <FontIcon iconLiteral="$fontIconUndo" iconSize="$iconSize" iconColor="$defaultIconColor"/>
+                </graphic>
+                <accelerator>
+                    <KeyCodeCombination alt="UP" code="Z" control="UP" meta="UP" shift="UP" shortcut="DOWN"/>
+                </accelerator>
+            </MenuItem>
+            <MenuItem fx:id="miRedo" onAction="#onRedoAction" text="Redo">
+                <graphic>
+                    <FontIcon iconLiteral="$fontIconRedo" iconSize="$iconSize" iconColor="$defaultIconColor"/>
+                </graphic>
+                <accelerator>
+                    <KeyCodeCombination alt="UP" code="Z" control="UP" meta="UP" shift="DOWN" shortcut="DOWN"/>
+                </accelerator>
+            </MenuItem>
+            <SeparatorMenuItem mnemonicParsing="false"/>
+            <MenuItem fx:id="miFormat" onAction="#onFormatAction" text="_Format">
+                <graphic>
+                    <FontIcon iconLiteral="$fontIconFormat" iconSize="$iconSize" iconColor="$defaultIconColor"/>
+                </graphic>
+                <accelerator>
+                    <KeyCodeCombination alt="UP" code="F" control="UP" meta="UP" shift="DOWN" shortcut="DOWN"/>
+                </accelerator>
+            </MenuItem>
+        </Menu>
+        <Menu fx:id="mLaunch" text="_Launch">
+            <MenuItem fx:id="miRun" onAction="#onRunAction" text="_Run">
+                <graphic>
+                    <FontIcon iconLiteral="$fontIconRun" iconSize="$iconSize" iconColor="$runIconColor"/>
+                </graphic>
+                <accelerator>
+                    <KeyCodeCombination alt="UP" code="F9" control="UP" meta="UP" shift="UP" shortcut="UP"/>
+                </accelerator>
+            </MenuItem>
+            <SeparatorMenuItem mnemonicParsing="false"/>
+            <MenuItem fx:id="miTerminate" onAction="#onTerminateAction" text="_Terminate">
+                <graphic>
+                    <FontIcon iconLiteral="$fontIconTerminate" iconSize="$iconSize" iconColor="$stopIconColor"/>
+                </graphic>
+                <accelerator>
+                    <KeyCodeCombination alt="UP" code="F12" control="UP" meta="UP" shift="UP" shortcut="UP"/>
+                </accelerator>
+            </MenuItem>
+        </Menu>
+    </MenuBar>
+    <ToolBar prefHeight="40.0" prefWidth="200.0">
+        <Button fx:id="tbNew" mnemonicParsing="false" onAction="#onNewAction">
+            <graphic>
+                <FontIcon iconLiteral="$fontIconNew" iconSize="$iconSize" iconColor="$defaultIconColor"/>
+            </graphic>
+            <tooltip>
+                <Tooltip text="New source code"/>
+            </tooltip>
+        </Button>
+        <Button fx:id="tbOpen" mnemonicParsing="false" onAction="#onOpenAction">
+            <graphic>
+                <FontIcon iconLiteral="$fontIconOpen" iconSize="$iconSize" iconColor="$defaultIconColor"/>
+            </graphic>
+            <tooltip>
+                <Tooltip text="Open source code"/>
+            </tooltip>
+        </Button>
+        <Button fx:id="tbSave" mnemonicParsing="false" onAction="#onSaveAction">
+            <graphic>
+                <FontIcon iconLiteral="$fontIconSave" iconSize="$iconSize" iconColor="$defaultIconColor"/>
+            </graphic>
+            <tooltip>
+                <Tooltip text="Save source code"/>
+            </tooltip>
+        </Button>
+        <Separator orientation="VERTICAL" prefHeight="24.0" prefWidth="20.0"/>
+        <Button fx:id="tbUndo" mnemonicParsing="false" onAction="#onUndoAction">
+            <graphic>
+                <FontIcon iconLiteral="$fontIconUndo" iconSize="$iconSize" iconColor="$defaultIconColor"/>
+            </graphic>
+            <tooltip>
+                <Tooltip text="Undo last change"/>
+            </tooltip>
+        </Button>
+        <Button fx:id="tbRedo" mnemonicParsing="false" onAction="#onRedoAction">
+            <graphic>
+                <FontIcon iconLiteral="$fontIconRedo" iconSize="$iconSize" iconColor="$defaultIconColor"/>
+            </graphic>
+            <tooltip>
+                <Tooltip text="Redo current change"/>
+            </tooltip>
+        </Button>
+        <Separator orientation="VERTICAL" prefHeight="24.0"/>
+        <Button fx:id="tbFormat" mnemonicParsing="false" onAction="#onFormatAction">
+            <graphic>
+                <FontIcon iconLiteral="$fontIconFormat" iconSize="$iconSize" iconColor="$defaultIconColor"/>
+            </graphic>
+            <tooltip>
+                <Tooltip text="Format current source code"/>
+            </tooltip>
+        </Button>
+        <Separator orientation="VERTICAL" prefHeight="24.0" prefWidth="20.0"/>
+        <Button fx:id="tbRun" mnemonicParsing="false" onAction="#onRunAction">
+            <graphic>
+                <FontIcon iconLiteral="$fontIconRun" iconSize="$iconSize" iconColor="$runIconColor"/>
+            </graphic>
+            <tooltip>
+                <Tooltip text="Run all opened source codes"/>
+            </tooltip>
+        </Button>
+        <Button fx:id="tbTerminate" mnemonicParsing="false" onAction="#onTerminateAction">
+            <graphic>
+                <FontIcon iconLiteral="$fontIconTerminate" iconSize="$iconSize" iconColor="$stopIconColor"/>
+            </graphic>
+            <tooltip>
+                <Tooltip text="Terminate current running code"/>
+            </tooltip>
+        </Button>
+    </ToolBar>
+</fx:root>

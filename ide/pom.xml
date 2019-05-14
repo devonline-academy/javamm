@@ -15,6 +15,7 @@
 
     <properties>
         <javafx.version>11.0.2</javafx.version>
+        <ikonli.icons.version>2.4.0</ikonli.icons.version>
     </properties>
 
     <dependencies>
@@ -33,6 +34,27 @@
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
             <version>${javafx.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-javafx</artifactId>
+            <version>${ikonli.icons.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-materialdesign-pack</artifactId>
+            <version>${ikonli.icons.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-devicons-pack</artifactId>
+            <version>${ikonli.icons.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.kordamp.ikonli</groupId>
+            <artifactId>ikonli-typicons-pack</artifactId>
+            <version>${ikonli.icons.version}</version>
         </dependency>
     </dependencies>
 </project>

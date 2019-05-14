@@ -28,9 +28,16 @@ module javamm.ide {
     requires javafx.graphics;
     requires javafx.fxml;
 
+
+    requires org.kordamp.ikonli.core;
+    requires org.kordamp.ikonli.javafx;
+    requires org.kordamp.ikonli.devicons;
+    requires org.kordamp.ikonli.typicons;
+
     exports academy.devonline.javamm.ide to javafx.graphics;
     exports academy.devonline.javamm.ide.controller to javafx.fxml;
     exports academy.devonline.javamm.ide.ui.pane to javafx.fxml;
 
     opens academy.devonline.javamm.ide.controller to javafx.fxml;
+    opens academy.devonline.javamm.ide.ui.pane to javafx.fxml;
 }
