@@ -51,7 +51,7 @@ public class MainWindowController implements ActionListener {
 
     @Override
     public void onNewAction() {
-        System.out.println("onNewAction");
+        codeTabPane.newCodeEditor();
     }
 
     @Override

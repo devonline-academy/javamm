@@ -16,29 +16,26 @@
 
 package academy.devonline.javamm.ide.ui.pane;
 
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-
-import static java.lang.String.format;
+import javafx.scene.layout.StackPane;
+import org.fxmisc.flowless.VirtualizedScrollPane;
+import org.fxmisc.richtext.CodeArea;
+import org.fxmisc.richtext.LineNumberFactory;
 
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-public final class CodeTabPane extends TabPane {
+public final class CodeEditorPane extends StackPane {
 
-    private int untitledCounter = 1;
+    private final CodeArea codeArea = new CodeArea();
 
-    public CodeTabPane() {
-        setTabClosingPolicy(TabClosingPolicy.ALL_TABS);
+    CodeEditorPane() {
+        codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
+        getChildren().add(new VirtualizedScrollPane<>(codeArea));
     }
 
-    public void newCodeEditor() {
-        final String tabTitle = format("Untitled-%s.javamm", untitledCounter++);
-        final CodeEditorPane codeEditorPane = new CodeEditorPane();
-        final Tab tab = new CodeTab(tabTitle, codeEditorPane);
-        getTabs().add(tab);
-        getSelectionModel().select(tab);
-        codeEditorPane.requestFocus();
+    @Override
+    public void requestFocus() {
+        codeArea.requestFocus();
     }
 }

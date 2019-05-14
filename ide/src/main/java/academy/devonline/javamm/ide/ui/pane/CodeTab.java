@@ -17,28 +17,24 @@
 package academy.devonline.javamm.ide.ui.pane;
 
 import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
 
-import static java.lang.String.format;
+import static java.util.Objects.requireNonNull;
 
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-public final class CodeTabPane extends TabPane {
+final class CodeTab extends Tab {
 
-    private int untitledCounter = 1;
+    private String moduleName;
 
-    public CodeTabPane() {
-        setTabClosingPolicy(TabClosingPolicy.ALL_TABS);
+    CodeTab(final String moduleName,
+            final CodeEditorPane content) {
+        super(requireNonNull(moduleName), requireNonNull(content));
+        this.moduleName = moduleName;
     }
 
-    public void newCodeEditor() {
-        final String tabTitle = format("Untitled-%s.javamm", untitledCounter++);
-        final CodeEditorPane codeEditorPane = new CodeEditorPane();
-        final Tab tab = new CodeTab(tabTitle, codeEditorPane);
-        getTabs().add(tab);
-        getSelectionModel().select(tab);
-        codeEditorPane.requestFocus();
+    public String getModuleName() {
+        return moduleName;
     }
 }

@@ -56,5 +56,11 @@
             <artifactId>ikonli-typicons-pack</artifactId>
             <version>${ikonli.icons.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.fxmisc.richtext</groupId>
+            <artifactId>richtextfx</artifactId>
+            <version>0.10.0</version>
+        </dependency>
     </dependencies>
 </project>
