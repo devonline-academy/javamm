@@ -36,6 +36,12 @@ public final class ConsolePane extends TitledPane {
 
     private final Console console = new CodeAreaConsoleAdapter();
 
+    private final int maxConsoleSize = 5000;
+
+    private boolean consoleOverflow;
+
+    private int consoleSize;
+
     @FXML
     private CodeArea caConsole;
 
@@ -45,6 +51,8 @@ public final class ConsolePane extends TitledPane {
     }
 
     public Console getNewConsole() {
+        consoleSize = 0;
+        consoleOverflow = false;
         caConsole.setEditable(false);
         caConsole.replaceText("");
         return console;
@@ -52,8 +60,18 @@ public final class ConsolePane extends TitledPane {
 
     private void postAppendText(final String message,
                                 final String styleClass) {
+        if (consoleOverflow) {
+            return;
+        }
         final String normalizedMessage = message.replace("\r", "");
-        Platform.runLater(() -> displayMessage(normalizedMessage, styleClass));
+        consoleSize += normalizedMessage.length();
+
+        if (consoleSize < maxConsoleSize) {
+            Platform.runLater(() -> displayMessage(normalizedMessage, styleClass));
+        } else {
+            consoleOverflow = true;
+            Platform.runLater(() -> displayMessage("<CONSOLE OVERFLOWED...>", "overflow"));
+        }
     }
 
     private void displayMessage(final String message,
