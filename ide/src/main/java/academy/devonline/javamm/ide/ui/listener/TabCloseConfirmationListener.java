@@ -16,31 +16,13 @@
 
 package academy.devonline.javamm.ide.ui.listener;
 
+import academy.devonline.javamm.ide.ui.pane.CodeTab;
+
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-public interface ActionStateManager {
+public interface TabCloseConfirmationListener {
 
-    void setInitActionsState();
-
-    void setNewActionDisable(boolean disable);
-
-    void setOpenActionDisable(boolean disable);
-
-    void setSaveActionDisable(boolean disable);
-
-    void setExitActionDisable(boolean disable);
-
-
-    void setUndoActionDisable(boolean disable);
-
-    void setRedoActionDisable(boolean disable);
-
-    void setFormatActionDisable(boolean disable);
-
-
-    void setRunActionDisable(boolean disable);
-
-    void setTerminateActionDisable(boolean disable);
+    boolean isTabCloseEventCancelled(CodeTab codeTab);
 }

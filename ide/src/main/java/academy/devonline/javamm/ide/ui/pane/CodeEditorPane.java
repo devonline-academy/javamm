@@ -18,6 +18,7 @@ package academy.devonline.javamm.ide.ui.pane;
 
 import academy.devonline.javamm.ide.component.AsyncSyntaxHighlighter;
 import academy.devonline.javamm.ide.component.Releasable;
+import javafx.beans.value.ChangeListener;
 import javafx.scene.layout.StackPane;
 import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.fxmisc.richtext.CodeArea;
@@ -58,5 +59,9 @@ public final class CodeEditorPane extends StackPane implements Releasable {
 
     List<String> getCodeLines() {
         return List.of(codeArea.getText().split("\n"));
+    }
+
+    void setChangeListener(final ChangeListener<String> changeListener) {
+        codeArea.textProperty().addListener(changeListener);
     }
 }

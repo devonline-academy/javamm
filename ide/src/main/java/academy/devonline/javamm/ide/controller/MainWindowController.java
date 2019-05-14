@@ -18,13 +18,16 @@ package academy.devonline.javamm.ide.controller;
 
 import academy.devonline.javamm.ide.component.VirtualMachineRunner;
 import academy.devonline.javamm.ide.ui.listener.ActionListener;
+import academy.devonline.javamm.ide.ui.listener.TabCloseConfirmationListener;
 import academy.devonline.javamm.ide.ui.pane.ActionPane;
+import academy.devonline.javamm.ide.ui.pane.CodeTab;
 import academy.devonline.javamm.ide.ui.pane.CodeTabPane;
 import academy.devonline.javamm.ide.ui.pane.PaneManager;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.Tab;
 import javafx.stage.Stage;
 
 import static academy.devonline.javamm.ide.component.ComponentFactoryProvider.getComponentFactory;
@@ -34,7 +37,8 @@ import static academy.devonline.javamm.ide.component.ComponentFactoryProvider.ge
  * @link http://devonline.academy/javamm
  */
 public class MainWindowController implements ActionListener,
-    VirtualMachineRunner.VirtualMachineRunCompletedListener {
+    VirtualMachineRunner.VirtualMachineRunCompletedListener,
+    TabCloseConfirmationListener {
 
     private final PaneManager paneManager = new PaneManager();
 
@@ -52,6 +56,8 @@ public class MainWindowController implements ActionListener,
     @FXML
     private void initialize() {
         actionPane.setActionListener(this);
+        codeTabPane.setActionStateManager(actionPane);
+        codeTabPane.setTabCloseConfirmationListener(this);
     }
 
     @FXML
@@ -75,13 +81,38 @@ public class MainWindowController implements ActionListener,
     }
 
     @Override
+    public boolean isTabCloseEventCancelled(final CodeTab codeTab) {
+        if (isRunning()) {
+            // TODO Show info message why close event cancelled
+            return true;
+        } else if (codeTab.isChanged()) {
+            // TODO Display confirmation dialog
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isRunning() {
+        return virtualMachineRunner != null && virtualMachineRunner.isRunning();
+    }
+
+    @Override
     public boolean onExitAction() {
-        if (actionPane.isExitActionDisable()) {
+        if (isRunning()) {
+            // TODO Show info message why close event cancelled
             return false;
         }
-        //TODO
+        for (final Tab tab : codeTabPane.getTabs()) {
+            final CodeTab codeTab = (CodeTab) tab;
+            if (codeTab.isChanged()) {
+                codeTabPane.getSelectionModel().select(codeTab);
+                if (isTabCloseEventCancelled(codeTab)) {
+                    return false;
+                }
+            }
+        }
         getStage().close();
-        return false;
+        return true;
     }
 
     private Stage getStage() {

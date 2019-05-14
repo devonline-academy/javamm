@@ -17,7 +17,10 @@
 package academy.devonline.javamm.ide.ui.pane;
 
 import academy.devonline.javamm.code.fragment.SourceCode;
+import academy.devonline.javamm.ide.component.Releasable;
 import academy.devonline.javamm.ide.model.StringSourceCode;
+import academy.devonline.javamm.ide.ui.listener.ActionStateManager;
+import academy.devonline.javamm.ide.ui.listener.TabCloseConfirmationListener;
 import javafx.scene.control.Tab;
 
 import static java.util.Objects.requireNonNull;
@@ -26,14 +29,30 @@ import static java.util.Objects.requireNonNull;
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-final class CodeTab extends Tab {
+public final class CodeTab extends Tab implements Releasable {
+
+    private final ActionStateManager actionStateManager;
 
     private String moduleName;
 
+    private boolean changed;
+
     CodeTab(final String moduleName,
-            final CodeEditorPane content) {
+            final CodeEditorPane content,
+            final ActionStateManager actionStateManager,
+            final TabCloseConfirmationListener tabCloseConfirmationListener) {
         super(requireNonNull(moduleName), requireNonNull(content));
         this.moduleName = moduleName;
+        this.actionStateManager = requireNonNull(actionStateManager);
+
+        content.setChangeListener((observable, oldValue, newValue) -> setChanged());
+        setOnCloseRequest(event -> {
+            if (tabCloseConfirmationListener.isTabCloseEventCancelled(this)) {
+                event.consume();
+            } else {
+                release();
+            }
+        });
     }
 
     public String getModuleName() {
@@ -46,5 +65,22 @@ final class CodeTab extends Tab {
 
     private CodeEditorPane getCodeEditorPane() {
         return (CodeEditorPane) getContent();
+    }
+
+    public boolean isChanged() {
+        return changed;
+    }
+
+    private void setChanged() {
+        changed = true;
+        if (!getText().startsWith("*")) {
+            setText("*" + moduleName);
+        }
+        actionStateManager.setSaveActionDisable(false);
+    }
+
+    @Override
+    public void release() {
+        getCodeEditorPane().release();
     }
 }

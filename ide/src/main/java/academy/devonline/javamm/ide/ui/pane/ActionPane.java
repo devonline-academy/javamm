@@ -108,7 +108,7 @@ public final class ActionPane extends VBox implements ActionStateManager,
     @FXML
     private void initialize() {
         bindDisableProperties();
-        setDefaultDisableState();
+        setInitActionsState();
         customizeTooltip();
     }
 
@@ -123,15 +123,6 @@ public final class ActionPane extends VBox implements ActionStateManager,
 
         miRun.disableProperty().bindBidirectional(tbRun.disableProperty());
         miTerminate.disableProperty().bindBidirectional(tbTerminate.disableProperty());
-    }
-
-    private void setDefaultDisableState() {
-        setSaveActionDisable(true);
-        setUndoActionDisable(true);
-        setRedoActionDisable(true);
-        setFormatActionDisable(true);
-        setRunActionDisable(true);
-        setTerminateActionDisable(true);
     }
 
     private void customizeTooltip() {
@@ -154,6 +145,16 @@ public final class ActionPane extends VBox implements ActionStateManager,
             tbRun.getTooltip().getText(), miRun.getAccelerator().getDisplayText()));
         tbTerminate.getTooltip().setText(format(template,
             tbTerminate.getTooltip().getText(), miTerminate.getAccelerator().getDisplayText()));
+    }
+
+    @Override
+    public void setInitActionsState() {
+        setSaveActionDisable(true);
+        setUndoActionDisable(true);
+        setRedoActionDisable(true);
+        setFormatActionDisable(true);
+        setRunActionDisable(true);
+        setTerminateActionDisable(true);
     }
 
     @Override
@@ -263,14 +264,8 @@ public final class ActionPane extends VBox implements ActionStateManager,
         actionListener.onTerminateAction();
     }
 
-    public boolean isExitActionDisable() {
-        return miExit.isDisable();
-    }
-
     @Override
     public void setExitActionDisable(final boolean disable) {
         miExit.setDisable(disable);
     }
-
-
 }
