@@ -22,6 +22,7 @@ import academy.devonline.javamm.ide.ui.pane.CodeTabPane;
 import academy.devonline.javamm.ide.ui.pane.ConsolePane;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.stage.Stage;
 
 /**
  * @author devonline
@@ -39,13 +40,18 @@ public class MainWindowController implements ActionListener {
     private ConsolePane consolePane;
 
     @FXML
+    private void initialize() {
+        actionPane.setActionListener(this);
+    }
+
+    @FXML
     private void onCloseAction(final ActionEvent event) {
         System.exit(0);
     }
 
     @Override
     public void onNewAction() {
-
+        System.out.println("onNewAction");
     }
 
     @Override
@@ -60,7 +66,13 @@ public class MainWindowController implements ActionListener {
 
     @Override
     public boolean onExitAction() {
+        //TODO
+        getStage().close();
         return false;
+    }
+
+    private Stage getStage() {
+        return (Stage) actionPane.getScene().getWindow();
     }
 
     @Override

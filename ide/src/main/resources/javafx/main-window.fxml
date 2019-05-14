@@ -21,9 +21,8 @@
 <?import academy.devonline.javamm.ide.ui.pane.ConsolePane?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.layout.BorderPane?>
-
-<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.172-ea"
-            xmlns:fx="http://javafx.com/fxml/1"
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="600.0" prefWidth="800.0"
+            xmlns="http://javafx.com/javafx/8.0.172-ea"
             fx:controller="academy.devonline.javamm.ide.controller.MainWindowController">
     <top>
         <ActionPane fx:id="actionPane" BorderPane.alignment="CENTER"/>

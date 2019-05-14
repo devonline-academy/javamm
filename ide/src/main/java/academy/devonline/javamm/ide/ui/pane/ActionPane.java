@@ -146,46 +146,46 @@ public final class ActionPane extends VBox implements ActionStateManager {
 
     @FXML
     private void onNewAction(final ActionEvent event) {
-
+        actionListener.onNewAction();
     }
 
     @FXML
     private void onOpenAction(final ActionEvent event) {
-
+        actionListener.onOpenAction();
     }
 
     @FXML
     private void onSaveAction(final ActionEvent event) {
-
+        actionListener.onSaveAction();
     }
 
     @FXML
     private void onExitAction(final ActionEvent event) {
-
+        actionListener.onExitAction();
     }
 
     @FXML
     private void onUndoAction(final ActionEvent event) {
-
+        actionListener.onUndoAction();
     }
 
     @FXML
     private void onRedoAction(final ActionEvent event) {
-
+        actionListener.onRedoAction();
     }
 
     @FXML
     private void onFormatAction(final ActionEvent event) {
-
+        actionListener.onFormatAction();
     }
 
     @FXML
     private void onRunAction(final ActionEvent event) {
-
+        actionListener.onRunAction();
     }
 
     @FXML
     private void onTerminateAction(final ActionEvent event) {
-
+        actionListener.onTerminateAction();
     }
 }
