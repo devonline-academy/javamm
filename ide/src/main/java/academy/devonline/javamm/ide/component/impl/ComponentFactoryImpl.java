@@ -16,6 +16,7 @@
 
 package academy.devonline.javamm.ide.component.impl;
 
+import academy.devonline.javamm.code.component.Console;
 import academy.devonline.javamm.code.fragment.SourceCode;
 import academy.devonline.javamm.ide.component.AsyncSyntaxHighlighter;
 import academy.devonline.javamm.ide.component.ComponentFactory;
@@ -42,8 +43,10 @@ public class ComponentFactoryImpl implements ComponentFactory {
     }
 
     @Override
-    public VirtualMachineRunner createVirtualMachineRunner(final List<SourceCode> sourceCodes) {
+    public VirtualMachineRunner createVirtualMachineRunner(final Console console,
+                                                           final List<SourceCode> sourceCodes) {
         final VirtualMachine virtualMachine = new VirtualMachineBuilder()
+            .setConsole(console)
             .build();
         return new VirtualMachineRunnerImpl(virtualMachine, sourceCodes);
     }

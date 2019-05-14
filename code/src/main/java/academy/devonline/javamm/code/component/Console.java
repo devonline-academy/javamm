@@ -14,21 +14,27 @@
  * limitations under the License.
  */
 
-package academy.devonline.javamm.ide.component;
-
-import academy.devonline.javamm.code.component.Console;
-import academy.devonline.javamm.code.fragment.SourceCode;
-import org.fxmisc.richtext.CodeArea;
-
-import java.util.List;
+package academy.devonline.javamm.code.component;
 
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-public interface ComponentFactory extends Releasable {
+public interface Console {
 
-    AsyncSyntaxHighlighter createAsyncSyntaxHighlighter(CodeArea codeArea);
+    Console DEFAULT = new Console() {
+        @Override
+        public void outPrintln(final Object value) {
+            System.out.println(value);
+        }
 
-    VirtualMachineRunner createVirtualMachineRunner(Console console, List<SourceCode> sourceCodes);
+        @Override
+        public void errPrintln(final String message) {
+            System.err.println(message);
+        }
+    };
+
+    void outPrintln(Object value);
+
+    void errPrintln(String message);
 }

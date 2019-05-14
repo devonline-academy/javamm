@@ -16,6 +16,7 @@
 
 package academy.devonline.javamm.vm;
 
+import academy.devonline.javamm.code.component.Console;
 import academy.devonline.javamm.code.fragment.ByteCode;
 import academy.devonline.javamm.code.fragment.SourceCode;
 import academy.devonline.javamm.compiler.Compiler;
@@ -34,12 +35,19 @@ import static java.util.Objects.requireNonNull;
  */
 public class VirtualMachineBuilder {
 
+    private Console console = Console.DEFAULT;
+
+    public VirtualMachineBuilder setConsole(final Console console) {
+        this.console = requireNonNull(console);
+        return this;
+    }
+
     protected CompilerConfigurator buildCompilerConfigurator() {
         return new CompilerConfigurator();
     }
 
     protected InterpreterConfigurator buildInterpreterConfigurator() {
-        return new InterpreterConfigurator();
+        return new InterpreterConfigurator(console);
     }
 
     public final VirtualMachine build() {

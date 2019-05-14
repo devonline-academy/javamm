@@ -16,6 +16,7 @@
 
 package academy.devonline.javamm.ide.controller;
 
+import academy.devonline.javamm.code.component.Console;
 import academy.devonline.javamm.ide.component.VirtualMachineRunner;
 import academy.devonline.javamm.ide.ui.listener.ActionListener;
 import academy.devonline.javamm.ide.ui.pane.ActionPane;
@@ -103,6 +104,17 @@ public class MainWindowController implements ActionListener,
     @Override
     public void onRunAction() {
         virtualMachineRunner = getComponentFactory().createVirtualMachineRunner(
+            new Console() {
+                @Override
+                public void outPrintln(final Object value) {
+                    System.out.println("TEMP->" + value);
+                }
+
+                @Override
+                public void errPrintln(final String message) {
+                    System.err.println(message);
+                }
+            },
             codeTabPane.getAllSourceCodes());
         virtualMachineRunner.run(this);
     }

@@ -16,18 +16,25 @@
 
 package academy.devonline.javamm.interpreter.component.impl.operation.simple;
 
+import academy.devonline.javamm.code.component.Console;
 import academy.devonline.javamm.code.component.ExpressionContext;
 import academy.devonline.javamm.code.fragment.operation.PrintlnOperation;
 import academy.devonline.javamm.interpreter.component.impl.operation.AbstractOperationInterpreter;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
 public final class PrintlnOperationInterpreter extends AbstractOperationInterpreter<PrintlnOperation> {
+    
+    private final Console console;
 
-    public PrintlnOperationInterpreter(final ExpressionContext expressionContext) {
+    public PrintlnOperationInterpreter(final ExpressionContext expressionContext, 
+                                       final Console console) {
         super(expressionContext);
+        this.console = requireNonNull(console);
     }
 
     @Override
@@ -37,6 +44,6 @@ public final class PrintlnOperationInterpreter extends AbstractOperationInterpre
 
     @Override
     protected void interpretOperation(final PrintlnOperation operation) {
-        System.out.println(operation.getExpression().getValue(expressionContext));
+        console.outPrintln(operation.getExpression().getValue(expressionContext));
     }
 }

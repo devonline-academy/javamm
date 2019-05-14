@@ -16,6 +16,7 @@
 
 package academy.devonline.javamm.interpreter;
 
+import academy.devonline.javamm.code.component.Console;
 import academy.devonline.javamm.code.component.ExpressionContext;
 import academy.devonline.javamm.interpreter.component.BlockOperationInterpreter;
 import academy.devonline.javamm.interpreter.component.CalculatorFacade;
@@ -84,107 +85,133 @@ import java.util.Set;
  */
 public class InterpreterConfigurator {
 
-    private final int maxStackSize = 10;
+    private final int maxStackSize;
 
-    private CalculatorFacade calculatorFacade = new CalculatorFacadeImpl(Set.of(
-        // ------- Arithmetic -----------------------------------------
-        AdditionBinaryExpressionCalculator.createArithmeticCalculator(),
-        AdditionBinaryExpressionCalculator.createAssignmentCalculator(),
+    private CalculatorFacade calculatorFacade;
 
-        SubtractionBinaryExpressionCalculator.createArithmeticCalculator(),
-        SubtractionBinaryExpressionCalculator.createAssignmentCalculator(),
+    private Set<ExpressionEvaluator<?>> expressionEvaluators;
 
-        MultiplicationBinaryExpressionCalculator.createArithmeticCalculator(),
-        MultiplicationBinaryExpressionCalculator.createAssignmentCalculator(),
+    private Set<ExpressionUpdater<?>> expressionUpdaters;
 
-        DivisionBinaryExpressionCalculator.createArithmeticCalculator(),
-        DivisionBinaryExpressionCalculator.createAssignmentCalculator(),
+    private ExpressionContext expressionContext;
 
-        ModulusBinaryExpressionCalculator.createArithmeticCalculator(),
-        ModulusBinaryExpressionCalculator.createAssignmentCalculator(),
-        // ------ Bitwise -------------------------------------------------
-        BitwiseAndBinaryExpressionCalculator.createArithmeticCalculator(),
-        BitwiseAndBinaryExpressionCalculator.createAssignmentCalculator(),
+    private Console console;
 
-        BitwiseOrBinaryExpressionCalculator.createArithmeticCalculator(),
-        BitwiseOrBinaryExpressionCalculator.createAssignmentCalculator(),
+    private Set<OperationInterpreter<?>> operationInterpreters;
 
-        BitwiseXorBinaryExpressionCalculator.createArithmeticCalculator(),
-        BitwiseXorBinaryExpressionCalculator.createAssignmentCalculator(),
+    private BlockOperationInterpreter blockOperationInterpreter;
 
-        BitwiseShiftLeftBinaryExpressionCalculator.createArithmeticCalculator(),
-        BitwiseShiftLeftBinaryExpressionCalculator.createAssignmentCalculator(),
+    private RuntimeBuilder runtimeBuilder;
 
-        BitwiseShiftRightBinaryExpressionCalculator.createArithmeticCalculator(),
-        BitwiseShiftRightBinaryExpressionCalculator.createAssignmentCalculator(),
+    private DeveloperFunctionInvoker developerFunctionInvoker;
 
-        BitwiseShiftRightZeroFillBinaryExpressionCalculator.createArithmeticCalculator(),
-        BitwiseShiftRightZeroFillBinaryExpressionCalculator.createAssignmentCalculator(),
-        // ------ Logic -------------------------------------------------
-        new LogicAndBinaryExpressionCalculator(),
-        new LogicOrBinaryExpressionCalculator(),
-        // ------ Predicate ---------------------------------------------
-        new IsEqualsBinaryExpressionCalculator(),
-        new IsNotEqualsBinaryExpressionCalculator(),
-        new TypeOfBinaryExpressionCalculator(),
-        new IsGreaterBinaryExpressionCalculator(),
-        new IsGreaterOrEqualsBinaryExpressionCalculator(),
-        new IsLessBinaryExpressionCalculator(),
-        new IsLessOrEqualsBinaryExpressionCalculator()
-    ), Set.of(
-        // ------- Arithmetic -----------------------------------------
-        new IncrementUnaryExpressionCalculator(),
-        new DecrementUnaryExpressionCalculator(),
-        new PlusUnaryExpressionCalculator(),
-        new MinusUnaryExpressionCalculator(),
-        // ------ Bitwise -------------------------------------------------
-        new BitwiseInverseUnaryExpressionCalculator(),
-        // ------ Logic -------------------------------------------------
-        new LogicNotUnaryExpressionCalculator()
-    ));
+    private FunctionInvokerBuilder functionInvokerBuilder;
 
-    private Set<ExpressionEvaluator<?>> expressionEvaluators = Set.of(
-        new VariableExpressionEvaluator(),
-        new PostfixNotationComplexExpressionEvaluator(calculatorFacade),
-        new FunctionInvokeExpressionEvaluator()
-    );
+    private Interpreter interpreter;
 
-    private Set<ExpressionUpdater<?>> expressionUpdaters = Set.of(
-        new VariableExpressionUpdater()
-    );
+    public InterpreterConfigurator() {
+        this(Console.DEFAULT);
+    }
 
-    private ExpressionContext expressionContext = new ExpressionContextImpl(expressionEvaluators, expressionUpdaters);
+    public InterpreterConfigurator(final Console console) {
+        this.console = console;
+        this.maxStackSize = 10;
+        this.calculatorFacade = new CalculatorFacadeImpl(Set.of(
+            // ------- Arithmetic -----------------------------------------
+            AdditionBinaryExpressionCalculator.createArithmeticCalculator(),
+            AdditionBinaryExpressionCalculator.createAssignmentCalculator(),
 
-    private Set<OperationInterpreter<?>> operationInterpreters = Set.of(
-        new PrintlnOperationInterpreter(expressionContext),
-        new VariableDeclarationOperationInterpreter(expressionContext),
-        new VariableAssignmentOperationInterpreter(expressionContext),
-        new ExpressionOperationInterpreter(expressionContext),
-        new ContinueOperationInterpreter(expressionContext),
-        new BreakOperationInterpreter(expressionContext),
-        new ReturnOperationInterpreter(expressionContext),
+            SubtractionBinaryExpressionCalculator.createArithmeticCalculator(),
+            SubtractionBinaryExpressionCalculator.createAssignmentCalculator(),
 
-        new IfElseOperationInterpreter(expressionContext, calculatorFacade),
-        new WhileOperationInterpreter(expressionContext, calculatorFacade),
-        new DoWhileOperationInterpreter(expressionContext, calculatorFacade),
-        new SimpleBlockOperationInterpreter(expressionContext),
-        new ForOperationInterpreter(expressionContext, calculatorFacade),
-        new SwitchOperationInterpreter(expressionContext)
-    );
+            MultiplicationBinaryExpressionCalculator.createArithmeticCalculator(),
+            MultiplicationBinaryExpressionCalculator.createAssignmentCalculator(),
 
-    private BlockOperationInterpreter blockOperationInterpreter =
-        new BlockOperationInterpreterImpl(operationInterpreters);
+            DivisionBinaryExpressionCalculator.createArithmeticCalculator(),
+            DivisionBinaryExpressionCalculator.createAssignmentCalculator(),
 
-    private RuntimeBuilder runtimeBuilder = new RuntimeBuilderImpl(maxStackSize);
+            ModulusBinaryExpressionCalculator.createArithmeticCalculator(),
+            ModulusBinaryExpressionCalculator.createAssignmentCalculator(),
+            // ------ Bitwise -------------------------------------------------
+            BitwiseAndBinaryExpressionCalculator.createArithmeticCalculator(),
+            BitwiseAndBinaryExpressionCalculator.createAssignmentCalculator(),
 
-    private DeveloperFunctionInvoker developerFunctionInvoker = new DeveloperFunctionInvokerImpl(
-        runtimeBuilder,
-        blockOperationInterpreter,
-        expressionContext);
+            BitwiseOrBinaryExpressionCalculator.createArithmeticCalculator(),
+            BitwiseOrBinaryExpressionCalculator.createAssignmentCalculator(),
 
-    private FunctionInvokerBuilder functionInvokerBuilder = new FunctionInvokerBuilderImpl(developerFunctionInvoker);
+            BitwiseXorBinaryExpressionCalculator.createArithmeticCalculator(),
+            BitwiseXorBinaryExpressionCalculator.createAssignmentCalculator(),
 
-    private Interpreter interpreter = new InterpreterImpl(functionInvokerBuilder, runtimeBuilder);
+            BitwiseShiftLeftBinaryExpressionCalculator.createArithmeticCalculator(),
+            BitwiseShiftLeftBinaryExpressionCalculator.createAssignmentCalculator(),
+
+            BitwiseShiftRightBinaryExpressionCalculator.createArithmeticCalculator(),
+            BitwiseShiftRightBinaryExpressionCalculator.createAssignmentCalculator(),
+
+            BitwiseShiftRightZeroFillBinaryExpressionCalculator.createArithmeticCalculator(),
+            BitwiseShiftRightZeroFillBinaryExpressionCalculator.createAssignmentCalculator(),
+            // ------ Logic -------------------------------------------------
+            new LogicAndBinaryExpressionCalculator(),
+            new LogicOrBinaryExpressionCalculator(),
+            // ------ Predicate ---------------------------------------------
+            new IsEqualsBinaryExpressionCalculator(),
+            new IsNotEqualsBinaryExpressionCalculator(),
+            new TypeOfBinaryExpressionCalculator(),
+            new IsGreaterBinaryExpressionCalculator(),
+            new IsGreaterOrEqualsBinaryExpressionCalculator(),
+            new IsLessBinaryExpressionCalculator(),
+            new IsLessOrEqualsBinaryExpressionCalculator()
+        ), Set.of(
+            // ------- Arithmetic -----------------------------------------
+            new IncrementUnaryExpressionCalculator(),
+            new DecrementUnaryExpressionCalculator(),
+            new PlusUnaryExpressionCalculator(),
+            new MinusUnaryExpressionCalculator(),
+            // ------ Bitwise -------------------------------------------------
+            new BitwiseInverseUnaryExpressionCalculator(),
+            // ------ Logic -------------------------------------------------
+            new LogicNotUnaryExpressionCalculator()
+        ));
+        this.expressionEvaluators = Set.of(
+            new VariableExpressionEvaluator(),
+            new PostfixNotationComplexExpressionEvaluator(calculatorFacade),
+            new FunctionInvokeExpressionEvaluator()
+        );
+        this.expressionUpdaters = Set.of(
+            new VariableExpressionUpdater()
+        );
+        this.expressionContext = new ExpressionContextImpl(expressionEvaluators, expressionUpdaters);
+        this.operationInterpreters = Set.of(
+            new PrintlnOperationInterpreter(expressionContext, console),
+            new VariableDeclarationOperationInterpreter(expressionContext),
+            new VariableAssignmentOperationInterpreter(expressionContext),
+            new ExpressionOperationInterpreter(expressionContext),
+            new ContinueOperationInterpreter(expressionContext),
+            new BreakOperationInterpreter(expressionContext),
+            new ReturnOperationInterpreter(expressionContext),
+
+            new IfElseOperationInterpreter(expressionContext, calculatorFacade),
+            new WhileOperationInterpreter(expressionContext, calculatorFacade),
+            new DoWhileOperationInterpreter(expressionContext, calculatorFacade),
+            new SimpleBlockOperationInterpreter(expressionContext),
+            new ForOperationInterpreter(expressionContext, calculatorFacade),
+            new SwitchOperationInterpreter(expressionContext)
+        );
+
+        this.blockOperationInterpreter =
+            new BlockOperationInterpreterImpl(operationInterpreters);
+
+        this.runtimeBuilder = new RuntimeBuilderImpl(maxStackSize);
+
+        this.developerFunctionInvoker = new DeveloperFunctionInvokerImpl(
+            runtimeBuilder,
+            blockOperationInterpreter,
+            expressionContext);
+
+        this.functionInvokerBuilder = new FunctionInvokerBuilderImpl(developerFunctionInvoker);
+
+        this.interpreter = new InterpreterImpl(functionInvokerBuilder, runtimeBuilder);
+    }
 
     public Interpreter getInterpreter() {
         return interpreter;
