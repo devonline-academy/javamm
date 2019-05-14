@@ -23,6 +23,8 @@ import javafx.beans.value.ChangeListener;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -75,5 +77,21 @@ public final class CodeTabPane extends TabPane {
 
     public List<SourceCode> getAllSourceCodes() {
         return getTabs().stream().map(t -> ((CodeTab) t).getSourceCode()).collect(Collectors.toList());
+    }
+
+    public boolean isFileAlreadyOpened(final File selectedFile) {
+        return false;
+    }
+
+    public void gotoCodeTabByFile(final File selectedFile) {
+
+    }
+
+    public void loadCodeToNewCodeEditor(final File selectedFile) throws IOException {
+
+    }
+
+    public CodeTab getSelectedCodeTab() {
+        return (CodeTab) getSelectionModel().getSelectedItem();
     }
 }

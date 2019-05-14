@@ -17,6 +17,7 @@
 package academy.devonline.javamm.ide.controller;
 
 import academy.devonline.javamm.ide.component.VirtualMachineRunner;
+import academy.devonline.javamm.ide.ui.dialog.FileChooserFactory;
 import academy.devonline.javamm.ide.ui.listener.ActionListener;
 import academy.devonline.javamm.ide.ui.listener.TabCloseConfirmationListener;
 import academy.devonline.javamm.ide.ui.pane.ActionPane;
@@ -28,10 +29,17 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.SplitPane;
 import javafx.scene.control.Tab;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Optional;
+
 import static academy.devonline.javamm.ide.component.ComponentFactoryProvider.getComponentFactory;
+import static academy.devonline.javamm.ide.ui.dialog.DialogFactoryProvider.createFileChooserFactoryBuilder;
 import static academy.devonline.javamm.ide.ui.dialog.DialogFactoryProvider.getSimpleDialogFactory;
+import static java.lang.String.format;
 
 /**
  * @author devonline
@@ -42,6 +50,16 @@ public class MainWindowController implements ActionListener,
     TabCloseConfirmationListener {
 
     private final PaneManager paneManager = new PaneManager();
+
+    private final FileChooserFactory fileChooserFactory = createFileChooserFactoryBuilder()
+        .setOpenFileTitle("Open javamm source code file")
+        .setSaveFileTitle("Save javamm source code file")
+        .setExtensionFilters(
+            new FileChooser.ExtensionFilter("Source code files (*.javamm)", "*.javamm"),
+            new FileChooser.ExtensionFilter("All files (*.*)", "*.*")
+        )
+        .setInitialDirectory(new File("examples"))
+        .build();
 
     @FXML
     private ActionPane actionPane;
@@ -68,12 +86,28 @@ public class MainWindowController implements ActionListener,
 
     @Override
     public boolean onOpenAction() {
+        final Optional<File> selectedFileOptional = fileChooserFactory.showOpenDialog(getStage());
+        if (selectedFileOptional.isPresent()) {
+            final File selectedFile = selectedFileOptional.get();
+            try {
+                if (codeTabPane.isFileAlreadyOpened(selectedFile)) {
+                    codeTabPane.gotoCodeTabByFile(selectedFile);
+                    return false;
+                } else {
+                    codeTabPane.loadCodeToNewCodeEditor(selectedFile);
+                    return true;
+                }
+            } catch (final IOException e) {
+                getSimpleDialogFactory().showErrorDialog(format("Can't load file: %s -> %s",
+                    selectedFile.getAbsolutePath(), e.getMessage()));
+            }
+        }
         return false;
     }
 
     @Override
     public boolean onSaveAction() {
-        return false;
+        return saveChanges(codeTabPane.getSelectedCodeTab());
     }
 
     @Override
@@ -96,6 +130,18 @@ public class MainWindowController implements ActionListener,
     }
 
     private boolean saveChanges(final CodeTab codeTab) {
+        final Optional<File> selectedFileOptional = codeTab.getSourceCodeFile().or(() ->
+            fileChooserFactory.showSaveDialog(getStage(), codeTab.getModuleName()));
+        if (selectedFileOptional.isPresent()) {
+            final File selectedFile = selectedFileOptional.get();
+            try {
+                codeTab.saveChanges(selectedFile);
+                return true;
+            } catch (final IOException e) {
+                getSimpleDialogFactory().showErrorDialog(format("Can't save file: %s -> %s",
+                    selectedFile.getAbsolutePath(), e.getMessage()));
+            }
+        }
         return false;
     }
 

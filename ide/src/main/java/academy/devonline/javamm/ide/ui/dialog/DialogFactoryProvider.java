@@ -18,6 +18,8 @@ package academy.devonline.javamm.ide.ui.dialog;
 
 import academy.devonline.javamm.ide.ui.dialog.impl.SimpleDialogFactoryImpl;
 
+import java.util.function.Supplier;
+
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -28,6 +30,8 @@ public final class DialogFactoryProvider {
 
     private static SimpleDialogFactory simpleDialogFactory = new SimpleDialogFactoryImpl();
 
+    private static Supplier<FileChooserFactory.Builder> fileChooserFactoryBuilderSupplier = () -> null;
+
     private DialogFactoryProvider() {
     }
 
@@ -37,5 +41,14 @@ public final class DialogFactoryProvider {
 
     public static void setSimpleDialogFactory(final SimpleDialogFactory simpleDialogFactory) {
         DialogFactoryProvider.simpleDialogFactory = requireNonNull(simpleDialogFactory);
+    }
+
+    public static void setFileChooserFactoryBuilderSupplier(
+        final Supplier<FileChooserFactory.Builder> fileChooserFactoryBuilderSupplier) {
+        DialogFactoryProvider.fileChooserFactoryBuilderSupplier = requireNonNull(fileChooserFactoryBuilderSupplier);
+    }
+
+    public static FileChooserFactory.Builder createFileChooserFactoryBuilder() {
+        return fileChooserFactoryBuilderSupplier.get();
     }
 }

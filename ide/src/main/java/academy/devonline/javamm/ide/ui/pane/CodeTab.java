@@ -23,6 +23,10 @@ import academy.devonline.javamm.ide.ui.listener.ActionStateManager;
 import academy.devonline.javamm.ide.ui.listener.TabCloseConfirmationListener;
 import javafx.scene.control.Tab;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Optional;
+
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -82,5 +86,13 @@ public final class CodeTab extends Tab implements Releasable {
     @Override
     public void release() {
         getCodeEditorPane().release();
+    }
+
+    public Optional<File> getSourceCodeFile() {
+        return Optional.empty();
+    }
+
+    public void saveChanges(final File selectedFile) throws IOException {
+
     }
 }
