@@ -5,7 +5,7 @@
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *     http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,23 +14,13 @@
  * limitations under the License.
  */
 
+package academy.devonline.javamm.ide.ui.pane;
+
+import javafx.scene.layout.BorderPane;
+
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-module javamm.ide {
-    requires javamm.code;
-    requires javamm.compiler;
-    requires javamm.interpreter;
-    requires javamm.vm;
-
-    requires javafx.controls;
-    requires javafx.graphics;
-    requires javafx.fxml;
-
-    exports academy.devonline.javamm.ide to javafx.graphics;
-    exports academy.devonline.javamm.ide.controller to javafx.fxml;
-    exports academy.devonline.javamm.ide.ui.pane to javafx.fxml;
-
-    opens academy.devonline.javamm.ide.controller to javafx.fxml;
+public final class ConsolePane extends BorderPane {
 }

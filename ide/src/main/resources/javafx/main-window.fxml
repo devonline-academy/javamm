@@ -16,46 +16,23 @@
   ~ limitations under the License.
   -->
 
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
+<?import academy.devonline.javamm.ide.ui.pane.ActionPane?>
+<?import academy.devonline.javamm.ide.ui.pane.CodeTabPane?>
+<?import academy.devonline.javamm.ide.ui.pane.ConsolePane?>
 <?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.VBox?>
+
 <BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.172-ea"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="academy.devonline.javamm.ide.controller.MainWindowController">
     <top>
-        <VBox fx:id="actionPane" BorderPane.alignment="CENTER">
-            <children>
-                <MenuBar>
-                    <menus>
-                        <Menu mnemonicParsing="false" text="File">
-                            <items>
-                                <MenuItem mnemonicParsing="false" onAction="#onCloseAction" text="Close"/>
-                            </items>
-                        </Menu>
-                    </menus>
-                </MenuBar>
-            </children>
-        </VBox>
+        <ActionPane fx:id="actionPane" BorderPane.alignment="CENTER"/>
     </top>
     <center>
         <SplitPane dividerPositions="0.8" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0"
                    BorderPane.alignment="CENTER">
-            <TabPane fx:id="codeTabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="ALL_TABS">
-                <Tab text="Untitled-0.javamm">
-                    <BorderPane prefHeight="200.0" prefWidth="200.0">
-                        <center>
-                            <TextArea prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER"/>
-                        </center>
-                    </BorderPane>
-                </Tab>
-            </TabPane>
-            <BorderPane fx:id="consolePane" prefHeight="200.0" prefWidth="600.0"/>
+            <CodeTabPane fx:id="codeTabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="ALL_TABS"/>
+            <ConsolePane fx:id="consolePane" prefHeight="200.0" prefWidth="600.0"/>
         </SplitPane>
     </center>
 </BorderPane>

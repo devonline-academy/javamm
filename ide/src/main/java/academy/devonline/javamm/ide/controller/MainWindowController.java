@@ -16,30 +16,76 @@
 
 package academy.devonline.javamm.ide.controller;
 
+import academy.devonline.javamm.ide.ui.listener.ActionListener;
+import academy.devonline.javamm.ide.ui.pane.ActionPane;
+import academy.devonline.javamm.ide.ui.pane.CodeTabPane;
+import academy.devonline.javamm.ide.ui.pane.ConsolePane;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.TabPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
 
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-public class MainWindowController {
+public class MainWindowController implements ActionListener {
 
     @FXML
-    private VBox actionPane;
+    private ActionPane actionPane;
 
     @FXML
-    private TabPane codeTabPane;
+    private CodeTabPane codeTabPane;
 
     @FXML
-    private BorderPane consolePane;
+    private ConsolePane consolePane;
 
     @FXML
     private void onCloseAction(final ActionEvent event) {
         System.exit(0);
+    }
+
+    @Override
+    public void onNewAction() {
+
+    }
+
+    @Override
+    public boolean onOpenAction() {
+        return false;
+    }
+
+    @Override
+    public boolean onSaveAction() {
+        return false;
+    }
+
+    @Override
+    public boolean onExitAction() {
+        return false;
+    }
+
+    @Override
+    public void onUndoAction() {
+
+    }
+
+    @Override
+    public void onRedoAction() {
+
+    }
+
+    @Override
+    public void onFormatAction() {
+
+    }
+
+    @Override
+    public void onRunAction() {
+
+    }
+
+    @Override
+    public void onTerminateAction() {
+
     }
 }
 
