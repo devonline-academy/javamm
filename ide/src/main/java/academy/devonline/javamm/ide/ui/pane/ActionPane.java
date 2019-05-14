@@ -265,8 +265,6 @@ public final class ActionPane extends VBox implements ActionStateManager,
     @FXML
     private void onTerminateAction(final ActionEvent event) {
         actionListener.onTerminateAction();
-
-        onRunCompleted(VirtualMachineRunner.CompleteStatus.TERMINATED);
     }
 
     public boolean isExitActionDisable() {
