@@ -3,13 +3,27 @@
 /* https://github.com/FXMisc/RichTextFX/wiki/RichTextFX-CSS-Reference-Guide */
 
 .keyword {
-    -fx-fill: purple;
+    -fx-fill: rgb(0,0,128);
     -fx-font-weight: bold;
 }
-.semicolon {
+.string {
+    -fx-fill: rgb(0,128,0);
     -fx-font-weight: bold;
 }
-.paren {
+.comment {
+	-fx-fill: rgb(128,128,128);
+	-fx-font-style: italic;
+}
+
+.paragraph-box:has-caret {
+    -fx-background-color: #f9fbe7;
+}
+
+.styled-text-area {
+    -fx-font-size: 14;
+}
+
+/*.paren {
     -fx-fill: firebrick;
     -fx-font-weight: bold;
 }
@@ -20,15 +34,4 @@
 .brace {
     -fx-fill: teal;
     -fx-font-weight: bold;
-}
-.string {
-    -fx-fill: blue;
-}
-
-.comment {
-	-fx-fill: cadetblue;
-}
-
-.paragraph-box:has-caret {
-    -fx-background-color: #f2f9fc;
-}
+}*/
