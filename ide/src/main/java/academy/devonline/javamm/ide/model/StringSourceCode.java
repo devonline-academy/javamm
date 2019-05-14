@@ -14,20 +14,37 @@
  * limitations under the License.
  */
 
-package academy.devonline.javamm.ide.component;
+package academy.devonline.javamm.ide.model;
 
 import academy.devonline.javamm.code.fragment.SourceCode;
-import org.fxmisc.richtext.CodeArea;
 
 import java.util.List;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-public interface ComponentFactory extends Releasable {
+public class StringSourceCode implements SourceCode {
 
-    AsyncSyntaxHighlighter createAsyncSyntaxHighlighter(CodeArea codeArea);
+    private final String moduleName;
 
-    VirtualMachineRunner createVirtualMachineRunner(List<SourceCode> sourceCodes);
+    private final List<String> lines;
+
+    public StringSourceCode(final String moduleName,
+                            final List<String> lines) {
+        this.moduleName = requireNonNull(moduleName);
+        this.lines = List.copyOf(lines);
+    }
+
+    @Override
+    public String getModuleName() {
+        return moduleName;
+    }
+
+    @Override
+    public List<String> getLines() {
+        return lines;
+    }
 }

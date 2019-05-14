@@ -16,6 +16,7 @@
 
 package academy.devonline.javamm.ide.ui.pane;
 
+import academy.devonline.javamm.ide.component.VirtualMachineRunner;
 import academy.devonline.javamm.ide.ui.listener.ActionListener;
 import academy.devonline.javamm.ide.ui.listener.ActionStateManager;
 import javafx.event.ActionEvent;
@@ -39,7 +40,8 @@ import static java.util.stream.Collectors.toMap;
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-public final class ActionPane extends VBox implements ActionStateManager {
+public final class ActionPane extends VBox implements ActionStateManager,
+    VirtualMachineRunner.VirtualMachineRunCompletedListener {
 
     private Map<MenuItem, Boolean> beforeRunStates;
 
@@ -174,11 +176,6 @@ public final class ActionPane extends VBox implements ActionStateManager {
     }
 
     @Override
-    public void setExitActionDisable(final boolean disable) {
-        miExit.setDisable(disable);
-    }
-
-    @Override
     public void setUndoActionDisable(final boolean disable) {
         miUndo.setDisable(disable);
     }
@@ -257,17 +254,29 @@ public final class ActionPane extends VBox implements ActionStateManager {
         actionListener.onRunAction();
     }
 
-    @FXML
-    private void onTerminateAction(final ActionEvent event) {
-        actionListener.onTerminateAction();
-
+    @Override
+    public void onRunCompleted(final VirtualMachineRunner.CompleteStatus status) {
         beforeRunStates.forEach(MenuItem::setDisable);
         beforeRunStates = null;
         setRunActionDisable(false);
         setTerminateActionDisable(true);
     }
 
+    @FXML
+    private void onTerminateAction(final ActionEvent event) {
+        actionListener.onTerminateAction();
+
+        onRunCompleted(VirtualMachineRunner.CompleteStatus.TERMINATED);
+    }
+
     public boolean isExitActionDisable() {
         return miExit.isDisable();
     }
+
+    @Override
+    public void setExitActionDisable(final boolean disable) {
+        miExit.setDisable(disable);
+    }
+
+
 }

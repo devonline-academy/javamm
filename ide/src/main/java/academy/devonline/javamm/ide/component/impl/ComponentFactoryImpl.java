@@ -16,10 +16,15 @@
 
 package academy.devonline.javamm.ide.component.impl;
 
+import academy.devonline.javamm.code.fragment.SourceCode;
 import academy.devonline.javamm.ide.component.AsyncSyntaxHighlighter;
 import academy.devonline.javamm.ide.component.ComponentFactory;
+import academy.devonline.javamm.ide.component.VirtualMachineRunner;
+import academy.devonline.javamm.vm.VirtualMachine;
+import academy.devonline.javamm.vm.VirtualMachineBuilder;
 import org.fxmisc.richtext.CodeArea;
 
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -34,6 +39,13 @@ public class ComponentFactoryImpl implements ComponentFactory {
     @Override
     public AsyncSyntaxHighlighter createAsyncSyntaxHighlighter(final CodeArea codeArea) {
         return new AsyncSyntaxHighlighterImpl(codeArea, executorService);
+    }
+
+    @Override
+    public VirtualMachineRunner createVirtualMachineRunner(final List<SourceCode> sourceCodes) {
+        final VirtualMachine virtualMachine = new VirtualMachineBuilder()
+            .build();
+        return new VirtualMachineRunnerImpl(virtualMachine, sourceCodes);
     }
 
     @Override

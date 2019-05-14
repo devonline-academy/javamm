@@ -16,8 +16,12 @@
 
 package academy.devonline.javamm.ide.ui.pane;
 
+import academy.devonline.javamm.code.fragment.SourceCode;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.lang.String.format;
 
@@ -40,5 +44,9 @@ public final class CodeTabPane extends TabPane {
         getTabs().add(tab);
         getSelectionModel().select(tab);
         codeEditorPane.requestFocus();
+    }
+
+    public List<SourceCode> getAllSourceCodes() {
+        return getTabs().stream().map(t -> ((CodeTab) t).getSourceCode()).collect(Collectors.toList());
     }
 }

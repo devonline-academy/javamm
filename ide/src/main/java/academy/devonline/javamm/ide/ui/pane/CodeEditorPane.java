@@ -23,6 +23,8 @@ import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 
+import java.util.List;
+
 import static academy.devonline.javamm.ide.component.ComponentFactoryProvider.getComponentFactory;
 import static academy.devonline.javamm.ide.util.ResourceUtils.getClasspathResource;
 
@@ -52,5 +54,9 @@ public final class CodeEditorPane extends StackPane implements Releasable {
     @Override
     public void release() {
         asyncSyntaxHighlighter.disable();
+    }
+
+    List<String> getCodeLines() {
+        return List.of(codeArea.getText().split("\n"));
     }
 }

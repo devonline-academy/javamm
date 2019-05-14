@@ -16,6 +16,8 @@
 
 package academy.devonline.javamm.ide.ui.pane;
 
+import academy.devonline.javamm.code.fragment.SourceCode;
+import academy.devonline.javamm.ide.model.StringSourceCode;
 import javafx.scene.control.Tab;
 
 import static java.util.Objects.requireNonNull;
@@ -36,5 +38,13 @@ final class CodeTab extends Tab {
 
     public String getModuleName() {
         return moduleName;
+    }
+
+    SourceCode getSourceCode() {
+        return new StringSourceCode(moduleName, getCodeEditorPane().getCodeLines());
+    }
+
+    private CodeEditorPane getCodeEditorPane() {
+        return (CodeEditorPane) getContent();
     }
 }

@@ -16,18 +16,41 @@
 
 package academy.devonline.javamm.ide.component;
 
-import academy.devonline.javamm.code.fragment.SourceCode;
-import org.fxmisc.richtext.CodeArea;
-
-import java.util.List;
-
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-public interface ComponentFactory extends Releasable {
+public interface VirtualMachineRunner {
 
-    AsyncSyntaxHighlighter createAsyncSyntaxHighlighter(CodeArea codeArea);
+    void run(VirtualMachineRunCompletedListener listener);
 
-    VirtualMachineRunner createVirtualMachineRunner(List<SourceCode> sourceCodes);
+    boolean isRunning();
+
+    void terminate();
+
+    /**
+     * @author devonline
+     * @link http://devonline.academy/javamm
+     */
+    enum CompleteStatus {
+
+        SUCCESSFUL,
+
+        SYNTAX_ERROR,
+
+        RUNTIME_ERROR,
+
+        INTERNAL_ERROR,
+
+        TERMINATED
+    }
+
+    /**
+     * @author devonline
+     * @link http://devonline.academy/javamm
+     */
+    interface VirtualMachineRunCompletedListener {
+
+        void onRunCompleted(CompleteStatus status);
+    }
 }

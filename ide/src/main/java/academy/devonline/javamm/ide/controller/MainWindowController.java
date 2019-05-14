@@ -16,19 +16,24 @@
 
 package academy.devonline.javamm.ide.controller;
 
+import academy.devonline.javamm.ide.component.VirtualMachineRunner;
 import academy.devonline.javamm.ide.ui.listener.ActionListener;
 import academy.devonline.javamm.ide.ui.pane.ActionPane;
 import academy.devonline.javamm.ide.ui.pane.CodeTabPane;
 import academy.devonline.javamm.ide.ui.pane.ConsolePane;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.stage.Stage;
+
+import static academy.devonline.javamm.ide.component.ComponentFactoryProvider.getComponentFactory;
 
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-public class MainWindowController implements ActionListener {
+public class MainWindowController implements ActionListener,
+    VirtualMachineRunner.VirtualMachineRunCompletedListener {
 
     @FXML
     private ActionPane actionPane;
@@ -38,6 +43,8 @@ public class MainWindowController implements ActionListener {
 
     @FXML
     private ConsolePane consolePane;
+
+    private VirtualMachineRunner virtualMachineRunner;
 
     @FXML
     private void initialize() {
@@ -95,12 +102,21 @@ public class MainWindowController implements ActionListener {
 
     @Override
     public void onRunAction() {
+        virtualMachineRunner = getComponentFactory().createVirtualMachineRunner(
+            codeTabPane.getAllSourceCodes());
+        virtualMachineRunner.run(this);
+    }
 
+    @Override
+    public void onRunCompleted(final VirtualMachineRunner.CompleteStatus status) {
+        Platform.runLater(() -> {
+            actionPane.onRunCompleted(status);
+        });
     }
 
     @Override
     public void onTerminateAction() {
-
+        virtualMachineRunner.terminate();
     }
 }
 
