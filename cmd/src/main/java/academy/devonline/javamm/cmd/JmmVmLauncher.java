@@ -16,8 +16,8 @@
 
 package academy.devonline.javamm.cmd;
 
-import academy.devonline.javamm.compiler.JavammSyntaxError;
-import academy.devonline.javamm.interpreter.JavammRuntimeError;
+import academy.devonline.javamm.code.exception.JavammError;
+import academy.devonline.javamm.code.fragment.SourceCode;
 import academy.devonline.javamm.vm.VirtualMachine;
 import academy.devonline.javamm.vm.VirtualMachineBuilder;
 
@@ -32,12 +32,20 @@ public final class JmmVmLauncher {
     private JmmVmLauncher() {
     }
 
-    public static void main(final String[] args) throws IOException {
+    public static void main(final String... args) throws IOException {
         final VirtualMachine virtualMachine = new VirtualMachineBuilder().build();
         try {
-            virtualMachine.run(new FileSourceCode("cmd/src/main/resources/test.javamm"));
-        } catch (final JavammSyntaxError | JavammRuntimeError e) {
+            virtualMachine.run(toSourceCodes(args));
+        } catch (final JavammError e) {
             System.err.println(e.getMessage());
         }
+    }
+
+    private static SourceCode[] toSourceCodes(final String[] args) throws IOException {
+        final SourceCode[] sourceCodes = new SourceCode[args.length];
+        for (int i = 0; i < args.length; i++) {
+            sourceCodes[i] = new FileSourceCode(args[i]);
+        }
+        return sourceCodes;
     }
 }
