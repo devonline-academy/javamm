@@ -118,6 +118,7 @@ public class AsyncSyntaxHighlighterImpl implements AsyncSyntaxHighlighter {
             .subscribe(this::applyHighlighting);
         // FIXME remove
         codeArea.replaceText(0, 0, sampleCode);
+        codeArea.getUndoManager().forgetHistory();
     }
 
     @Override

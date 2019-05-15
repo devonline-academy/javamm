@@ -175,12 +175,12 @@ public class MainWindowController implements ActionListener,
 
     @Override
     public void onUndoAction() {
-
+        codeTabPane.getSelectedCodeTab().undo();
     }
 
     @Override
     public void onRedoAction() {
-
+        codeTabPane.getSelectedCodeTab().redo();
     }
 
     @Override

@@ -44,6 +44,8 @@ public final class CodeTabPane extends TabPane {
         if (newValue != null) {
             final CodeTab t = (CodeTab) newValue;
             actionStateManager.setSaveActionDisable(!t.isChanged());
+            actionStateManager.setUndoActionDisable(!t.isUndoAvailable());
+            actionStateManager.setRedoActionDisable(!t.isRedoAvailable());
         } else {
             // All tabs are closed
             actionStateManager.setInitActionsState();

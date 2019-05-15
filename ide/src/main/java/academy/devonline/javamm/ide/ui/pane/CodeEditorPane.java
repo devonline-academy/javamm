@@ -23,6 +23,7 @@ import javafx.scene.layout.StackPane;
 import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
+import org.fxmisc.richtext.UndoActions;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,12 +35,16 @@ import static academy.devonline.javamm.ide.component.ComponentFactoryProvider.ge
 import static academy.devonline.javamm.ide.util.ResourceUtils.getClasspathResource;
 import static academy.devonline.javamm.ide.util.TabReplaceUtils.initCodeAreaTabFixer;
 import static academy.devonline.javamm.ide.util.TabReplaceUtils.replaceTabulations;
+import static org.fxmisc.richtext.util.UndoUtils.plainTextUndoManager;
+import static org.fxmisc.undo.UndoManagerFactory.fixedSizeHistoryFactory;
 
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
 public final class CodeEditorPane extends StackPane implements Releasable {
+
+    private static final int UNDO_HISTORY_SIZE = 100;
 
     private final CodeArea codeArea = new CodeArea();
 
@@ -49,6 +54,7 @@ public final class CodeEditorPane extends StackPane implements Releasable {
     private File savedSourceCodeFile;
 
     CodeEditorPane() {
+        codeArea.setUndoManager(plainTextUndoManager(codeArea, fixedSizeHistoryFactory(UNDO_HISTORY_SIZE)));
         codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
         getChildren().add(new VirtualizedScrollPane<>(codeArea));
         getStylesheets().add(getClasspathResource("/style/code-editor-pane.css").toExternalForm());
@@ -81,10 +87,15 @@ public final class CodeEditorPane extends StackPane implements Releasable {
     void loadCode(final File selectedFile) throws IOException {
         this.savedSourceCodeFile = selectedFile;
         codeArea.replaceText(replaceTabulations(Files.readString(selectedFile.toPath())));
+        codeArea.getUndoManager().forgetHistory();
     }
 
     void saveCode(final File selectedFile) throws IOException {
         this.savedSourceCodeFile = selectedFile;
         Files.writeString(selectedFile.toPath(), codeArea.getText());
+    }
+
+    UndoActions getUndoActions() {
+        return codeArea;
     }
 }

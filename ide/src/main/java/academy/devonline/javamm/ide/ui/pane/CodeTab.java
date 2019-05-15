@@ -81,6 +81,7 @@ public final class CodeTab extends Tab implements Releasable {
             setText("*" + moduleName);
         }
         actionStateManager.setSaveActionDisable(false);
+        updateUndoRedoActionState();
     }
 
     @Override
@@ -110,5 +111,28 @@ public final class CodeTab extends Tab implements Releasable {
 
     void requestFocus() {
         getCodeEditorPane().requestFocus();
+    }
+
+    public void undo() {
+        getCodeEditorPane().getUndoActions().undo();
+        updateUndoRedoActionState();
+    }
+
+    public void redo() {
+        getCodeEditorPane().getUndoActions().redo();
+        updateUndoRedoActionState();
+    }
+
+    boolean isUndoAvailable() {
+        return getCodeEditorPane().getUndoActions().isUndoAvailable();
+    }
+
+    boolean isRedoAvailable() {
+        return getCodeEditorPane().getUndoActions().isRedoAvailable();
+    }
+
+    private void updateUndoRedoActionState() {
+        actionStateManager.setUndoActionDisable(!getCodeEditorPane().getUndoActions().isUndoAvailable());
+        actionStateManager.setRedoActionDisable(!getCodeEditorPane().getUndoActions().isRedoAvailable());
     }
 }
