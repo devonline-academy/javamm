@@ -185,7 +185,7 @@ public class MainWindowController implements ActionListener,
 
     @Override
     public void onFormatAction() {
-
+        codeTabPane.getSelectedCodeTab().format();
     }
 
     @Override

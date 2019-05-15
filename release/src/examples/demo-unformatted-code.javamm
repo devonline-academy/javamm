@@ -1,0 +1,88 @@
+
+
+
+function main(){
+     var a                                      =               1
+final                                   b=      a+4
+a++
+    println(a  +                    b)
+println                 (                                'if else')
+                                    // if - else------------------------------------------------------------
+    if(a<3)                                         {
+            println(            'a < 3'                 )        // prints if a < 3
+}
+            else/* test comment */if(                       a                           <          5 ){
+println('a < 5')/* prints if a<5 */
+        }
+                        else{
+println(                            'else'                   )
+            }
+println             (                'for'      )
+// for loop------------------------------------------------------------
+for (    var i           =           0;/* // test comment */i<9;/* test comment */i++)/* test comment */{
+                       if(i>1){
+continue
+}
+println         (       i      )
+if(i                            ==                              5){
+break
+    }
+            }
+                                a           =          3
+                            println             (                           'while')
+/* while loop------------------------------------------------------------ */
+        while      (       a             >=       b  ){
+println(a)
+                    a                                                       --
+                }
+                /*do ****
+                                    while
+                    loop------------------------------------------------------------*/
+    a       =      1
+                    println('do while')
+
+
+
+do      {
+a                       ++
+println                         (            a   )
+                            }
+                                while(                  a<=4                        )
+                            // switch------------------------------------------------------------
+a=1
+println('switch')
+
+
+
+
+switch                          (        a        )    {
+case                1   :        {
+        println             ( 1 )
+        }
+            case 2      :   {
+                println (2)
+                            break
+                                                 }
+                                                        case    3       :{
+                                                        println(3)
+                                                                    break
+                                                                                }
+                                                                                default:{
+                                                println('default')
+                                            }
+                                }
+
+
+
+
+var c=a+b*5-7/a+sum(2,3)+sum(a,b*7)*-a+0-b
+println(c)
+}
+
+
+
+
+// function------------------------------------------------------------
+function sum(a,b){
+return a+b
+}

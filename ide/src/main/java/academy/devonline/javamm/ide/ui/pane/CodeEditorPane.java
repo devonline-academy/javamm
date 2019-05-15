@@ -17,6 +17,7 @@
 package academy.devonline.javamm.ide.ui.pane;
 
 import academy.devonline.javamm.ide.component.AsyncSyntaxHighlighter;
+import academy.devonline.javamm.ide.component.CodeFormatter;
 import academy.devonline.javamm.ide.component.CodeTemplateHelper;
 import academy.devonline.javamm.ide.component.NewLineHelper;
 import academy.devonline.javamm.ide.component.PairedTokensHelper;
@@ -60,6 +61,8 @@ public final class CodeEditorPane extends StackPane implements Releasable {
         getComponentFactory().createAsyncSyntaxHighlighter(codeArea);
 
     private final PairedTokensHelper pairedTokensHelper = getComponentFactory().getPairedTokensHelper();
+
+    private final CodeFormatter codeFormatter = getComponentFactory().getCodeFormatter();
 
     private File savedSourceCodeFile;
 
@@ -119,5 +122,10 @@ public final class CodeEditorPane extends StackPane implements Releasable {
 
     UndoActions getUndoActions() {
         return codeArea;
+    }
+
+    public void format() {
+        codeArea.replaceText(String.join("\n", codeFormatter.getFormattedCode(getCodeLines())));
+        asyncSyntaxHighlighter.highlightNow();
     }
 }

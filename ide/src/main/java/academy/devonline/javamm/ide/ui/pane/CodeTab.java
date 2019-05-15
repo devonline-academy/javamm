@@ -135,4 +135,9 @@ public final class CodeTab extends Tab implements Releasable {
         actionStateManager.setUndoActionDisable(!getCodeEditorPane().getUndoActions().isUndoAvailable());
         actionStateManager.setRedoActionDisable(!getCodeEditorPane().getUndoActions().isRedoAvailable());
     }
+
+    public void format() {
+        getCodeEditorPane().format();
+        setChanged();
+    }
 }

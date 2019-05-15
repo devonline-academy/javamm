@@ -14,11 +14,9 @@
  * limitations under the License.
  */
 
-package academy.devonline.javamm.ide.component;
+package academy.devonline.javamm.ide.component.impl;
 
-import academy.devonline.javamm.code.component.Console;
-import academy.devonline.javamm.code.fragment.SourceCode;
-import org.fxmisc.richtext.CodeArea;
+import academy.devonline.javamm.ide.component.CodeFormatter;
 
 import java.util.List;
 
@@ -26,17 +24,10 @@ import java.util.List;
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-public interface ComponentFactory extends Releasable {
+public class CodeFormatterImpl implements CodeFormatter {
 
-    AsyncSyntaxHighlighter createAsyncSyntaxHighlighter(CodeArea codeArea);
-
-    VirtualMachineRunner createVirtualMachineRunner(Console console, List<SourceCode> sourceCodes);
-
-    CodeTemplateHelper getCodeTemplateHelper();
-
-    NewLineHelper getNewLineHelper();
-
-    PairedTokensHelper getPairedTokensHelper();
-
-    CodeFormatter getCodeFormatter();
+    @Override
+    public List<String> getFormattedCode(final List<String> sourceCode) {
+        return null;
+    }
 }

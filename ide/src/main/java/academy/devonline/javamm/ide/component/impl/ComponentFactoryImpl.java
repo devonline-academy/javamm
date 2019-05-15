@@ -19,6 +19,7 @@ package academy.devonline.javamm.ide.component.impl;
 import academy.devonline.javamm.code.component.Console;
 import academy.devonline.javamm.code.fragment.SourceCode;
 import academy.devonline.javamm.ide.component.AsyncSyntaxHighlighter;
+import academy.devonline.javamm.ide.component.CodeFormatter;
 import academy.devonline.javamm.ide.component.CodeTemplateHelper;
 import academy.devonline.javamm.ide.component.CodeTemplateStorage;
 import academy.devonline.javamm.ide.component.ComponentFactory;
@@ -83,6 +84,8 @@ public class ComponentFactoryImpl implements ComponentFactory {
 
     private final PairedTokensHelper pairedTokensHelper = new PairedTokensHelperImpl();
 
+    private final CodeFormatter codeFormatter = new CodeFormatterImpl();
+
     @Override
     public AsyncSyntaxHighlighter createAsyncSyntaxHighlighter(final CodeArea codeArea) {
         return new AsyncSyntaxHighlighterImpl(codeArea, executorService);
@@ -110,6 +113,11 @@ public class ComponentFactoryImpl implements ComponentFactory {
     @Override
     public PairedTokensHelper getPairedTokensHelper() {
         return pairedTokensHelper;
+    }
+
+    @Override
+    public CodeFormatter getCodeFormatter() {
+        return codeFormatter;
     }
 
     @Override
