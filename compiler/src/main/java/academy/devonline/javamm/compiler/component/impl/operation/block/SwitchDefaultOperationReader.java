@@ -43,7 +43,7 @@ public class SwitchDefaultOperationReader {
                           final SourceLine sourceLine,
                           final BlockOperationReader blockOperationReader) {
         validate(sourceLine);
-        final Block defaultBlock = blockOperationReader.read(sourceLine, iterator, true);
+        final Block defaultBlock = blockOperationReader.read(sourceLine, iterator);
         try {
             builder.setDefaultBlock(defaultBlock);
         } catch (final IllegalArgumentException e) {

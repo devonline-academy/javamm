@@ -67,7 +67,7 @@ public class FunctionReaderImpl implements FunctionReader {
         validateFunctionHeader(sourceLine);
         final DeveloperFunction.Builder builder = readFunctionHeader(sourceLine);
         return builder
-            .setBody(blockOperationReader.read(sourceLine, iterator, true))
+            .setBody(blockOperationReader.read(sourceLine, iterator))
             .build();
     }
 

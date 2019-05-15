@@ -55,7 +55,7 @@ public class SwitchCaseOperationReader {
                           final BlockOperationReader blockOperationReader) {
         validate(sourceLine);
         final CaseValueExpression caseValueExpression = getCaseValueExpression(sourceLine);
-        final Block caseBlock = blockOperationReader.read(sourceLine, iterator, true);
+        final Block caseBlock = blockOperationReader.read(sourceLine, iterator);
         try {
             builder.addCase(caseValueExpression, caseBlock);
         } catch (final IllegalArgumentException e) {

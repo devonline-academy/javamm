@@ -41,6 +41,6 @@ public class SimpleBlockOperationReader extends AbstractBlockOperationReader<Blo
 
     @Override
     protected Block get(final SourceLine sourceLine, final ListIterator<SourceLine> iterator) {
-        return getBlockOperationReader().read(sourceLine, iterator, true);
+        return getBlockOperationReader().read(sourceLine, iterator);
     }
 }

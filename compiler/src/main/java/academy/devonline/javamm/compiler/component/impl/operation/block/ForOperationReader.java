@@ -84,7 +84,7 @@ public class ForOperationReader extends AbstractBlockOperationReader<ForOperatio
     @Override
     protected ForOperation get(final SourceLine sourceLine, final ListIterator<SourceLine> iterator) {
         final ForOperation.Builder builder = getForHeader(sourceLine);
-        builder.setBody(getBlockOperationReader().read(sourceLine, iterator, true));
+        builder.setBody(getBlockOperationReader().read(sourceLine, iterator));
         return builder.build();
     }
 

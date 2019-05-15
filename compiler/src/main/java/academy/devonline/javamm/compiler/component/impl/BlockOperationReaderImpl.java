@@ -69,18 +69,16 @@ public final class BlockOperationReaderImpl implements BlockOperationReader {
 
     @Override
     public Block read(final SourceLine sourceLine,
-                      final ListIterator<SourceLine> iterator,
-                      final boolean expectedClosingCurlyBrace) {
+                      final ListIterator<SourceLine> iterator) {
         final String moduleName = sourceLine.getModuleName();
         final List<Operation> operations = new ArrayList<>();
-        readBlockOperations(operations, iterator, moduleName, expectedClosingCurlyBrace);
+        readBlockOperations(operations, iterator, moduleName);
         return new Block(operations, sourceLine);
     }
 
     private void readBlockOperations(final List<Operation> operations,
                                      final ListIterator<SourceLine> iterator,
-                                     final String moduleName,
-                                     final boolean expectedClosingCurlyBrace) {
+                                     final String moduleName) {
         while (iterator.hasNext()) {
             final SourceLine sourceLine = iterator.next();
             if (isClosingBlockOperation(sourceLine)) {
@@ -90,9 +88,7 @@ public final class BlockOperationReaderImpl implements BlockOperationReader {
                 operations.add(getOperation(sourceLine, iterator));
             }
         }
-        if (expectedClosingCurlyBrace) {
-            throw new JavammStructSyntaxError("'}' expected to close block statement at the end of file", moduleName);
-        }
+        throw new JavammStructSyntaxError("'}' expected to close block statement at the end of file", moduleName);
     }
 
     // Imperative

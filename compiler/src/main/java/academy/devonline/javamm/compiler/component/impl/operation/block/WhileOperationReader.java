@@ -65,7 +65,7 @@ public class WhileOperationReader extends AbstractBlockOperationReader<WhileOper
     protected WhileOperation get(final SourceLine sourceLine,
                                  final ListIterator<SourceLine> iterator) {
         final Expression condition = getConditionExpression(sourceLine);
-        final Block body = getBlockOperationReader().read(sourceLine, iterator, true);
+        final Block body = getBlockOperationReader().read(sourceLine, iterator);
         return new WhileOperation(sourceLine, condition, body);
     }
 

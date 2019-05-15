@@ -62,7 +62,7 @@ public class DoWhileOperationReader extends AbstractBlockOperationReader<DoWhile
 
     @Override
     protected DoWhileOperation get(final SourceLine sourceLine, final ListIterator<SourceLine> iterator) {
-        final Block body = getBlockOperationReader().read(sourceLine, iterator, true);
+        final Block body = getBlockOperationReader().read(sourceLine, iterator);
         final SourceLine whileSourceLine = getWhileSourceLine(iterator, sourceLine.getModuleName());
         final Expression condition = getCondition(whileSourceLine);
         return new DoWhileOperation(whileSourceLine, condition, body);
