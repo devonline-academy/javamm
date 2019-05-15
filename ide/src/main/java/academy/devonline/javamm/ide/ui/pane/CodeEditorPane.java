@@ -32,6 +32,8 @@ import java.util.Optional;
 
 import static academy.devonline.javamm.ide.component.ComponentFactoryProvider.getComponentFactory;
 import static academy.devonline.javamm.ide.util.ResourceUtils.getClasspathResource;
+import static academy.devonline.javamm.ide.util.TabReplaceUtils.initCodeAreaTabFixer;
+import static academy.devonline.javamm.ide.util.TabReplaceUtils.replaceTabulations;
 
 /**
  * @author devonline
@@ -50,6 +52,7 @@ public final class CodeEditorPane extends StackPane implements Releasable {
         codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
         getChildren().add(new VirtualizedScrollPane<>(codeArea));
         getStylesheets().add(getClasspathResource("/style/code-editor-pane.css").toExternalForm());
+        initCodeAreaTabFixer(codeArea);
         asyncSyntaxHighlighter.enable();
     }
 
@@ -77,7 +80,7 @@ public final class CodeEditorPane extends StackPane implements Releasable {
 
     void loadCode(final File selectedFile) throws IOException {
         this.savedSourceCodeFile = selectedFile;
-        codeArea.replaceText(Files.readString(selectedFile.toPath()));
+        codeArea.replaceText(replaceTabulations(Files.readString(selectedFile.toPath())));
     }
 
     void saveCode(final File selectedFile) throws IOException {
