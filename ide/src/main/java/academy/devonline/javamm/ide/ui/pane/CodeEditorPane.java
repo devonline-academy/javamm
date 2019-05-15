@@ -17,8 +17,10 @@
 package academy.devonline.javamm.ide.ui.pane;
 
 import academy.devonline.javamm.ide.component.AsyncSyntaxHighlighter;
+import academy.devonline.javamm.ide.component.CodeTemplateHelper;
 import academy.devonline.javamm.ide.component.Releasable;
 import javafx.beans.value.ChangeListener;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
 import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.fxmisc.richtext.CodeArea;
@@ -48,6 +50,8 @@ public final class CodeEditorPane extends StackPane implements Releasable {
 
     private final CodeArea codeArea = new CodeArea();
 
+    private final CodeTemplateHelper codeTemplateHelper = getComponentFactory().getCodeTemplateHelper();
+
     private final AsyncSyntaxHighlighter asyncSyntaxHighlighter =
         getComponentFactory().createAsyncSyntaxHighlighter(codeArea);
 
@@ -59,6 +63,11 @@ public final class CodeEditorPane extends StackPane implements Releasable {
         getChildren().add(new VirtualizedScrollPane<>(codeArea));
         getStylesheets().add(getClasspathResource("/style/code-editor-pane.css").toExternalForm());
         initCodeAreaTabFixer(codeArea);
+        codeArea.setOnKeyPressed(event -> {
+            if (event.getCode() == KeyCode.ENTER) {
+                codeTemplateHelper.insertCodeTemplateToCaretPosition(codeArea);
+            }
+        });
         asyncSyntaxHighlighter.enable();
     }
 

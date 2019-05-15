@@ -14,23 +14,24 @@
  * limitations under the License.
  */
 
-package academy.devonline.javamm.ide.component;
+package academy.devonline.javamm.ide.component.impl;
 
-import academy.devonline.javamm.code.component.Console;
-import academy.devonline.javamm.code.fragment.SourceCode;
+import academy.devonline.javamm.ide.component.CodeTemplateHelper;
+import academy.devonline.javamm.ide.component.CodeTemplateStorage;
 import org.fxmisc.richtext.CodeArea;
-
-import java.util.List;
 
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-public interface ComponentFactory extends Releasable {
+public class CodeTemplateHelperImpl implements CodeTemplateHelper {
 
-    AsyncSyntaxHighlighter createAsyncSyntaxHighlighter(CodeArea codeArea);
+    CodeTemplateHelperImpl(final CodeTemplateStorage codeTemplateStorage) {
 
-    VirtualMachineRunner createVirtualMachineRunner(Console console, List<SourceCode> sourceCodes);
+    }
 
-    CodeTemplateHelper getCodeTemplateHelper();
+    @Override
+    public boolean insertCodeTemplateToCaretPosition(final CodeArea codeArea) {
+        return false;
+    }
 }

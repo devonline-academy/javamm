@@ -16,21 +16,15 @@
 
 package academy.devonline.javamm.ide.component;
 
-import academy.devonline.javamm.code.component.Console;
-import academy.devonline.javamm.code.fragment.SourceCode;
-import org.fxmisc.richtext.CodeArea;
+import academy.devonline.javamm.ide.model.CodeTemplate;
 
-import java.util.List;
+import java.util.Optional;
 
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-public interface ComponentFactory extends Releasable {
+public interface CodeTemplateStorage {
 
-    AsyncSyntaxHighlighter createAsyncSyntaxHighlighter(CodeArea codeArea);
-
-    VirtualMachineRunner createVirtualMachineRunner(Console console, List<SourceCode> sourceCodes);
-
-    CodeTemplateHelper getCodeTemplateHelper();
+    Optional<CodeTemplate> getTemplate(String key);
 }
