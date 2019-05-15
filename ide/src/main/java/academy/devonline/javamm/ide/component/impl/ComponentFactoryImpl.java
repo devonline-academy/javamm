@@ -23,6 +23,7 @@ import academy.devonline.javamm.ide.component.CodeTemplateHelper;
 import academy.devonline.javamm.ide.component.CodeTemplateStorage;
 import academy.devonline.javamm.ide.component.ComponentFactory;
 import academy.devonline.javamm.ide.component.NewLineHelper;
+import academy.devonline.javamm.ide.component.PairedTokensHelper;
 import academy.devonline.javamm.ide.component.VirtualMachineRunner;
 import academy.devonline.javamm.vm.VirtualMachine;
 import academy.devonline.javamm.vm.VirtualMachineBuilder;
@@ -80,6 +81,8 @@ public class ComponentFactoryImpl implements ComponentFactory {
 
     private final NewLineHelper newLineHelper = new NewLineHelperImpl();
 
+    private final PairedTokensHelper pairedTokensHelper = new PairedTokensHelperImpl();
+
     @Override
     public AsyncSyntaxHighlighter createAsyncSyntaxHighlighter(final CodeArea codeArea) {
         return new AsyncSyntaxHighlighterImpl(codeArea, executorService);
@@ -102,6 +105,11 @@ public class ComponentFactoryImpl implements ComponentFactory {
     @Override
     public NewLineHelper getNewLineHelper() {
         return newLineHelper;
+    }
+
+    @Override
+    public PairedTokensHelper getPairedTokensHelper() {
+        return pairedTokensHelper;
     }
 
     @Override

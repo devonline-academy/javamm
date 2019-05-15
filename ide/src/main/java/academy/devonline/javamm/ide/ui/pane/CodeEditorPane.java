@@ -19,6 +19,7 @@ package academy.devonline.javamm.ide.ui.pane;
 import academy.devonline.javamm.ide.component.AsyncSyntaxHighlighter;
 import academy.devonline.javamm.ide.component.CodeTemplateHelper;
 import academy.devonline.javamm.ide.component.NewLineHelper;
+import academy.devonline.javamm.ide.component.PairedTokensHelper;
 import academy.devonline.javamm.ide.component.Releasable;
 import javafx.beans.value.ChangeListener;
 import javafx.scene.input.KeyCode;
@@ -58,6 +59,8 @@ public final class CodeEditorPane extends StackPane implements Releasable {
     private final AsyncSyntaxHighlighter asyncSyntaxHighlighter =
         getComponentFactory().createAsyncSyntaxHighlighter(codeArea);
 
+    private final PairedTokensHelper pairedTokensHelper = getComponentFactory().getPairedTokensHelper();
+
     private File savedSourceCodeFile;
 
     CodeEditorPane() {
@@ -71,6 +74,11 @@ public final class CodeEditorPane extends StackPane implements Releasable {
                 if (!codeTemplateHelper.insertCodeTemplateToCaretPosition(codeArea)) {
                     newLineHelper.insertNewLine(codeArea);
                 }
+            }
+        });
+        codeArea.setOnKeyTyped(event -> {
+            if (pairedTokensHelper.isPairedToken(event.getCharacter())) {
+                pairedTokensHelper.insertPairedToken(codeArea, event.getCharacter());
             }
         });
         asyncSyntaxHighlighter.enable();

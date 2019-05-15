@@ -14,27 +14,24 @@
  * limitations under the License.
  */
 
-package academy.devonline.javamm.ide.component;
+package academy.devonline.javamm.ide.component.impl;
 
-import academy.devonline.javamm.code.component.Console;
-import academy.devonline.javamm.code.fragment.SourceCode;
+import academy.devonline.javamm.ide.component.PairedTokensHelper;
 import org.fxmisc.richtext.CodeArea;
-
-import java.util.List;
 
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-public interface ComponentFactory extends Releasable {
+public class PairedTokensHelperImpl implements PairedTokensHelper {
 
-    AsyncSyntaxHighlighter createAsyncSyntaxHighlighter(CodeArea codeArea);
+    @Override
+    public boolean isPairedToken(final String character) {
+        return false;
+    }
 
-    VirtualMachineRunner createVirtualMachineRunner(Console console, List<SourceCode> sourceCodes);
+    @Override
+    public void insertPairedToken(final CodeArea codeArea, final String character) {
 
-    CodeTemplateHelper getCodeTemplateHelper();
-
-    NewLineHelper getNewLineHelper();
-
-    PairedTokensHelper getPairedTokensHelper();
+    }
 }

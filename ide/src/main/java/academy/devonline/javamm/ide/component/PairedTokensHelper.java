@@ -16,25 +16,15 @@
 
 package academy.devonline.javamm.ide.component;
 
-import academy.devonline.javamm.code.component.Console;
-import academy.devonline.javamm.code.fragment.SourceCode;
 import org.fxmisc.richtext.CodeArea;
-
-import java.util.List;
 
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-public interface ComponentFactory extends Releasable {
+public interface PairedTokensHelper {
 
-    AsyncSyntaxHighlighter createAsyncSyntaxHighlighter(CodeArea codeArea);
+    boolean isPairedToken(String character);
 
-    VirtualMachineRunner createVirtualMachineRunner(Console console, List<SourceCode> sourceCodes);
-
-    CodeTemplateHelper getCodeTemplateHelper();
-
-    NewLineHelper getNewLineHelper();
-
-    PairedTokensHelper getPairedTokensHelper();
+    void insertPairedToken(CodeArea codeArea, String character);
 }
