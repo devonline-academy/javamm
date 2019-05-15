@@ -147,6 +147,8 @@ class ComplexExpression_IntegrationTest {
         "5 ++ a,                A binary operator is expected between expressions: '5' and '++a'",
         "a ++ 5,                A binary operator is expected between expressions: 'a++' and '5'",
         "5 ++ 5,                A variable expression is expected for unary operator: '++'",
+        // Unsupported token
+        "ю,                     Unsupported token: ю (0x044e)"
     })
     void Should_throw_error(final String expression,
                             final String expectedMessage) {
