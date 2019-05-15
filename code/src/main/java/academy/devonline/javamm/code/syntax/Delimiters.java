@@ -83,4 +83,24 @@ public final class Delimiters {
 
     private Delimiters() {
     }
+
+    public static String trim(final String row) {
+        if (row.isEmpty()) {
+            return row;
+        }
+        int start = 0;
+        int end = row.length() - 1;
+        while (IGNORED_DELIMITERS.contains(row.charAt(start))) {
+            start++;
+            if (start == row.length()) {
+                return "";
+            }
+        }
+        while (IGNORED_DELIMITERS.contains(row.charAt(end))) {
+            end--;
+        }
+        final char[] dst = new char[end - start + 1];
+        row.getChars(start, end + 1, dst, 0);
+        return String.valueOf(dst);
+    }
 }
