@@ -24,7 +24,6 @@ import academy.devonline.javamm.code.fragment.operator.BinaryOperator;
 import academy.devonline.javamm.code.fragment.operator.UnaryOperator;
 import academy.devonline.javamm.compiler.component.ComplexLexemeValidator;
 import academy.devonline.javamm.compiler.component.impl.error.JavammLineSyntaxError;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayNameGeneration;
 import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.MethodOrderer;
@@ -66,7 +65,6 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@Disabled
 class ComplexLexemeValidatorImpl_UnitTest {
 
     private static final BinaryOperator ANY_BINARY_OPERATOR = ARITHMETIC_MULTIPLICATION;
