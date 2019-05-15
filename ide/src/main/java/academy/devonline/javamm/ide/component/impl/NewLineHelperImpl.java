@@ -14,25 +14,19 @@
  * limitations under the License.
  */
 
-package academy.devonline.javamm.ide.component;
+package academy.devonline.javamm.ide.component.impl;
 
-import academy.devonline.javamm.code.component.Console;
-import academy.devonline.javamm.code.fragment.SourceCode;
+import academy.devonline.javamm.ide.component.NewLineHelper;
 import org.fxmisc.richtext.CodeArea;
-
-import java.util.List;
 
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-public interface ComponentFactory extends Releasable {
+public class NewLineHelperImpl implements NewLineHelper {
 
-    AsyncSyntaxHighlighter createAsyncSyntaxHighlighter(CodeArea codeArea);
+    @Override
+    public void insertNewLine(final CodeArea codeArea) {
 
-    VirtualMachineRunner createVirtualMachineRunner(Console console, List<SourceCode> sourceCodes);
-
-    CodeTemplateHelper getCodeTemplateHelper();
-
-    NewLineHelper getNewLineHelper();
+    }
 }
