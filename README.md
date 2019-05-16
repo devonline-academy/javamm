@@ -6,6 +6,18 @@
 
 # Setup
 
+The **javamm** project requires the following environment variables:
+
+#### Required variables:
+ 
+- **JAVA_HOME** - the path to the OpenJDK folder (From https://jdk.java.net/11/);
+
+#### Optional variables:
+
+- **JDK_WIN_JMODS** - the path to the jmods folder for Java Windows SDK (From https://jdk.java.net/11/);
+- **JDK_LIN_JMODS** - the path to the jmods folder for Java Linux SDK (From https://jdk.java.net/11/);
+- **JDK_MAC_JMODS** - the path to the jmods folder for Java MacOS SDK (From https://jdk.java.net/11/);
+
 # Build instructions
 
 To clone git repository run:
