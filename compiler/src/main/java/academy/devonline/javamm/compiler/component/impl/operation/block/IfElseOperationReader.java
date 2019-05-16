@@ -48,8 +48,8 @@ public class IfElseOperationReader extends AbstractBlockOperationReader<IfElseOp
     }
 
     @Override
-    protected Optional<String> getOperationKeyword() {
-        return Optional.of(IF);
+    public boolean canRead(final SourceLine sourceLine) {
+        return IF.equals(sourceLine.getFirst());
     }
 
     @Override

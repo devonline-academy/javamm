@@ -22,7 +22,6 @@ import academy.devonline.javamm.compiler.component.impl.error.JavammLineSyntaxEr
 import academy.devonline.javamm.compiler.component.impl.operation.AbstractOperationReader;
 
 import java.util.ListIterator;
-import java.util.Optional;
 
 import static academy.devonline.javamm.code.syntax.Keywords.BREAK;
 import static java.lang.String.format;
@@ -34,8 +33,8 @@ import static java.lang.String.format;
 public class BreakOperationReader extends AbstractOperationReader<BreakOperation> {
 
     @Override
-    protected Optional<String> getOperationKeyword() {
-        return Optional.of(BREAK);
+    public boolean canRead(final SourceLine sourceLine) {
+        return BREAK.equals(sourceLine.getFirst());
     }
 
     @Override

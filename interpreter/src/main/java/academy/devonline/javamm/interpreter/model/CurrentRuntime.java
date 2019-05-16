@@ -31,8 +31,6 @@ public interface CurrentRuntime {
 
     FunctionInvoker getCurrentFunctionInvoker();
 
-    String getCurrentModuleName();
-
     SourceLine getCurrentSourceLine();
 
     void setCurrentSourceLine(SourceLine currentSourceLine);

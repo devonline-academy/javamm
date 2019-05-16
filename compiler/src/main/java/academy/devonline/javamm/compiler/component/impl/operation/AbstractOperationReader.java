@@ -21,23 +21,12 @@ import academy.devonline.javamm.code.fragment.SourceLine;
 import academy.devonline.javamm.compiler.component.OperationReader;
 
 import java.util.ListIterator;
-import java.util.Optional;
 
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
 public abstract class AbstractOperationReader<T extends Operation> implements OperationReader {
-
-    @Override
-    public boolean canRead(final SourceLine sourceLine) {
-        final Optional<String> keywordOptional = getOperationKeyword();
-        return keywordOptional.isPresent() && keywordOptional.get().equals(sourceLine.getFirst());
-    }
-
-    protected Optional<String> getOperationKeyword() {
-        return Optional.empty();
-    }
 
     @Override
     public final T read(final SourceLine sourceLine, final ListIterator<SourceLine> iterator) {

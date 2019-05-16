@@ -25,7 +25,5 @@ import academy.devonline.javamm.code.fragment.Variable;
  */
 public interface VariableBuilder {
 
-    boolean isValid(String name);
-
     Variable build(String name, SourceLine sourceLine);
 }

@@ -21,7 +21,7 @@ import academy.devonline.javamm.code.fragment.operation.Block;
 
 import java.util.ListIterator;
 
-import static academy.devonline.javamm.compiler.component.impl.util.SyntaxValidationUtils.validateThatLineContainsOpeningCurlyBraceOnly;
+import static academy.devonline.javamm.compiler.component.impl.util.SyntaxValidationUtils.validateThatLineContainsOneTokenOnly;
 
 /**
  * @author devonline
@@ -36,7 +36,7 @@ public class SimpleBlockOperationReader extends AbstractBlockOperationReader<Blo
 
     @Override
     protected void validate(final SourceLine sourceLine) {
-        validateThatLineContainsOpeningCurlyBraceOnly(sourceLine);
+        validateThatLineContainsOneTokenOnly("{", sourceLine);
     }
 
     @Override

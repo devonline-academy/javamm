@@ -40,15 +40,10 @@ public final class SyntaxValidationUtils {
         }
     }
 
-    public static void validateThatLineContainsClosingCurlyBraceOnly(final SourceLine sourceLine) {
-        if (!(sourceLine.getTokenCount() == 1 && "}".equals(sourceLine.getFirst()))) {
-            throw new JavammLineSyntaxError("'}' expected only", sourceLine);
-        }
-    }
-
-    public static void validateThatLineContainsOpeningCurlyBraceOnly(final SourceLine sourceLine) {
-        if (!(sourceLine.getTokenCount() == 1 && "{".equals(sourceLine.getFirst()))) {
-            throw new JavammLineSyntaxError("'{' expected only", sourceLine);
+    public static void validateThatLineContainsOneTokenOnly(final String token,
+                                                            final SourceLine sourceLine) {
+        if (!(sourceLine.getTokenCount() == 1)) {
+            throw new JavammLineSyntaxError(format("'%s' expected only", token), sourceLine);
         }
     }
 

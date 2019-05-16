@@ -16,6 +16,7 @@
 
 package academy.devonline.javamm.compiler;
 
+import academy.devonline.javamm.code.fragment.Operator;
 import academy.devonline.javamm.compiler.component.BlockOperationReader;
 import academy.devonline.javamm.compiler.component.ComplexExpressionBuilder;
 import academy.devonline.javamm.compiler.component.ComplexLexemeValidator;
@@ -61,13 +62,57 @@ import academy.devonline.javamm.compiler.component.impl.operation.simple.ReturnO
 import academy.devonline.javamm.compiler.component.impl.operation.simple.VariableAssignmentOperationReader;
 import academy.devonline.javamm.compiler.component.impl.operation.simple.VariableDeclarationOperationReader;
 
+import java.util.Map;
 import java.util.Set;
+
+import static academy.devonline.javamm.code.fragment.operator.BinaryOperator.ARITHMETIC_ADDITION;
+import static academy.devonline.javamm.code.fragment.operator.BinaryOperator.ARITHMETIC_DIVISION;
+import static academy.devonline.javamm.code.fragment.operator.BinaryOperator.ARITHMETIC_MODULUS;
+import static academy.devonline.javamm.code.fragment.operator.BinaryOperator.ARITHMETIC_MULTIPLICATION;
+import static academy.devonline.javamm.code.fragment.operator.BinaryOperator.ARITHMETIC_SUBTRACTION;
+import static academy.devonline.javamm.code.fragment.operator.BinaryOperator.ASSIGNMENT_ADDITION;
+import static academy.devonline.javamm.code.fragment.operator.BinaryOperator.ASSIGNMENT_BITWISE_AND;
+import static academy.devonline.javamm.code.fragment.operator.BinaryOperator.ASSIGNMENT_BITWISE_OR;
+import static academy.devonline.javamm.code.fragment.operator.BinaryOperator.ASSIGNMENT_BITWISE_SHIFT_LEFT;
+import static academy.devonline.javamm.code.fragment.operator.BinaryOperator.ASSIGNMENT_BITWISE_SHIFT_RIGHT;
+import static academy.devonline.javamm.code.fragment.operator.BinaryOperator.ASSIGNMENT_BITWISE_SHIFT_RIGHT_ZERO_FILL;
+import static academy.devonline.javamm.code.fragment.operator.BinaryOperator.ASSIGNMENT_BITWISE_XOR;
+import static academy.devonline.javamm.code.fragment.operator.BinaryOperator.ASSIGNMENT_DIVISION;
+import static academy.devonline.javamm.code.fragment.operator.BinaryOperator.ASSIGNMENT_MODULUS;
+import static academy.devonline.javamm.code.fragment.operator.BinaryOperator.ASSIGNMENT_MULTIPLICATION;
+import static academy.devonline.javamm.code.fragment.operator.BinaryOperator.ASSIGNMENT_SUBTRACTION;
+import static academy.devonline.javamm.code.fragment.operator.BinaryOperator.BITWISE_AND;
+import static academy.devonline.javamm.code.fragment.operator.BinaryOperator.BITWISE_OR;
+import static academy.devonline.javamm.code.fragment.operator.BinaryOperator.BITWISE_SHIFT_LEFT;
+import static academy.devonline.javamm.code.fragment.operator.BinaryOperator.BITWISE_SHIFT_RIGHT;
+import static academy.devonline.javamm.code.fragment.operator.BinaryOperator.BITWISE_SHIFT_RIGHT_ZERO_FILL;
+import static academy.devonline.javamm.code.fragment.operator.BinaryOperator.BITWISE_XOR;
+import static academy.devonline.javamm.code.fragment.operator.BinaryOperator.LOGIC_AND;
+import static academy.devonline.javamm.code.fragment.operator.BinaryOperator.LOGIC_OR;
+import static academy.devonline.javamm.code.fragment.operator.BinaryOperator.PREDICATE_EQUALS;
+import static academy.devonline.javamm.code.fragment.operator.BinaryOperator.PREDICATE_GREATER;
+import static academy.devonline.javamm.code.fragment.operator.BinaryOperator.PREDICATE_GREATER_OR_EQUALS;
+import static academy.devonline.javamm.code.fragment.operator.BinaryOperator.PREDICATE_LESS;
+import static academy.devonline.javamm.code.fragment.operator.BinaryOperator.PREDICATE_LESS_OR_EQUALS;
+import static academy.devonline.javamm.code.fragment.operator.BinaryOperator.PREDICATE_NOT_EQUALS;
+import static academy.devonline.javamm.code.fragment.operator.BinaryOperator.PREDICATE_TYPEOF;
+import static academy.devonline.javamm.code.fragment.operator.UnaryOperator.ARITHMETIC_UNARY_MINUS;
+import static academy.devonline.javamm.code.fragment.operator.UnaryOperator.ARITHMETIC_UNARY_PLUS;
+import static academy.devonline.javamm.code.fragment.operator.UnaryOperator.BITWISE_INVERSE;
+import static academy.devonline.javamm.code.fragment.operator.UnaryOperator.DECREMENT;
+import static academy.devonline.javamm.code.fragment.operator.UnaryOperator.INCREMENT;
+import static academy.devonline.javamm.code.fragment.operator.UnaryOperator.LOGIC_NOT;
+import static java.util.Map.entry;
+import static java.util.Map.ofEntries;
 
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
+ * @link https://introcs.cs.princeton.edu/java/11precedence/
  */
 public class CompilerConfigurator {
+
+    private static final int MAX_PRECEDENCE = 20;
 
     private TokenParser tokenParser = new TokenParserImpl();
 
@@ -75,7 +120,59 @@ public class CompilerConfigurator {
 
     private VariableBuilder variableBuilder = new VariableBuilderImpl();
 
-    private PrecedenceOperatorResolver precedenceOperatorResolver = new PrecedenceOperatorResolverImpl();
+    // https://introcs.cs.princeton.edu/java/11precedence/
+    private Map<Operator, Integer> operatorPrecedenceMap = ofEntries(
+        entry(INCREMENT, MAX_PRECEDENCE - 1),
+        entry(DECREMENT, MAX_PRECEDENCE - 1),
+        entry(ARITHMETIC_UNARY_PLUS, MAX_PRECEDENCE - 1),
+        entry(ARITHMETIC_UNARY_MINUS, MAX_PRECEDENCE - 1),
+        entry(LOGIC_NOT, MAX_PRECEDENCE - 1),
+        entry(BITWISE_INVERSE, MAX_PRECEDENCE - 1),
+        //
+        entry(ARITHMETIC_MULTIPLICATION, MAX_PRECEDENCE - 2),
+        entry(ARITHMETIC_DIVISION, MAX_PRECEDENCE - 2),
+        entry(ARITHMETIC_MODULUS, MAX_PRECEDENCE - 2),
+        //
+        entry(ARITHMETIC_ADDITION, MAX_PRECEDENCE - 3),
+        entry(ARITHMETIC_SUBTRACTION, MAX_PRECEDENCE - 3),
+        //
+        entry(BITWISE_SHIFT_LEFT, MAX_PRECEDENCE - 4),
+        entry(BITWISE_SHIFT_RIGHT, MAX_PRECEDENCE - 4),
+        entry(BITWISE_SHIFT_RIGHT_ZERO_FILL, MAX_PRECEDENCE - 4),
+        //
+        entry(PREDICATE_GREATER, MAX_PRECEDENCE - 5),
+        entry(PREDICATE_GREATER_OR_EQUALS, MAX_PRECEDENCE - 5),
+        entry(PREDICATE_LESS, MAX_PRECEDENCE - 5),
+        entry(PREDICATE_LESS_OR_EQUALS, MAX_PRECEDENCE - 5),
+        entry(PREDICATE_TYPEOF, MAX_PRECEDENCE - 5),
+        //
+        entry(PREDICATE_NOT_EQUALS, MAX_PRECEDENCE - 6),
+        entry(PREDICATE_EQUALS, MAX_PRECEDENCE - 6),
+        //
+        entry(BITWISE_AND, MAX_PRECEDENCE - 7),
+        //
+        entry(BITWISE_XOR, MAX_PRECEDENCE - 8),
+        //
+        entry(BITWISE_OR, MAX_PRECEDENCE - 9),
+        //
+        entry(LOGIC_AND, MAX_PRECEDENCE - 10),
+        //
+        entry(LOGIC_OR, MAX_PRECEDENCE - 11),
+        //
+        entry(ASSIGNMENT_MULTIPLICATION, MAX_PRECEDENCE - 12),
+        entry(ASSIGNMENT_DIVISION, MAX_PRECEDENCE - 12),
+        entry(ASSIGNMENT_MODULUS, MAX_PRECEDENCE - 12),
+        entry(ASSIGNMENT_ADDITION, MAX_PRECEDENCE - 12),
+        entry(ASSIGNMENT_SUBTRACTION, MAX_PRECEDENCE - 12),
+        entry(ASSIGNMENT_BITWISE_SHIFT_LEFT, MAX_PRECEDENCE - 12),
+        entry(ASSIGNMENT_BITWISE_SHIFT_RIGHT, MAX_PRECEDENCE - 12),
+        entry(ASSIGNMENT_BITWISE_SHIFT_RIGHT_ZERO_FILL, MAX_PRECEDENCE - 12),
+        entry(ASSIGNMENT_BITWISE_AND, MAX_PRECEDENCE - 12),
+        entry(ASSIGNMENT_BITWISE_XOR, MAX_PRECEDENCE - 12),
+        entry(ASSIGNMENT_BITWISE_OR, MAX_PRECEDENCE - 12)
+    );
+
+    private PrecedenceOperatorResolver precedenceOperatorResolver = new PrecedenceOperatorResolverImpl(operatorPrecedenceMap);
 
     private ComplexExpressionBuilder complexExpressionBuilder =
         new PostfixNotationComplexExpressionBuilder(precedenceOperatorResolver);
@@ -155,5 +252,9 @@ public class CompilerConfigurator {
 
     public ExpressionResolver getExpressionResolver() {
         return expressionResolver;
+    }
+
+    public PrecedenceOperatorResolver getPrecedenceOperatorResolver() {
+        return precedenceOperatorResolver;
     }
 }

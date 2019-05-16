@@ -69,32 +69,6 @@ public class AsyncSyntaxHighlighterImpl implements AsyncSyntaxHighlighter {
             .collect(joining("|"))
     );
 
-    private final String sampleCode =
-        "/*\n" +
-            "* multi-line comment\n" +
-            "*/\n" +
-            "function main () {\n" +
-            "    var a = 1\n" +
-            "    final b = a + 4\n" +
-            "    a ++\n" +
-            "    final text = 'Hello world'\n" +
-            "    // single-line comment\n" +
-            "    for (var i = 0; /* // test comment */ i < b; /* test comment */ i ++) /* test comment */ {\n" +
-            "        if (i < 3) {\n" +
-            "            println ('i < 3 -> ' + text)\n" +
-            "        }\n" +
-            "        else {\n" +
-            "            println (\"else -> \" + text)\n" +
-            "        }\n" +
-            "    }\n" +
-            "    \n" +
-            "    println (a typeof void)\n" +
-            "}\n" +
-            "\n" +
-            "function sum (a, b) {\n" +
-            "    return a + b\n" +
-            "}";
-
 
     private CodeArea codeArea;
 
@@ -116,9 +90,6 @@ public class AsyncSyntaxHighlighterImpl implements AsyncSyntaxHighlighter {
             .awaitLatest(codeArea.multiPlainChanges())
             .filterMap(Try::toOptional)
             .subscribe(this::applyHighlighting);
-        // FIXME remove
-        codeArea.replaceText(0, 0, sampleCode);
-        codeArea.getUndoManager().forgetHistory();
     }
 
     @Override
@@ -128,7 +99,7 @@ public class AsyncSyntaxHighlighterImpl implements AsyncSyntaxHighlighter {
 
     @Override
     public void highlightNow() {
-        codeArea.setStyleSpans(0, computeHighlighting(codeArea.getText()));
+        applyHighlighting(computeHighlighting(codeArea.getText()));
     }
 
     private Task<StyleSpans<Collection<String>>> computeHighlightingAsync() {

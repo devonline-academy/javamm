@@ -28,10 +28,10 @@ import static java.util.Objects.requireNonNull;
  * @link http://devonline.academy/javamm
  */
 public final class PrintlnOperationInterpreter extends AbstractOperationInterpreter<PrintlnOperation> {
-    
+
     private final Console console;
 
-    public PrintlnOperationInterpreter(final ExpressionContext expressionContext, 
+    public PrintlnOperationInterpreter(final ExpressionContext expressionContext,
                                        final Console console) {
         super(expressionContext);
         this.console = requireNonNull(console);
@@ -44,6 +44,10 @@ public final class PrintlnOperationInterpreter extends AbstractOperationInterpre
 
     @Override
     protected void interpretOperation(final PrintlnOperation operation) {
-        console.outPrintln(operation.getExpression().getValue(expressionContext));
+        console.outPrintln(
+            operation.getExpression()
+                .map(expression -> expression.getValue(expressionContext))
+                .orElse("")
+        );
     }
 }

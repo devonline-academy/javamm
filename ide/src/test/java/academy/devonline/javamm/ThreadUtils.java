@@ -14,29 +14,25 @@
  * limitations under the License.
  */
 
-package academy.devonline.javamm.code.fragment.function;
+package academy.devonline.javamm;
 
-import academy.devonline.javamm.code.fragment.Function;
-import academy.devonline.javamm.code.fragment.FunctionName;
-
-import static java.util.Objects.requireNonNull;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-abstract class AbstractFunction implements Function {
+public final class ThreadUtils {
 
-    private final FunctionName name;
+    private static final long WAIT_FOR_THREAD_TO_DIE_TIMEOUT_IN_MILLIS = 2500L;
 
-    AbstractFunction(final FunctionName name) {
-        this.name = requireNonNull(name);
+    private ThreadUtils() {
     }
 
-    public final FunctionName getName() {
-        return name;
+    public static void waitForThreadToDie(final Thread thread) throws InterruptedException {
+        thread.join(WAIT_FOR_THREAD_TO_DIE_TIMEOUT_IN_MILLIS);
+        if (thread.isAlive()) {
+            fail("Thread still alive.");
+        }
     }
-
-    @Override
-    public abstract String toString();
 }

@@ -99,9 +99,16 @@ class FunctionReader_Expected_error_IntegrationTest extends AbstractIntegrationT
     }
 
     private static Stream<Arguments> functionBody() {
-        return Stream.of(arguments(of(
-            "function test () {"
-        ), "Syntax error in 'module1': '}' expected to close block statement at the end of file"));
+        return Stream.of(
+            arguments(of(
+                "function test () {"
+            ), "Syntax error in 'module1': '}' expected to close block statement at the end of file"),
+            arguments(of(
+                "function test () {",
+                "   if(true){",
+                "}"
+            ), "Syntax error in 'module1': '}' expected to close block statement at the end of file")
+        );
     }
 
     @ParameterizedTest

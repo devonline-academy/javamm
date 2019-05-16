@@ -26,11 +26,6 @@ public final class Example02Main {
             }
 
             @Override
-            public int compareTo(final Variable o) {
-                return 0;
-            }
-
-            @Override
             public String toString() {
                 return super.toString();
             }

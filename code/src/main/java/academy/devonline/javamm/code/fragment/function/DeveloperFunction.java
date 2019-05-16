@@ -49,10 +49,6 @@ public final class DeveloperFunction extends AbstractFunction {
         this.declarationSourceLine = requireNonNull(declarationSourceLine);
     }
 
-    public String getModuleName() {
-        return declarationSourceLine.getModuleName();
-    }
-
     public List<Variable> getParameters() {
         return parameters;
     }
@@ -111,7 +107,7 @@ public final class DeveloperFunction extends AbstractFunction {
                 name,
                 parameters == null ? List.of() : parameters,
                 body,
-                declarationSourceLine == null ? body.getSourceLine() : declarationSourceLine);
+                declarationSourceLine);
         }
     }
 }

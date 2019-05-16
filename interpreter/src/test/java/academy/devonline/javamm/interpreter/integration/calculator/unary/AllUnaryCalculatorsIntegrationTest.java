@@ -68,7 +68,10 @@ class AllUnaryCalculatorsIntegrationTest extends AbstractUnaryCalculatorIntegrat
             arguments("~", "hello",
                 "Runtime error: Operator '~' is not supported for type: string"),
             arguments("!", "hello",
-                "Runtime error: Operator '!' is not supported for type: string")
+                "Runtime error: Operator '!' is not supported for type: string"),
+            // null
+            arguments("!", null,
+                "Runtime error: Operator '!' is not supported for type: null")
         );
     }
 }

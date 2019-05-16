@@ -19,9 +19,7 @@ package academy.devonline.javamm.compiler.component.impl;
 import academy.devonline.javamm.code.fragment.SourceLine;
 import academy.devonline.javamm.code.fragment.Variable;
 import academy.devonline.javamm.compiler.component.VariableBuilder;
-import academy.devonline.javamm.compiler.component.impl.error.JavammLineSyntaxError;
 
-import static academy.devonline.javamm.code.fragment.SourceLine.EMPTY_SOURCE_LINE;
 import static academy.devonline.javamm.compiler.component.impl.util.SyntaxValidationUtils.DeveloperObject.VARIABLE;
 import static academy.devonline.javamm.compiler.component.impl.util.SyntaxValidationUtils.validateThatFirstCharacterIsLetter;
 import static academy.devonline.javamm.compiler.component.impl.util.SyntaxValidationUtils.validateThatNameIsNotKeyword;
@@ -32,16 +30,6 @@ import static java.util.Objects.requireNonNull;
  * @link http://devonline.academy/javamm
  */
 public class VariableBuilderImpl implements VariableBuilder {
-
-    @Override
-    public boolean isValid(final String name) {
-        try {
-            validateVariableName(name, EMPTY_SOURCE_LINE);
-            return true;
-        } catch (final JavammLineSyntaxError e) {
-            return false;
-        }
-    }
 
     @Override
     public Variable build(final String name, final SourceLine sourceLine) {
@@ -84,11 +72,6 @@ public class VariableBuilderImpl implements VariableBuilder {
         @Override
         public int hashCode() {
             return getName().hashCode();
-        }
-
-        @Override
-        public int compareTo(final Variable o) {
-            return name.compareTo(o.getName());
         }
     }
 }

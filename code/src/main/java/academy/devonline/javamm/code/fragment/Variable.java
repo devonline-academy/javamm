@@ -20,7 +20,7 @@ package academy.devonline.javamm.code.fragment;
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-public interface Variable extends Comparable<Variable>, CompiledCodeFragment {
+public interface Variable extends CompiledCodeFragment {
 
     String getName();
 }

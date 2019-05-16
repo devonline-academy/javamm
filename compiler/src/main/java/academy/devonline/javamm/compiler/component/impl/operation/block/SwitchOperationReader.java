@@ -25,12 +25,11 @@ import academy.devonline.javamm.compiler.component.impl.error.JavammStructSyntax
 
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Optional;
 
 import static academy.devonline.javamm.code.syntax.Keywords.SWITCH;
 import static academy.devonline.javamm.compiler.component.impl.util.SyntaxParseUtils.getTokensBetweenBrackets;
 import static academy.devonline.javamm.compiler.component.impl.util.SyntaxParseUtils.isClosingBlockOperation;
-import static academy.devonline.javamm.compiler.component.impl.util.SyntaxValidationUtils.validateThatLineContainsClosingCurlyBraceOnly;
+import static academy.devonline.javamm.compiler.component.impl.util.SyntaxValidationUtils.validateThatLineContainsOneTokenOnly;
 import static academy.devonline.javamm.compiler.component.impl.util.SyntaxValidationUtils.validateThatLineEndsWithOpeningCurlyBrace;
 import static java.lang.String.format;
 import static java.util.Objects.requireNonNull;
@@ -62,8 +61,8 @@ public class SwitchOperationReader extends AbstractBlockOperationReader<SwitchOp
     }
 
     @Override
-    protected Optional<String> getOperationKeyword() {
-        return Optional.of(SWITCH);
+    public boolean canRead(final SourceLine sourceLine) {
+        return SWITCH.equals(sourceLine.getFirst());
     }
 
     @Override
@@ -96,7 +95,7 @@ public class SwitchOperationReader extends AbstractBlockOperationReader<SwitchOp
         while (iterator.hasNext()) {
             final SourceLine sourceLine = iterator.next();
             if (isClosingBlockOperation(sourceLine)) {
-                validateThatLineContainsClosingCurlyBraceOnly(sourceLine);
+                validateThatLineContainsOneTokenOnly("}", sourceLine);
                 return builder.build();
             }
             if (switchCaseOperationReader.canRead(sourceLine)) {

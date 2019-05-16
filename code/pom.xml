@@ -20,9 +20,13 @@
                 <configuration>
                     <argLine>
                         @{argLine}
+                        --add-opens javamm.code/academy.devonline.javamm.code=ALL-UNNAMED
+                        --add-opens javamm.code/academy.devonline.javamm.code.component=ALL-UNNAMED
+                        --add-opens javamm.code/academy.devonline.javamm.code.fragment=ALL-UNNAMED
                         --add-opens javamm.code/academy.devonline.javamm.code.fragment.operation=ALL-UNNAMED
                         --add-opens javamm.code/academy.devonline.javamm.code.fragment.expression=ALL-UNNAMED
                         --add-opens javamm.code/academy.devonline.javamm.code.fragment.function=ALL-UNNAMED
+                        --add-opens javamm.code/academy.devonline.javamm.code.util=ALL-UNNAMED
                     </argLine>
                 </configuration>
             </plugin>

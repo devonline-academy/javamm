@@ -23,7 +23,6 @@ import academy.devonline.javamm.compiler.component.ExpressionResolver;
 import academy.devonline.javamm.compiler.component.impl.operation.AbstractOperationReader;
 
 import java.util.ListIterator;
-import java.util.Optional;
 
 import static academy.devonline.javamm.code.syntax.Keywords.RETURN;
 import static java.util.Objects.requireNonNull;
@@ -41,8 +40,8 @@ public class ReturnOperationReader extends AbstractOperationReader<ReturnOperati
     }
 
     @Override
-    protected Optional<String> getOperationKeyword() {
-        return Optional.of(RETURN);
+    public boolean canRead(final SourceLine sourceLine) {
+        return RETURN.equals(sourceLine.getFirst());
     }
 
     @Override

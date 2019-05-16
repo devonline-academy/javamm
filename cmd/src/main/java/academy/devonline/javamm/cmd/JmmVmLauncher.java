@@ -21,7 +21,9 @@ import academy.devonline.javamm.code.fragment.SourceCode;
 import academy.devonline.javamm.vm.VirtualMachine;
 import academy.devonline.javamm.vm.VirtualMachineBuilder;
 
-import java.io.IOException;
+import java.util.Arrays;
+
+import static academy.devonline.javamm.code.util.ExceptionUtils.wrapCheckedException;
 
 /**
  * @author devonline
@@ -32,20 +34,16 @@ public final class JmmVmLauncher {
     private JmmVmLauncher() {
     }
 
-    public static void main(final String... args) throws IOException {
+    public static void main(final String... args) {
         final VirtualMachine virtualMachine = new VirtualMachineBuilder().build();
         try {
-            virtualMachine.run(toSourceCodes(args));
+            virtualMachine.run(
+                Arrays.stream(args)
+                    .map(arg -> wrapCheckedException(() -> new FileSourceCode(arg)))
+                    .toArray(SourceCode[]::new)
+            );
         } catch (final JavammError e) {
             System.err.println(e.getMessage());
         }
-    }
-
-    private static SourceCode[] toSourceCodes(final String[] args) throws IOException {
-        final SourceCode[] sourceCodes = new SourceCode[args.length];
-        for (int i = 0; i < args.length; i++) {
-            sourceCodes[i] = new FileSourceCode(args[i]);
-        }
-        return sourceCodes;
     }
 }

@@ -37,7 +37,6 @@ public final class TestRuntimeUtils {
         final LocalContext localContext = mock(LocalContext.class);
         final CurrentRuntime currentRuntime = mock(CurrentRuntime.class);
 
-        lenient().when(currentRuntime.getCurrentModuleName()).thenReturn(sourceLine.getModuleName());
         lenient().when(currentRuntime.getCurrentSourceLine()).thenReturn(sourceLine);
         lenient().when(currentRuntime.getCurrentLocalContext()).thenReturn(localContext);
 

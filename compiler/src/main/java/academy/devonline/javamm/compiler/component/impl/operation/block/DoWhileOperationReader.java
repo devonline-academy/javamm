@@ -26,7 +26,6 @@ import academy.devonline.javamm.compiler.component.impl.error.JavammStructSyntax
 
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Optional;
 
 import static academy.devonline.javamm.code.syntax.Keywords.DO;
 import static academy.devonline.javamm.code.syntax.Keywords.WHILE;
@@ -48,8 +47,8 @@ public class DoWhileOperationReader extends AbstractBlockOperationReader<DoWhile
     }
 
     @Override
-    protected Optional<String> getOperationKeyword() {
-        return Optional.of(DO);
+    public boolean canRead(final SourceLine sourceLine) {
+        return DO.equals(sourceLine.getFirst());
     }
 
     @Override

@@ -1,9 +1,8 @@
 package academy.devonline.javamm.compiler.component.impl.operation.simple;
 
+import academy.devonline.javamm.code.fragment.SourceLine;
 import academy.devonline.javamm.compiler.component.ExpressionResolver;
 import academy.devonline.javamm.compiler.component.VariableBuilder;
-
-import java.util.Optional;
 
 import static academy.devonline.javamm.code.syntax.Keywords.FINAL;
 
@@ -19,8 +18,8 @@ public class FinalDeclarationOperationReader extends VariableDeclarationOperatio
     }
 
     @Override
-    protected Optional<String> getOperationKeyword() {
-        return Optional.of(FINAL);
+    public boolean canRead(final SourceLine sourceLine) {
+        return FINAL.equals(sourceLine.getFirst());
     }
 
     @Override

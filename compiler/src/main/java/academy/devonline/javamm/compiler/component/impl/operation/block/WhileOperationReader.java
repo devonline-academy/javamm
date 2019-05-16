@@ -25,7 +25,6 @@ import academy.devonline.javamm.compiler.component.impl.error.JavammLineSyntaxEr
 
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Optional;
 
 import static academy.devonline.javamm.code.syntax.Keywords.WHILE;
 import static academy.devonline.javamm.compiler.component.impl.util.SyntaxParseUtils.getTokensBetweenBrackets;
@@ -46,8 +45,8 @@ public class WhileOperationReader extends AbstractBlockOperationReader<WhileOper
     }
 
     @Override
-    protected Optional<String> getOperationKeyword() {
-        return Optional.of(WHILE);
+    public boolean canRead(final SourceLine sourceLine) {
+        return WHILE.equals(sourceLine.getFirst());
     }
 
     @Override

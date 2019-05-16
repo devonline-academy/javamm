@@ -28,7 +28,6 @@ import academy.devonline.javamm.compiler.component.impl.operation.AbstractOperat
 import academy.devonline.javamm.compiler.component.impl.operation.ForInitOperationReader;
 
 import java.util.ListIterator;
-import java.util.Optional;
 
 import static academy.devonline.javamm.code.syntax.Keywords.VAR;
 import static java.util.Objects.requireNonNull;
@@ -51,24 +50,24 @@ public class VariableDeclarationOperationReader extends AbstractOperationReader<
     }
 
     @Override
-    protected Optional<String> getOperationKeyword() {
-        return Optional.of(VAR);
+    public boolean canRead(final SourceLine sourceLine) {
+        return VAR.equals(sourceLine.getFirst());
     }
 
     /*
-    Valid:
-    var a
-    var a = ${expression}
-    ---------------------
-    Not valid:
-    var
-    var a =
-    var a +
-    var + a
-    var = a
-    var a + 3
-    var a 3 =
-     */
+        Valid:
+        var a
+        var a = ${expression}
+        ---------------------
+        Not valid:
+        var
+        var a =
+        var a +
+        var + a
+        var = a
+        var a + 3
+        var a 3 =
+         */
     @Override
     protected void validate(final SourceLine sourceLine) {
         if (sourceLine.getTokenCount() == 1) {

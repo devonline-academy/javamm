@@ -22,7 +22,6 @@ import academy.devonline.javamm.compiler.component.impl.error.JavammLineSyntaxEr
 import academy.devonline.javamm.compiler.component.impl.operation.AbstractOperationReader;
 
 import java.util.ListIterator;
-import java.util.Optional;
 
 import static academy.devonline.javamm.code.syntax.Keywords.CONTINUE;
 import static java.lang.String.format;
@@ -34,8 +33,8 @@ import static java.lang.String.format;
 public class ContinueOperationReader extends AbstractOperationReader<ContinueOperation> {
 
     @Override
-    protected Optional<String> getOperationKeyword() {
-        return Optional.of(CONTINUE);
+    public boolean canRead(final SourceLine sourceLine) {
+        return CONTINUE.equals(sourceLine.getFirst());
     }
 
     @Override

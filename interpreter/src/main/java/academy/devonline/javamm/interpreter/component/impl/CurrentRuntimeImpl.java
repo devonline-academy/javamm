@@ -63,11 +63,6 @@ public class CurrentRuntimeImpl implements CurrentRuntime {
     }
 
     @Override
-    public String getCurrentModuleName() {
-        return currentSourceLine.getModuleName();
-    }
-
-    @Override
     public SourceLine getCurrentSourceLine() {
         return requireNonNull(currentSourceLine, "currentSourceLine is not set");
     }
@@ -90,7 +85,7 @@ public class CurrentRuntimeImpl implements CurrentRuntime {
     @Override
     public void enterToFunction(final DeveloperFunction developerFunction) {
         if (currentDeveloperFunction != null) {
-            currentStack.push(new StackTraceItemImpl(currentDeveloperFunction, currentSourceLine));
+            currentStack.push(new StackTraceItemImpl(getCurrentDeveloperFunction(), getCurrentSourceLine()));
         }
         currentDeveloperFunction = developerFunction;
         if (maxStackSize - 1 == currentStack.size()) {
@@ -111,10 +106,13 @@ public class CurrentRuntimeImpl implements CurrentRuntime {
     @Override
     public List<StackTraceItem> getCurrentStackTrace() {
         final List<StackTraceItem> currentStackTrace = new ArrayList<>();
-        if (currentDeveloperFunction != null) {
-            currentStackTrace.add(new StackTraceItemImpl(currentDeveloperFunction, currentSourceLine));
-        }
+        currentStackTrace.add(new StackTraceItemImpl(getCurrentDeveloperFunction(), getCurrentSourceLine()));
         currentStackTrace.addAll(currentStack);
         return unmodifiableList(currentStackTrace);
+    }
+
+    private DeveloperFunction getCurrentDeveloperFunction() {
+        return requireNonNull(currentDeveloperFunction, "currentDeveloperFunction is not set. " +
+            "It is necessary to invoke enterToFunction() before getCurrentDeveloperFunction()");
     }
 }

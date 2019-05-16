@@ -46,28 +46,28 @@ class SyntaxParseUtils_getTokensBetweenBrackets_UnitTest {
     @CsvSource(delimiter = ';', value = {
         // VALID EXPRESSIONS
         // ---------- Operations and functions ----------
-        "(; );      if ( a < 4 ) {;                                 a < 4",
-        "(; );      if ( ( a < 4 ) ) {;                             ( a < 4 )",
-        "(; );      if ( ( a + 4 ) * 5 < ( b - 6 ) / ( - c ) ) {;   ( a + 4 ) * 5 < ( b - 6 ) / ( - c )",
-        "(; );      function1 ( ) {;                                ",
-        "(; );      function1 ( ( 2 + 2 ) ) {;                      ( 2 + 2 )",
+        "(;     );      if ( a < 4 ) {;                                 a < 4",
+        "(;     );      if ( ( a < 4 ) ) {;                             ( a < 4 )",
+        "(;     );      if ( ( a + 4 ) * 5 < ( b - 6 ) / ( - c ) ) {;   ( a + 4 ) * 5 < ( b - 6 ) / ( - c )",
+        "(;     );      function1 ( ) {;                                ",
+        "(;     );      function1 ( ( 2 + 2 ) ) {;                      ( 2 + 2 )",
         // ---------- Array declaration with values ----------
-        "{; };      var a = { };                                    ",
-        "{; };      var a = { 5, 6, 7 };                            5, 6, 7",
-        "{; };      var a = { { 5 } , { 6, 7 } };                   { 5 } , { 6, 7 }",
-        "{; };      var a = { { 6, { 7 } } , 3 , { { { } } } };     { 6, { 7 } } , 3 , { { { } } }",
+        "{;     };      var a = { };                                    ",
+        "{;     };      var a = { 5, 6, 7 };                            5, 6, 7",
+        "{;     };      var a = { { 5 } , { 6, 7 } };                   { 5 } , { 6, 7 }",
+        "{;     };      var a = { { 6, { 7 } } , 3 , { { { } } } };     { 6, { 7 } } , 3 , { { { } } }",
         // ---------- Empty array declaration ----------
-        "[; ];      var a = array [ 4 + a ];                        4 + a",
-        "[; ];      var a = array [ b [ 4 + a [ ar [ 0 ] ] ] ];     b [ 4 + a [ ar [ 0 ] ] ]",
-        "[; ];      var a = array [ 4 * sum ( 3 , a [ 5 ] ) ];      4 * sum ( 3 , a [ 5 ] )",
+        "[;     ];      var a = array [ 4 + a ];                        4 + a",
+        "[;     ];      var a = array [ b [ 4 + a [ ar [ 0 ] ] ] ];     b [ 4 + a [ ar [ 0 ] ] ]",
+        "[;     ];      var a = array [ 4 * sum ( 3 , a [ 5 ] ) ];      4 * sum ( 3 , a [ 5 ] )",
 
         // INVALID EXPRESSIONS
-        "(; );      if ( a < 4 ) ) {;                               a < 4 )",
-        "(; );      if ( a + 4 ) * 5 < ( b - 6 ) / ( - c ) ) {;     a + 4 ) * 5 < ( b - 6 ) / ( - c )",
-        "{; };      var a = { 5 } , { 6, 7 } };                     5 } , { 6, 7 }",
-        "{; };      var a = { 6, 7 } } , 3 , } } } };               6, 7 } } , 3 , } } }",
-        "[; ];      var a = array b 4 + a [ ar [ 0 ] ] ] ];         ar [ 0 ] ] ]",
-        "[; ];      var a = array 4 * sum ( 3 , a [ 5 ] ) ];        5 ] ) "
+        "(;     );      if ( a < 4 ) ) {;                               a < 4 )",
+        "(;     );      if ( a + 4 ) * 5 < ( b - 6 ) / ( - c ) ) {;     a + 4 ) * 5 < ( b - 6 ) / ( - c )",
+        "{;     };      var a = { 5 } , { 6, 7 } };                     5 } , { 6, 7 }",
+        "{;     };      var a = { 6, 7 } } , 3 , } } } };               6, 7 } } , 3 , } } }",
+        "[;     ];      var a = array b 4 + a [ ar [ 0 ] ] ] ];         ar [ 0 ] ] ]",
+        "[;     ];      var a = array 4 * sum ( 3 , a [ 5 ] ) ];        5 ] ) "
     })
     void Should_return_tokens_between_brackets_ignoring_validation_and_allowing_empty_results(final String openingBracket,
                                                                                               final String closingBracket,
@@ -84,15 +84,15 @@ class SyntaxParseUtils_getTokensBetweenBrackets_UnitTest {
 
     @ParameterizedTest
     @CsvSource(delimiter = ';', value = {
-        "(; );      ",
-        "{; };      ",
-        "[; ];      ",
-        "(; );      if a < 4 ) {",
-        "(; );      function1 ) {",
-        "{; };      var a = }",
-        "{; };      var a = 5, 6, 7 }",
-        "[; ];      var a = array ]",
-        "[; ];      var a = array 4 + a ]"
+        "(;     );      ",
+        "{;     };      ",
+        "[;     ];      ",
+        "(;     );      if a < 4 ) {",
+        "(;     );      function1 ) {",
+        "{;     };      var a = }",
+        "{;     };      var a = 5, 6, 7 }",
+        "[;     ];      var a = array ]",
+        "[;     ];      var a = array 4 + a ]"
     })
     @Order(2)
     void Should_throw_error_if_opening_bracket_is_missing(final String openingBracket,
@@ -111,12 +111,12 @@ class SyntaxParseUtils_getTokensBetweenBrackets_UnitTest {
 
     @ParameterizedTest
     @CsvSource(delimiter = ';', value = {
-        "(; );      if ( a < 4 {",
-        "(; );      function1 ( {",
-        "{; };      var a = {",
-        "{; };      var a = { 5, 6, 7",
-        "[; ];      var a = array [",
-        "[; ];      var a = array [ 4 + a",
+        "(;     );      if ( a < 4 {",
+        "(;     );      function1 ( {",
+        "{;     };      var a = {",
+        "{;     };      var a = { 5, 6, 7",
+        "[;     ];      var a = array [",
+        "[;     ];      var a = array [ 4 + a",
     })
     @Order(3)
     void Should_throw_error_if_closing_bracket_is_missing(final String openingBracket,

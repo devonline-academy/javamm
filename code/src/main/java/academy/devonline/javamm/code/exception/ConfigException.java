@@ -27,9 +27,4 @@ public final class ConfigException extends RuntimeException {
     public ConfigException(final String message) {
         super(requireNonNull(message));
     }
-
-    public ConfigException(final String message,
-                           final Throwable cause) {
-        super(requireNonNull(message), requireNonNull(cause));
-    }
 }

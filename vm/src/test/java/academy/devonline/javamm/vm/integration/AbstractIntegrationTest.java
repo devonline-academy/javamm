@@ -16,6 +16,7 @@
 
 package academy.devonline.javamm.vm.integration;
 
+import academy.devonline.javamm.code.component.Console;
 import academy.devonline.javamm.code.fragment.SourceCode;
 import academy.devonline.javamm.vm.VirtualMachine;
 import academy.devonline.javamm.vm.VirtualMachineBuilder;
@@ -42,7 +43,9 @@ public abstract class AbstractIntegrationTest {
 
     private final TestPrintStream testPrintStream = new TestPrintStream();
 
-    private final VirtualMachine virtualMachine = new VirtualMachineBuilder().build();
+    private final VirtualMachine virtualMachine = new VirtualMachineBuilder()
+        .setConsole(Console.DEFAULT)
+        .build();
 
     @BeforeEach
     final void beforeEach() {

@@ -19,8 +19,9 @@ package academy.devonline.javamm.ide.util;
 import academy.devonline.javamm.code.exception.ConfigException;
 import javafx.fxml.FXMLLoader;
 
-import java.io.IOException;
 import java.net.URL;
+
+import static academy.devonline.javamm.code.util.ExceptionUtils.wrapCheckedException;
 
 /**
  * @author devonline
@@ -43,10 +44,6 @@ public final class ResourceUtils {
         final FXMLLoader fxmlLoader = new FXMLLoader(component.getClass().getResource(resource));
         fxmlLoader.setRoot(component);
         fxmlLoader.setController(component);
-        try {
-            fxmlLoader.load();
-        } catch (final IOException e) {
-            throw new RuntimeException(e);
-        }
+        wrapCheckedException(fxmlLoader::load);
     }
 }

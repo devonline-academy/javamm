@@ -22,6 +22,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import static academy.devonline.javamm.code.util.ExceptionUtils.wrapCheckedException;
+
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
@@ -85,11 +87,7 @@ public final class Keywords {
         final Set<String> set = new LinkedHashSet<>();
         for (final Field field : Keywords.class.getDeclaredFields()) {
             if (field.getType() == String.class) {
-                try {
-                    set.add(String.valueOf(field.get(Keywords.class)));
-                } catch (final IllegalAccessException e) {
-                    throw new RuntimeException(e);
-                }
+                set.add(String.valueOf(wrapCheckedException(() -> field.get(Keywords.class))));
             }
         }
         return List.copyOf(set);

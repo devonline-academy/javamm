@@ -25,9 +25,12 @@
                 <configuration>
                     <argLine>
                         @{argLine}
+                        --add-opens javamm.ide/academy.devonline.javamm=ALL-UNNAMED
+                        --add-opens javamm.ide/academy.devonline.javamm.ide.model=ALL-UNNAMED
                         --add-opens javamm.ide/academy.devonline.javamm.ide.component.impl=ALL-UNNAMED
 
                         --add-exports javafx.base/com.sun.javafx.beans=ALL-UNNAMED
+                        --add-opens javafx.graphics/javafx.concurrent=javamm.ide
                     </argLine>
                 </configuration>
             </plugin>

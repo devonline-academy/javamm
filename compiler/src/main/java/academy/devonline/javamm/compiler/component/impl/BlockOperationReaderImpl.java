@@ -35,7 +35,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import static academy.devonline.javamm.compiler.component.impl.util.SyntaxParseUtils.isClosingBlockOperation;
-import static academy.devonline.javamm.compiler.component.impl.util.SyntaxValidationUtils.validateThatLineContainsClosingCurlyBraceOnly;
+import static academy.devonline.javamm.compiler.component.impl.util.SyntaxValidationUtils.validateThatLineContainsOneTokenOnly;
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -82,7 +82,7 @@ public final class BlockOperationReaderImpl implements BlockOperationReader {
         while (iterator.hasNext()) {
             final SourceLine sourceLine = iterator.next();
             if (isClosingBlockOperation(sourceLine)) {
-                validateThatLineContainsClosingCurlyBraceOnly(sourceLine);
+                validateThatLineContainsOneTokenOnly("}", sourceLine);
                 return;
             } else {
                 operations.add(getOperation(sourceLine, iterator));

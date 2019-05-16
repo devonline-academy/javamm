@@ -27,7 +27,6 @@ import academy.devonline.javamm.compiler.component.impl.operation.ForUpdateOpera
 
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Optional;
 
 import static java.util.Objects.requireNonNull;
 
@@ -45,8 +44,8 @@ public class PrintlnOperationReader extends AbstractOperationReader<PrintlnOpera
     }
 
     @Override
-    protected Optional<String> getOperationKeyword() {
-        return Optional.of("println");
+    public boolean canRead(final SourceLine sourceLine) {
+        return "println".equals(sourceLine.getFirst());
     }
 
     @Override
@@ -61,8 +60,12 @@ public class PrintlnOperationReader extends AbstractOperationReader<PrintlnOpera
 
     @Override
     protected PrintlnOperation get(final SourceLine sourceLine, final ListIterator<SourceLine> iterator) {
-        final List<String> expressionTokens = sourceLine.subList(2, sourceLine.getTokenCount() - 1);
-        final Expression expression = expressionResolver.resolve(expressionTokens, sourceLine);
-        return new PrintlnOperation(sourceLine, expression);
+        if (sourceLine.getTokenCount() == 3) {
+            return new PrintlnOperation(sourceLine);
+        } else {
+            final List<String> expressionTokens = sourceLine.subList(2, sourceLine.getTokenCount() - 1);
+            final Expression expression = expressionResolver.resolve(expressionTokens, sourceLine);
+            return new PrintlnOperation(sourceLine, expression);
+        }
     }
 }

@@ -105,8 +105,25 @@ class StackTrace_IntegrationTest extends AbstractIntegrationTest {
         );
 
         final JavammRuntimeError error = assertThrows(JavammRuntimeError.class, () -> runCode(lines));
-        assertEquals("Runtime error: Main function not found, please define the main function as: 'function main()'", error.getMessage());
-        assertEquals(error.getMessage(), error.getMessage());
+        assertEquals(
+            "Runtime error: Main function not found, please define the main function as: 'function main()'",
+            error.getMessage());
         assertEquals(List.of(), error.getCurrentStackTrace());
+    }
+
+    @Test
+    void Should_throw_runtime_error_if_function_not_defined() {
+        final List<String> lines = of(
+            "function main(){",
+            "   test()",
+            "}"
+        );
+
+        final JavammRuntimeError error = assertThrows(JavammRuntimeError.class, () -> runCode(lines));
+        assertEquals(
+            "Runtime error: Function 'test()' not defined" +
+                System.lineSeparator() +
+                "    at main() [integration-vm-test:2]",
+            error.getMessage());
     }
 }

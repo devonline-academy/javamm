@@ -19,6 +19,8 @@ package academy.devonline.javamm.code.fragment.operation;
 import academy.devonline.javamm.code.fragment.Expression;
 import academy.devonline.javamm.code.fragment.SourceLine;
 
+import java.util.Optional;
+
 import static java.util.Objects.requireNonNull;
 
 /**
@@ -35,7 +37,12 @@ public final class PrintlnOperation extends AbstractOperation
         this.expression = requireNonNull(expression);
     }
 
-    public Expression getExpression() {
-        return expression;
+    public PrintlnOperation(final SourceLine sourceLine) {
+        super(sourceLine);
+        this.expression = null;
+    }
+
+    public Optional<Expression> getExpression() {
+        return Optional.ofNullable(expression);
     }
 }
