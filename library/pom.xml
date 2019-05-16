@@ -11,6 +11,7 @@
     <artifactId>library</artifactId>
 
     <name>Javamm std lib</name>
-    <description>Standard library with core, math and string function modules for javamm programming language
+    <description>
+        Standard library with core, math and string function modules for javamm programming language
     </description>
 </project>
