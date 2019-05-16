@@ -42,6 +42,9 @@ module javamm.ide {
     exports academy.devonline.javamm.ide to javafx.graphics;
     exports academy.devonline.javamm.ide.controller to javafx.fxml;
     exports academy.devonline.javamm.ide.ui.pane to javafx.fxml;
+    exports academy.devonline.javamm.ide.ui.listener to javafx.fxml;
+    exports academy.devonline.javamm.ide.component to javafx.fxml;
+    exports academy.devonline.javamm.ide.model to javafx.fxml;
 
     opens academy.devonline.javamm.ide.controller to javafx.fxml;
     opens academy.devonline.javamm.ide.ui.pane to javafx.fxml;

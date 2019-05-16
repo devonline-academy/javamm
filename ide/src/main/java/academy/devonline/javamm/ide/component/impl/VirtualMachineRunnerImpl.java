@@ -77,6 +77,7 @@ public class VirtualMachineRunnerImpl implements VirtualMachineRunner {
         runnerThread.interrupt();
     }
 
+    @SuppressWarnings("CheckStyle")
     private void invokeVm(final VirtualMachineRunCompletedListener listener) {
         CompleteStatus status = CompleteStatus.SUCCESSFUL;
         try {

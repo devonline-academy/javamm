@@ -84,7 +84,7 @@ class ContinueOperationInterpreter_IntegrationTest extends AbstractIntegrationTe
      * @author devonline
      * @link http://devonline.academy/javamm
      */
-    static final class ContinueOperationProvider implements ArgumentsProvider {
+    private static final class ContinueOperationProvider implements ArgumentsProvider {
 
         @Override
         public Stream<Arguments> provideArguments(final ExtensionContext context) {

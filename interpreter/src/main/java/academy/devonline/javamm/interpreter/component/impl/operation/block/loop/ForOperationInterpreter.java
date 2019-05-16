@@ -16,11 +16,6 @@
 
 package academy.devonline.javamm.interpreter.component.impl.operation.block.loop;
 
-/**
- * @author devonline
- * @link http://devonline.academy/javamm
- */
-
 import academy.devonline.javamm.code.component.ExpressionContext;
 import academy.devonline.javamm.code.fragment.operation.Block;
 import academy.devonline.javamm.code.fragment.operation.ForOperation;

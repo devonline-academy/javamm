@@ -53,7 +53,6 @@ class ArithmeticBinaryCalculatorIntegrationTest extends AbstractBinaryCalculator
             arguments("Hello ", "+", DOUBLE, "Hello double"),
             arguments("Hello ", "+", BOOLEAN, "Hello boolean"),
             arguments("Hello ", "+", STRING, "Hello string"),
-            // TODO Add ARRAY
             arguments("Hello ", "+", "world", "Hello world"),
             arguments(2, "+", " world", "2 world"),
             arguments(2.1, "+", " world", "2.1 world"),
@@ -64,7 +63,6 @@ class ArithmeticBinaryCalculatorIntegrationTest extends AbstractBinaryCalculator
             arguments(DOUBLE, "+", " world", "double world"),
             arguments(BOOLEAN, "+", " world", "boolean world"),
             arguments(STRING, "+", " world", "string world"),
-            // TODO Add ARRAY
             // -
             arguments(3, "-", 2, 1),
             arguments(3.1, "-", 2, 1.1),

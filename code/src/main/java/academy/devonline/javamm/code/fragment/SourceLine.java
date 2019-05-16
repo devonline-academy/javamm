@@ -90,6 +90,7 @@ public final class SourceLine implements Comparable<SourceLine>, CompiledCodeFra
         return tokens.indexOf(token);
     }
 
+    @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
     @Override
     public boolean equals(final Object o) {
         final SourceLine that = (SourceLine) o;

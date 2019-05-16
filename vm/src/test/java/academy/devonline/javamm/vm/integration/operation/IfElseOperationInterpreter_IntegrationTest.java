@@ -76,7 +76,7 @@ class IfElseOperationInterpreter_IntegrationTest extends AbstractIntegrationTest
      * @author devonline
      * @link http://devonline.academy/javamm
      */
-    static final class IfElseOperationProvider implements ArgumentsProvider {
+    private static final class IfElseOperationProvider implements ArgumentsProvider {
 
         @Override
         public Stream<Arguments> provideArguments(final ExtensionContext context) {

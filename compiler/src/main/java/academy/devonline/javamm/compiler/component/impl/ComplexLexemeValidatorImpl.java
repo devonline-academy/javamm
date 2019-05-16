@@ -61,7 +61,7 @@ public class ComplexLexemeValidatorImpl implements ComplexLexemeValidator {
                 validateThatExpressionFoundBetweenUnaryAndBinaryOperators(current, next, sourceLine);
                 validateThatParenthesesAreCorrectlyPlaced(current, next, sourceLine);
                 final Lexeme previous = i > 0 ? lexemes.get(i - 1) : null;
-                validateThatBinaryAssigmentOperatorAppliedToVariableExpression(previous, current, next, sourceLine);
+                validateThatBinaryAssignmentOperatorAppliedToVariableExpression(previous, current, next, sourceLine);
 
                 iterator.previous();
             }
@@ -71,10 +71,10 @@ public class ComplexLexemeValidatorImpl implements ComplexLexemeValidator {
         validateThatBinaryOperatorFoundBetweenExpressionsIgnoringParentheses(lexemes, sourceLine);
     }
 
-    private void validateThatBinaryAssigmentOperatorAppliedToVariableExpression(final Lexeme previous,
-                                                                                final Lexeme current,
-                                                                                final Lexeme next,
-                                                                                final SourceLine sourceLine) {
+    private void validateThatBinaryAssignmentOperatorAppliedToVariableExpression(final Lexeme previous,
+                                                                                 final Lexeme current,
+                                                                                 final Lexeme next,
+                                                                                 final SourceLine sourceLine) {
         if (next instanceof BinaryOperator && ((BinaryOperator) next).isAssignment()) {
             final Operator operator = (Operator) next;
             validateThatLexemeIsVariableExpression(current, operator, sourceLine);

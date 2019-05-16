@@ -110,18 +110,19 @@ import static java.util.Map.ofEntries;
  * @link http://devonline.academy/javamm
  * @link https://introcs.cs.princeton.edu/java/11precedence/
  */
+@SuppressWarnings("checkstyle:MagicNumber")
 public class CompilerConfigurator {
 
     private static final int MAX_PRECEDENCE = 20;
 
-    private TokenParser tokenParser = new TokenParserImpl();
+    private final TokenParser tokenParser = new TokenParserImpl();
 
-    private SourceLineReader sourceLineReader = new SourceLineReaderImpl(tokenParser);
+    private final SourceLineReader sourceLineReader = new SourceLineReaderImpl(tokenParser);
 
-    private VariableBuilder variableBuilder = new VariableBuilderImpl();
+    private final VariableBuilder variableBuilder = new VariableBuilderImpl();
 
     // https://introcs.cs.princeton.edu/java/11precedence/
-    private Map<Operator, Integer> operatorPrecedenceMap = ofEntries(
+    private final Map<Operator, Integer> operatorPrecedenceMap = ofEntries(
         entry(INCREMENT, MAX_PRECEDENCE - 1),
         entry(DECREMENT, MAX_PRECEDENCE - 1),
         entry(ARITHMETIC_UNARY_PLUS, MAX_PRECEDENCE - 1),
@@ -172,32 +173,34 @@ public class CompilerConfigurator {
         entry(ASSIGNMENT_BITWISE_OR, MAX_PRECEDENCE - 12)
     );
 
-    private PrecedenceOperatorResolver precedenceOperatorResolver = new PrecedenceOperatorResolverImpl(operatorPrecedenceMap);
+    private final PrecedenceOperatorResolver precedenceOperatorResolver =
+        new PrecedenceOperatorResolverImpl(operatorPrecedenceMap);
 
-    private ComplexExpressionBuilder complexExpressionBuilder =
+    private final ComplexExpressionBuilder complexExpressionBuilder =
         new PostfixNotationComplexExpressionBuilder(precedenceOperatorResolver);
 
-    private SingleTokenExpressionBuilder singleTokenExpressionBuilder =
+    private final SingleTokenExpressionBuilder singleTokenExpressionBuilder =
         new SingleTokenExpressionBuilderImpl(variableBuilder);
 
-    private FunctionNameBuilder functionNameBuilder = new FunctionNameBuilderImpl();
+    private final FunctionNameBuilder functionNameBuilder = new FunctionNameBuilderImpl();
 
-    private LexemeBuilder lexemeBuilder = new LexemeBuilderImpl(singleTokenExpressionBuilder, functionNameBuilder);
+    private final LexemeBuilder lexemeBuilder =
+        new LexemeBuilderImpl(singleTokenExpressionBuilder, functionNameBuilder);
 
-    private Set<ExpressionBuilder> expressionBuilders = Set.of(
+    private final Set<ExpressionBuilder> expressionBuilders = Set.of(
         singleTokenExpressionBuilder
     );
 
-    private ComplexLexemeValidator complexLexemeValidator = new ComplexLexemeValidatorImpl();
+    private final ComplexLexemeValidator complexLexemeValidator = new ComplexLexemeValidatorImpl();
 
-    private UnaryOperatorUpdater unaryOperatorUpdater = new UnaryOperatorUpdaterImpl();
+    private final UnaryOperatorUpdater unaryOperatorUpdater = new UnaryOperatorUpdaterImpl();
 
-    private ExpressionResolver expressionResolver = new ExpressionResolverImpl(
+    private final ExpressionResolver expressionResolver = new ExpressionResolverImpl(
         expressionBuilders, lexemeBuilder, unaryOperatorUpdater, complexLexemeValidator, complexExpressionBuilder);
 
-    private ExpressionOperationBuilder expressionOperationBuilder = new ExpressionOperationBuilderImpl();
+    private final ExpressionOperationBuilder expressionOperationBuilder = new ExpressionOperationBuilderImpl();
 
-    private Set<OperationReader> operationReaders = Set.of(
+    private final Set<OperationReader> operationReaders = Set.of(
         new PrintlnOperationReader(expressionResolver),
         new VariableDeclarationOperationReader(variableBuilder, expressionResolver),
         new FinalDeclarationOperationReader(variableBuilder, expressionResolver),
@@ -227,20 +230,20 @@ public class CompilerConfigurator {
         new SwitchOperationReader(expressionResolver)
     );
 
-    private BlockOperationReader blockOperationReader = new BlockOperationReaderImpl(
+    private final BlockOperationReader blockOperationReader = new BlockOperationReaderImpl(
         operationReaders,
         expressionResolver,
         expressionOperationBuilder);
 
-    private int maxFunctionParameterCount = 5;
+    private final int maxFunctionParameterCount = 5;
 
-    private FunctionReader functionReader = new FunctionReaderImpl(
+    private final FunctionReader functionReader = new FunctionReaderImpl(
         functionNameBuilder,
         variableBuilder,
         blockOperationReader,
         maxFunctionParameterCount);
 
-    private Compiler compiler = new CompilerImpl(functionNameBuilder, sourceLineReader, functionReader);
+    private final Compiler compiler = new CompilerImpl(functionNameBuilder, sourceLineReader, functionReader);
 
     public Compiler getCompiler() {
         return compiler;

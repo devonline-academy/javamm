@@ -83,39 +83,39 @@ import java.util.Set;
  * @author devonline
  * @link http://devonline.academy/javamm
  */
+@SuppressWarnings({"checkstyle:MethodLength", "FieldCanBeLocal"})
 public class InterpreterConfigurator {
+
+    private static final int DEFAULT_MAX_STACK_SIZE = 10;
 
     private final int maxStackSize;
 
-    private CalculatorFacade calculatorFacade;
+    private final CalculatorFacade calculatorFacade;
 
-    private Set<ExpressionEvaluator<?>> expressionEvaluators;
+    private final Set<ExpressionEvaluator<?>> expressionEvaluators;
 
-    private Set<ExpressionUpdater<?>> expressionUpdaters;
+    private final Set<ExpressionUpdater<?>> expressionUpdaters;
 
-    private ExpressionContext expressionContext;
+    private final ExpressionContext expressionContext;
 
-    private Console console;
+    private final Set<OperationInterpreter<?>> operationInterpreters;
 
-    private Set<OperationInterpreter<?>> operationInterpreters;
+    private final BlockOperationInterpreter blockOperationInterpreter;
 
-    private BlockOperationInterpreter blockOperationInterpreter;
+    private final RuntimeBuilder runtimeBuilder;
 
-    private RuntimeBuilder runtimeBuilder;
+    private final DeveloperFunctionInvoker developerFunctionInvoker;
 
-    private DeveloperFunctionInvoker developerFunctionInvoker;
+    private final FunctionInvokerBuilder functionInvokerBuilder;
 
-    private FunctionInvokerBuilder functionInvokerBuilder;
-
-    private Interpreter interpreter;
+    private final Interpreter interpreter;
 
     public InterpreterConfigurator() {
         this(Console.DEFAULT);
     }
 
     public InterpreterConfigurator(final Console console) {
-        this.console = console;
-        this.maxStackSize = 10;
+        this.maxStackSize = DEFAULT_MAX_STACK_SIZE;
         this.calculatorFacade = new CalculatorFacadeImpl(Set.of(
             // ------- Arithmetic -----------------------------------------
             AdditionBinaryExpressionCalculator.createArithmeticCalculator(),

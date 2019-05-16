@@ -25,6 +25,7 @@ public final class ExceptionUtils {
     private ExceptionUtils() {
     }
 
+    @SuppressWarnings("CheckStyle")
     public static <T> T wrapCheckedException(final RunnableFragment<T> runnableFragment) {
         try {
             return runnableFragment.run();

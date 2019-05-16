@@ -45,6 +45,7 @@ public abstract class AbstractFunctionName implements FunctionName {
         return name;
     }
 
+    @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
     @Override
     public final boolean equals(final Object o) {
         final FunctionName other = (FunctionName) o;

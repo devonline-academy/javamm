@@ -13,12 +13,4 @@
     <name>Javamm std lib</name>
     <description>Standard library with core, math and string function modules for javamm programming language
     </description>
-
-    <dependencies>
-        <dependency>
-            <groupId>academy.devonline</groupId>
-            <artifactId>code</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-    </dependencies>
 </project>

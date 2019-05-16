@@ -32,6 +32,7 @@ import static java.util.stream.Collectors.toUnmodifiableSet;
  * @author devonline
  * @link http://devonline.academy/javamm
  */
+@SuppressWarnings("CheckStyle")
 public final class Delimiters {
 
     public static final String START_LINE_COMMENT = "//";
@@ -49,7 +50,7 @@ public final class Delimiters {
             ">", ">>", ">=", ">>>", ">>=", ">>>=", "<", "<<", "<=", "<<=",
             "!", "!=", "=", "==", "&", "&&", "&=", "|", "||", "|=", "^", "^=", "~"
     );*/
-    public static final Set<String> OPERATOR_TOKEN_DELIMITERS =
+    private static final Set<String> OPERATOR_TOKEN_DELIMITERS =
         Stream.of(
             Arrays.stream(BinaryOperator.values()).filter(op -> op != PREDICATE_TYPEOF)
                 .map(BinaryOperator::getCode),
@@ -65,7 +66,7 @@ public final class Delimiters {
      * [] - square brackets
      * <> - angle brackets
      */
-    public static final Set<String> NOT_OPERATOR_TOKEN_DELIMITERS = Set.of(
+    private static final Set<String> NOT_OPERATOR_TOKEN_DELIMITERS = Set.of(
         "(", ")",
         "{", "}",
         "[", "]",

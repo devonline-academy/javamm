@@ -41,6 +41,7 @@ import static java.lang.String.format;
  * @author devonline
  * @link http://devonline.academy/javamm
  */
+@SuppressWarnings("SpellCheckingInspection")
 public class ComponentFactoryImpl implements ComponentFactory {
 
     private final ExecutorService executorService = Executors.newSingleThreadExecutor();

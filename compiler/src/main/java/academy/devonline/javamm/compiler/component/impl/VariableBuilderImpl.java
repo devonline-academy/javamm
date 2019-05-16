@@ -64,6 +64,7 @@ public class VariableBuilderImpl implements VariableBuilder {
             return name;
         }
 
+        @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
         @Override
         public boolean equals(final Object o) {
             return name.equals(((Variable) o).getName());

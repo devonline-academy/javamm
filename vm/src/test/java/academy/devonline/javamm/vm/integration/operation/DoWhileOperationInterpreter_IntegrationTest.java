@@ -120,7 +120,7 @@ class DoWhileOperationInterpreter_IntegrationTest extends AbstractIntegrationTes
      * @author devonline
      * @link http://devonline.academy/javamm
      */
-    static final class DoWhileOperationProvider implements ArgumentsProvider {
+    private static final class DoWhileOperationProvider implements ArgumentsProvider {
 
         @Override
         public Stream<Arguments> provideArguments(final ExtensionContext context) {

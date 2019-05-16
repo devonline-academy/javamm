@@ -53,7 +53,7 @@ class SimpleBlockOperationInterpreter_IntegrationTest extends AbstractIntegratio
      * @author devonline
      * @link http://devonline.academy/javamm
      */
-    static final class SimpleBlockProvider implements ArgumentsProvider {
+    private static final class SimpleBlockProvider implements ArgumentsProvider {
 
         @Override
         public Stream<Arguments> provideArguments(final ExtensionContext context) {

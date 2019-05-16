@@ -59,12 +59,12 @@ class PostfixNotationComplexExpressionBuilder_IntegrationTest {
 
     private final SourceLine sourceLine = new SourceLine("module1", 5, List.of());
 
+    private final ComplexExpressionBuilder complexExpressionBuilder = new CompilerConfigurator().getComplexExpressionBuilder();
+
     @Mock
     private VariableBuilder variableBuilder;
 
     private LexemeBuilder lexemeBuilder;
-
-    private ComplexExpressionBuilder complexExpressionBuilder = new CompilerConfigurator().getComplexExpressionBuilder();
 
     @Mock
     private FunctionNameBuilder functionNameBuilder;

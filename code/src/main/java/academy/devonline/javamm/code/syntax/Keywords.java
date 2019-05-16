@@ -66,8 +66,6 @@ public final class Keywords {
 
     public static final String TYPEOF = "typeof";
 
-    public static final String ARRAY = "array";
-
     public static final String STRING = "string";
 
     public static final String INTEGER = "integer";

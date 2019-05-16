@@ -65,7 +65,7 @@ class TypeExpression_UnitTest {
         Keywords.DOUBLE,
         Keywords.BOOLEAN,
         Keywords.STRING,
-        // TODO Add ARRAY
+        Keywords.VOID
     })
     void is_should_return_true(final String keyword) {
         assertTrue(TypeExpression.is(keyword));
@@ -78,7 +78,7 @@ class TypeExpression_UnitTest {
         Keywords.DOUBLE,
         Keywords.BOOLEAN,
         Keywords.STRING,
-        // TODO Add ARRAY
+        Keywords.VOID
     })
     void of_should_support_all_type(final String keyword) {
         assertDoesNotThrow(() -> TypeExpression.of(keyword));

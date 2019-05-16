@@ -150,6 +150,7 @@ public final class SwitchOperation extends AbstractOperation {
                 return Objects.hashCode(caseKey.getValue());
             }
 
+            @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
             @Override
             public boolean equals(final Object obj) {
                 return Objects.equals(caseKey.getValue(), ((CaseEntryImpl) obj).caseKey.getValue());

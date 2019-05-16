@@ -33,7 +33,7 @@ public abstract class AbstractBlockOperationReader<T extends Operation> extends 
 
     private BlockOperationReader blockOperationReader;
 
-    protected final BlockOperationReader getBlockOperationReader() {
+    final BlockOperationReader getBlockOperationReader() {
         return requireNonNull(blockOperationReader, "blockOperationReader is not set");
     }
 

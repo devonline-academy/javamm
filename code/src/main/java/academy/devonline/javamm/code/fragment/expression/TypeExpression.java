@@ -41,8 +41,6 @@ public enum TypeExpression implements Expression, CaseValueExpression {
 
     VOID(academy.devonline.javamm.code.fragment.Void.class);
 
-    // TODO Array
-
     private static final Map<String, TypeExpression> ALL_TYPES = Arrays
         .stream(TypeExpression.values())
         .collect(toUnmodifiableMap(TypeExpression::getKeyword, identity()));
@@ -75,13 +73,13 @@ public enum TypeExpression implements Expression, CaseValueExpression {
         return this;
     }
 
-    public Class<?> getType() {
-        return clazz;
-    }
-
     @Override
     public Object getValue() {
         return this;
+    }
+
+    public Class<?> getType() {
+        return clazz;
     }
 
     @Override

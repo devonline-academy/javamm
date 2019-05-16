@@ -158,7 +158,7 @@ class VirtualMachineRunnerImpl_UnitTest {
         @Test
         @Order(15)
         void isRunning_should_return_false_if_working_thread_is_not_alive()
-            throws IllegalAccessException, InterruptedException, NoSuchFieldException {
+            throws IllegalAccessException, InterruptedException {
             runVmAndReturnCompleteStatus();
 
             assertFalse(virtualMachineRunner.isRunning());

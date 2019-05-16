@@ -53,14 +53,12 @@ class PredicateBinaryCalculatorIntegrationTest extends AbstractBinaryCalculatorI
             arguments(DOUBLE, "==", DOUBLE, true),
             arguments(BOOLEAN, "==", BOOLEAN, true),
             arguments(STRING, "==", STRING, true),
-            // TODO ARRAY == ARRAY
             arguments(3, "==", 4, false),
             arguments(3.0, "==", 4.0, false),
             arguments(true, "==", false, false),
             arguments(false, "==", true, false),
             arguments("hello", "==", "Hello", false),
             arguments(INTEGER, "==", STRING, false),
-            // TODO ARRAY == ARRAY
 
             /* ************* != ************* */
             arguments(null, "!=", null, false),
@@ -77,14 +75,12 @@ class PredicateBinaryCalculatorIntegrationTest extends AbstractBinaryCalculatorI
             arguments(DOUBLE, "!=", DOUBLE, false),
             arguments(BOOLEAN, "!=", BOOLEAN, false),
             arguments(STRING, "!=", STRING, false),
-            // TODO ARRAY != ARRAY
             arguments(3, "!=", 4, true),
             arguments(3.0, "!=", 4.0, true),
             arguments(true, "!=", false, true),
             arguments(false, "!=", true, true),
             arguments("hello", "!=", "Hello", true),
             arguments(INTEGER, "!=", STRING, true),
-            // TODO ARRAY != ARRAY
 
             /* ************* > ************* */
             arguments(3, ">", 2, true),
@@ -143,7 +139,6 @@ class PredicateBinaryCalculatorIntegrationTest extends AbstractBinaryCalculatorI
             arguments(null, TYPEOF, DOUBLE, false),
             arguments(null, TYPEOF, BOOLEAN, false),
             arguments(null, TYPEOF, STRING, false)
-            // TODO array typeof ARRAY
         );
     }
 

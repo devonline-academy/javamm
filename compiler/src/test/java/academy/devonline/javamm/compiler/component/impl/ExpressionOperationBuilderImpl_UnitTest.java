@@ -103,7 +103,7 @@ class ExpressionOperationBuilderImpl_UnitTest {
      * @author devonline
      * @link http://devonline.academy/javamm
      */
-    static final class AllSupportedExpressionsProvider implements ArgumentsProvider {
+    private static final class AllSupportedExpressionsProvider implements ArgumentsProvider {
 
         @Override
         public Stream<? extends Arguments> provideArguments(final ExtensionContext context) {
@@ -118,7 +118,7 @@ class ExpressionOperationBuilderImpl_UnitTest {
      * @author devonline
      * @link http://devonline.academy/javamm
      */
-    static final class InvalidPostfixNotationExpressionsProvider implements ArgumentsProvider {
+    private static final class InvalidPostfixNotationExpressionsProvider implements ArgumentsProvider {
 
         @Override
         public Stream<? extends Arguments> provideArguments(final ExtensionContext context) {

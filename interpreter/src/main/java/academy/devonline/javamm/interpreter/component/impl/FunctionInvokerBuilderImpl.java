@@ -54,7 +54,7 @@ public class FunctionInvokerBuilderImpl implements FunctionInvokerBuilder {
      * @author devonline
      * @link http://devonline.academy/javamm
      */
-    private static class FunctionInvokerImpl implements FunctionInvoker {
+    private static final class FunctionInvokerImpl implements FunctionInvoker {
 
         private final DeveloperFunctionInvoker developerFunctionInvoker;
 
@@ -84,7 +84,6 @@ public class FunctionInvokerBuilderImpl implements FunctionInvokerBuilder {
                         "Main function not found, please define the main function as: '%s %s'",
                         FUNCTION, functionName));
                 } else {
-                    // TODO Add support of std functions
                     throw new JavammLineRuntimeError(format("Function '%s' not defined", functionName));
                 }
             }

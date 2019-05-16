@@ -62,7 +62,7 @@ class JmmVmLauncher_UnitTest {
     }
 
     @Test
-    void Should_throw_runtime_error_if_main_function_not_found() throws IOException {
+    void Should_throw_runtime_error_if_main_function_not_found() {
         JmmVmLauncher.main();
 
         verify(err).println(

@@ -52,8 +52,8 @@ public class SwitchOperationReader extends AbstractBlockOperationReader<SwitchOp
         this.switchDefaultOperationReader = buildSwitchDefaultOperationReader();
     }
 
-    protected SwitchCaseOperationReader buildSwitchCaseOperationReader(final ExpressionResolver expressionResolver) {
-        return new SwitchCaseOperationReader(expressionResolver);
+    protected SwitchCaseOperationReader buildSwitchCaseOperationReader(final ExpressionResolver resolver) {
+        return new SwitchCaseOperationReader(resolver);
     }
 
     protected SwitchDefaultOperationReader buildSwitchDefaultOperationReader() {
@@ -106,6 +106,7 @@ public class SwitchOperationReader extends AbstractBlockOperationReader<SwitchOp
                 throw new JavammLineSyntaxError(format("Unsupported '%s' child statement", SWITCH), sourceLine);
             }
         }
-        throw new JavammStructSyntaxError(format("'}' expected to close '%s' block statement at the end of file", SWITCH), moduleName);
+        throw new JavammStructSyntaxError(format(
+            "'}' expected to close '%s' block statement at the end of file", SWITCH), moduleName);
     }
 }

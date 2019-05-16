@@ -18,8 +18,6 @@ package academy.devonline.javamm.ide.component;
 
 import academy.devonline.javamm.ide.component.impl.ComponentFactoryImpl;
 
-import static java.util.Objects.requireNonNull;
-
 /**
  * @author devonline
  * @link http://devonline.academy/javamm
@@ -35,7 +33,7 @@ public final class ComponentFactoryProvider {
         return componentFactory;
     }
 
-    public static void setComponentFactory(final ComponentFactory componentFactory) {
+    /*public static void setComponentFactory(final ComponentFactory componentFactory) {
         ComponentFactoryProvider.componentFactory = requireNonNull(componentFactory);
-    }
+    }*/
 }

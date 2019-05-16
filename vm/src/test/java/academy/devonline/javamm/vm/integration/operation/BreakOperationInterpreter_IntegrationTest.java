@@ -84,7 +84,7 @@ class BreakOperationInterpreter_IntegrationTest extends AbstractIntegrationTest 
      * @author devonline
      * @link http://devonline.academy/javamm
      */
-    static final class BreakOperationProvider implements ArgumentsProvider {
+    private static final class BreakOperationProvider implements ArgumentsProvider {
 
         @Override
         public Stream<Arguments> provideArguments(final ExtensionContext context) {

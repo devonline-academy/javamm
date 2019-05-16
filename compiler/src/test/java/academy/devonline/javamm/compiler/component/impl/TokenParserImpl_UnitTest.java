@@ -279,7 +279,7 @@ class TokenParserImpl_UnitTest {
      * @author devonline
      * @link http://devonline.academy/javamm
      */
-    static final class ComplexExpressionProvider implements ArgumentsProvider {
+    private static final class ComplexExpressionProvider implements ArgumentsProvider {
 
         @Override
         public Stream<? extends Arguments> provideArguments(final ExtensionContext context) {

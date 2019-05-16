@@ -34,9 +34,9 @@ import static academy.devonline.javamm.ide.util.ResourceUtils.getClasspathResour
  */
 public final class ConsolePane extends TitledPane {
 
-    private final Console console = new CodeAreaConsoleAdapter();
+    private static final int MAX_CONSOLE_SIZE = 5000;
 
-    private final int maxConsoleSize = 5000;
+    private final Console console = new CodeAreaConsoleAdapter();
 
     private boolean consoleOverflow;
 
@@ -66,7 +66,7 @@ public final class ConsolePane extends TitledPane {
         final String normalizedMessage = message.replace("\r", "");
         consoleSize += normalizedMessage.length();
 
-        if (consoleSize < maxConsoleSize) {
+        if (consoleSize < MAX_CONSOLE_SIZE) {
             Platform.runLater(() -> displayMessage(normalizedMessage, styleClass));
         } else {
             consoleOverflow = true;

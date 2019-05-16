@@ -44,7 +44,7 @@ public abstract class AbstractOperationReaderErrorIntegrationTest extends Abstra
     @TestFactory
     @Order(2)
     @SuppressWarnings("unchecked")
-    protected Stream<DynamicTest> Should_throw_syntax_error() {
+    Stream<DynamicTest> Should_throw_syntax_error() {
         final int[] index = new int[1];
         final Set<String> names = new HashSet<>();
         return invalidSourceLineProvider().map(args -> {

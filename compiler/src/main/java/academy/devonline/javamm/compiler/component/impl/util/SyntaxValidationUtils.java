@@ -84,6 +84,6 @@ public final class SyntaxValidationUtils {
 
         VARIABLE,
 
-        FUNCTION;
+        FUNCTION
     }
 }

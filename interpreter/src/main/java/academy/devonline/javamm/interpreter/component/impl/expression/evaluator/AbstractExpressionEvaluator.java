@@ -29,7 +29,7 @@ public abstract class AbstractExpressionEvaluator implements ExpressionContextAw
 
     private ExpressionContext expressionContext;
 
-    protected final ExpressionContext getExpressionContext() {
+    final ExpressionContext getExpressionContext() {
         return requireNonNull(expressionContext, "expressionContext is not set");
     }
 

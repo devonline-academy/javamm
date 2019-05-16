@@ -98,13 +98,16 @@ public class SingleTokenExpressionBuilderImpl implements SingleTokenExpressionBu
     protected Expression buildStringExpression(final String token, final SourceLine sourceLine) {
         final String stringDelimiter = token.substring(0, 1);
         if (token.length() == 1) {
-            throw new JavammLineSyntaxError(format("%s expected at the end of the string token", stringDelimiter), sourceLine);
+            throw new JavammLineSyntaxError(format(
+                "%s expected at the end of the string token", stringDelimiter), sourceLine);
         } else if (!token.endsWith(stringDelimiter)) {
             final char last = token.charAt(token.length() - 1);
             if (STRING_DELIMITERS.contains(last)) {
-                throw new JavammLineSyntaxError(format("%s expected at the end of the string token instead of %s", stringDelimiter, last), sourceLine);
+                throw new JavammLineSyntaxError(format(
+                    "%s expected at the end of the string token instead of %s", stringDelimiter, last), sourceLine);
             } else {
-                throw new JavammLineSyntaxError(format("%s expected at the end of the string token", stringDelimiter), sourceLine);
+                throw new JavammLineSyntaxError(format(
+                    "%s expected at the end of the string token", stringDelimiter), sourceLine);
             }
         } else {
             return ConstantExpression.valueOf(token.substring(1, token.length() - 1));

@@ -16,7 +16,6 @@
 
 package academy.devonline.javamm.compiler.component.impl.operation.simple;
 
-import academy.devonline.javamm.code.component.ExpressionContext;
 import academy.devonline.javamm.code.fragment.Expression;
 import academy.devonline.javamm.code.fragment.Operation;
 import academy.devonline.javamm.code.fragment.SourceLine;
@@ -65,9 +64,6 @@ abstract class AbstractVarOrFinalDeclarationOperationReaderUnitTest {
 
     @Mock
     private ListIterator<SourceLine> iterator;
-
-    @Mock
-    private ExpressionContext expressionContext;
 
     @Mock
     private Expression expression;

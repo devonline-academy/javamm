@@ -47,6 +47,8 @@ import static java.util.stream.Collectors.joining;
  */
 public class AsyncSyntaxHighlighterImpl implements AsyncSyntaxHighlighter {
 
+    private static final int HIGHLIGHT_DURATION_IN_MILLIS = 50;
+
     private final Map<String, String> groupPatternMap = Map.ofEntries(
         // Keywords set
         entry("KEYWORD", format("\\b(%s)\\b", join("|", KEYWORDS))),
@@ -54,12 +56,6 @@ public class AsyncSyntaxHighlighterImpl implements AsyncSyntaxHighlighter {
         entry("STRING", format("%s|%s", "\".*?[\"\\n]", "'.*?['\\n]")),
         // Comments: //...\n or  /* ... */ or /* ... end file
         entry("COMMENT", format("%s|%s", "//[^\n]*", "/\\*(.|\\R)*?(\\*/|\\z)"))
-        // () - parentheses set
-        // entry("PAREN", "[()]"),
-        // {} - curly braces set
-        // entry("BRACE", "[{}]"),
-        // [] - square brackets set
-        // entry("BRACKET", "[\\[\\]]")
     );
 
     // Merge all groups
@@ -70,9 +66,9 @@ public class AsyncSyntaxHighlighterImpl implements AsyncSyntaxHighlighter {
     );
 
 
-    private CodeArea codeArea;
+    private final CodeArea codeArea;
 
-    private ExecutorService executorService;
+    private final ExecutorService executorService;
 
     private Subscription cleanupWhenDone;
 
@@ -85,7 +81,7 @@ public class AsyncSyntaxHighlighterImpl implements AsyncSyntaxHighlighter {
     @Override
     public void enable() {
         cleanupWhenDone = codeArea.multiPlainChanges()
-            .successionEnds(Duration.ofMillis(50))
+            .successionEnds(Duration.ofMillis(HIGHLIGHT_DURATION_IN_MILLIS))
             .supplyTask(this::computeHighlightingAsync)
             .awaitLatest(codeArea.multiPlainChanges())
             .filterMap(Try::toOptional)

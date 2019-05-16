@@ -128,6 +128,7 @@ public class UnaryOperatorUpdaterImpl implements UnaryOperatorUpdater {
                         ++a | + | 5
                         + | 5 | null
      */
+    @SuppressWarnings("CheckStyle")
     private void findAndReplaceIncrementOrDecrement(final ArrayList<Lexeme> result,
                                                     final SourceLine sourceLine) {
         for (int i = 0; i < result.size(); i++) {
@@ -142,7 +143,8 @@ public class UnaryOperatorUpdaterImpl implements UnaryOperatorUpdater {
                         validateThatLexemeIsVariableExpression(prev, unaryOperator, sourceLine);
                     result.remove(i);
                     result.set(i - 1, new UnaryPostfixAssignmentExpression(variableExpression, unaryOperator));
-                    i--; // do not skip  ->  a++ | + | 5
+                    // do not skip  ->  a++ | + | 5
+                    i--;
                 } else if (type == Type.NEXT) {
                     final VariableExpression variableExpression =
                         validateThatLexemeIsVariableExpression(next, unaryOperator, sourceLine);
@@ -150,7 +152,8 @@ public class UnaryOperatorUpdaterImpl implements UnaryOperatorUpdater {
                     result.set(i, new UnaryPrefixAssignmentExpression(unaryOperator, variableExpression));
                 } else {
                     throw new JavammLineSyntaxError(
-                        format("An expression is expected for unary operator: '%s'", unaryOperator.getCode()), sourceLine);
+                        format("An expression is expected for unary operator: '%s'",
+                            unaryOperator.getCode()), sourceLine);
                 }
             }
         }

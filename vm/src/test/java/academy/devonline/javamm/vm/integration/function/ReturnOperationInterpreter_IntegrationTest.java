@@ -58,7 +58,7 @@ class ReturnOperationInterpreter_IntegrationTest extends AbstractIntegrationTest
      * @author devonline
      * @link http://devonline.academy/javamm
      */
-    static final class ReturnOperationProvider implements ArgumentsProvider {
+    private static final class ReturnOperationProvider implements ArgumentsProvider {
 
         @Override
         public Stream<Arguments> provideArguments(final ExtensionContext context) {

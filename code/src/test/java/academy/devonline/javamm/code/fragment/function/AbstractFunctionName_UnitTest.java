@@ -110,6 +110,7 @@ class AbstractFunctionName_UnitTest {
             return name;
         }
 
+        @SuppressWarnings("EqualsWhichDoesntCheckParameterClass")
         @Override
         public boolean equals(final Object o) {
             return getName().equals(((FunctionName) o).getName());
