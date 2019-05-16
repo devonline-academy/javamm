@@ -18,7 +18,6 @@
         <module>cmd</module>
         <module>ide</module>
         <module>release</module>
-        <module>temp</module>
     </modules>
 
     <name>Javamm project</name>
