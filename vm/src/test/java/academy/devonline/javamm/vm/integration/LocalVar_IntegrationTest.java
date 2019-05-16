@@ -31,10 +31,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
  * @link http://devonline.academy/javamm
  */
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-class LocalVar_IntegrationTest extends AbstractIntegrationTest  {
+class LocalVar_IntegrationTest extends AbstractIntegrationTest {
 
     @Test
-    void Should_throw_runtime_error_if_program_tries_to_change_a_final_variable(){
+    void Should_throw_runtime_error_if_program_tries_to_change_a_final_variable() {
         final JavammRuntimeError error = assertThrows(JavammRuntimeError.class, () -> runBlock(List.of(
             "final a = 1",
             "a = 2"
@@ -43,7 +43,7 @@ class LocalVar_IntegrationTest extends AbstractIntegrationTest  {
     }
 
     @Test
-    void Should_throw_runtime_error_if_program_tries_to_change_not_defined_variable(){
+    void Should_throw_runtime_error_if_program_tries_to_change_not_defined_variable() {
         final JavammRuntimeError error = assertThrows(JavammRuntimeError.class, () -> runBlock(List.of(
             "a = 2"
         )));
@@ -51,7 +51,7 @@ class LocalVar_IntegrationTest extends AbstractIntegrationTest  {
     }
 
     @Test
-    void Should_update_a_variable_during_evaluation_of_complex_expression(){
+    void Should_update_a_variable_during_evaluation_of_complex_expression() {
         runBlock(List.of(
             "var a = 1",
             "println(a += 2 + a - 2 * 3)",

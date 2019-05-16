@@ -17,7 +17,6 @@
 package academy.devonline.javamm.compiler.integration.operation;
 
 import academy.devonline.javamm.code.fragment.Operation;
-import academy.devonline.javamm.code.fragment.operation.BreakOperation;
 import academy.devonline.javamm.code.fragment.operation.VariableAssignmentOperation;
 import academy.devonline.javamm.compiler.integration.AbstractOperationReaderSuccessIntegrationTest;
 import org.junit.jupiter.params.provider.Arguments;

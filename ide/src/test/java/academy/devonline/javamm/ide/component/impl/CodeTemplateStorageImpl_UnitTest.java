@@ -25,10 +25,10 @@ class CodeTemplateStorageImpl_UnitTest {
     @Order(1)
     void Should_throw_ConfigException_if_duplicates_found() {
         final CodeTemplateStorageImpl.Builder builder = new CodeTemplateStorageImpl.Builder()
-                .addTemplate("template", "test");
+            .addTemplate("template", "test");
 
         final ConfigException exception = assertThrows(ConfigException.class, () ->
-                builder.addTemplate("template", "test"));
+            builder.addTemplate("template", "test"));
         assertEquals("Duplicate found: key=test, value1=template, value2=template", exception.getMessage());
     }
 
@@ -36,9 +36,9 @@ class CodeTemplateStorageImpl_UnitTest {
     @Order(2)
     void Get_templates_should_work_correctly() {
         final CodeTemplateStorage storage = new CodeTemplateStorageImpl.Builder()
-                .addTemplate("test1", "op")
-                .addTemplate("test2", "exp")
-                .build();
+            .addTemplate("test1", "op")
+            .addTemplate("test2", "exp")
+            .build();
 
         assertTrue(storage.getTemplate("op").isPresent());
         assertTrue(storage.getTemplate("notFound").isEmpty());
