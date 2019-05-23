@@ -1,9 +1,9 @@
                             The Javamm Project
+							
+							=================
+		The Javamm Virtual Machine, CMD wrapper and Simple IDE
                             =================
-
-Please visit the official web site for more information:
-
-  * http://devonline.academy/javamm
+							
 
 Copyright (c) 2019. http://devonline.academy
 
@@ -27,4 +27,81 @@ This product requires OpenJDK 11 or later:
  * HOMEPAGE:
    * https://jdk.java.net/11/
 
-TODO...
+-------------------------------------------------------------------------------
+This product requires OpenJFX 11 or later:
+
+ * LICENSE:
+   * https://openjdk.java.net/legal/gplv2+ce.html (GNU General Public License, version 2, with the Classpath Exception)
+ * HOMEPAGE:
+   * https://openjfx.io/
+   * https://gluonhq.com/products/javafx/
+
+-------------------------------------------------------------------------------
+This product requires RichTextFX:
+
+ * LICENSE:
+   * https://openjdk.java.net/legal/gplv2+ce.html (GNU General Public License, version 2, with the Classpath Exception)
+   * https://opensource.org/licenses/BSD-2-Clause (BSD 2-Clause License)
+ * HOMEPAGE:
+   * https://github.com/FXMisc/RichTextFX
+
+-------------------------------------------------------------------------------
+This product requires ikonli (Icon packs for Java applications)
+
+ * LICENSE:
+   * https://github.com/aalmiray/ikonli/blob/master/LICENSE (Apache License 2.0)
+ * HOMEPAGE:
+   * https://github.com/aalmiray/ikonli
+   * http://aalmiray.github.io/ikonli/
+
+-------------------------------------------------------------------------------
+This product requires DevIcons ikonli (Icon packs for Java applications)
+
+ * LICENSE:
+   * https://opensource.org/licenses/MIT (The MIT License)
+ * HOMEPAGE:
+   * http://vorillaz.github.io/devicons/
+
+-------------------------------------------------------------------------------
+This product requires MaterialDesign ikonli (Icon packs for Java applications)
+
+ * LICENSE:
+   * https://github.com/Templarian/MaterialDesign/blob/master/LICENSE
+ * HOMEPAGE:
+   * https://github.com/Templarian/MaterialDesign
+
+-------------------------------------------------------------------------------
+This product requires Typicons ikonli (Icon packs for Java applications)
+
+ * LICENSE:
+   * https://creativecommons.org/licenses/by-sa/3.0/ (CC BY-SA licence)
+   * http://scripts.sil.org/cms/scripts/page.php?item_id=OFL_web
+ * HOMEPAGE:
+   * https://github.com/stephenhutchings/typicons.font
+
+-------------------------------------------------------------------------------
+This product requires JUnit 5:
+
+ * LICENSE:
+   * http://www.eclipse.org/legal/epl-v20.html (Eclipse Public License v2.0)
+ * HOMEPAGE:
+   * https://junit.org/junit5/
+
+-------------------------------------------------------------------------------
+This product requires Mockito:
+
+ * LICENSE:
+   * https://github.com/mockito/mockito/blob/master/LICENSE (The MIT License)
+ * HOMEPAGE:
+   * https://site.mockito.org
+
+-------------------------------------------------------------------------------
+This product requires Apache Commons Lang3:
+
+ * LICENSE:
+   * https://github.com/apache/commons-lang/blob/master/LICENSE.txt (Apache License 2.0)
+ * HOMEPAGE:
+   * https://github.com/apache/commons-lang
+   * https://commons.apache.org/proper/commons-lang/
+
+-------------------------------------------------------------------------------
