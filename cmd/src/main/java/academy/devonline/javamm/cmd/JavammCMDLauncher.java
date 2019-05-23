@@ -29,9 +29,9 @@ import static academy.devonline.javamm.code.util.ExceptionUtils.wrapCheckedExcep
  * @author devonline
  * @link http://devonline.academy/javamm
  */
-public final class JmmVmLauncher {
+public final class JavammCMDLauncher {
 
-    private JmmVmLauncher() {
+    private JavammCMDLauncher() {
     }
 
     public static void main(final String... args) {

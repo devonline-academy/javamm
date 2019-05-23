@@ -39,7 +39,7 @@ import static org.mockito.Mockito.verify;
  * @link http://devonline.academy/javamm
  */
 @ExtendWith(MockitoExtension.class)
-class JmmVmLauncher_UnitTest {
+class JavammCMDLauncher_UnitTest {
 
     private static final PrintStream REAL_ERR = System.err;
 
@@ -56,14 +56,14 @@ class JmmVmLauncher_UnitTest {
         final Path testSourceCodePath = tempDir.resolve("test.javamm");
         Files.write(testSourceCodePath, List.of("function main(){", "}"));
 
-        JmmVmLauncher.main(testSourceCodePath.toString());
+        JavammCMDLauncher.main(testSourceCodePath.toString());
 
         verify(err, never()).println(anyString());
     }
 
     @Test
     void Should_throw_runtime_error_if_main_function_not_found() {
-        JmmVmLauncher.main();
+        JavammCMDLauncher.main();
 
         verify(err).println(
             "Runtime error: Main function not found, please define the main function as: 'function main()'");
