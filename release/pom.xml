@@ -14,6 +14,60 @@
     <name>Release aggregator</name>
     <description>Release aggregator for javamm project</description>
 
+    <properties>
+        <distribution.root>${project.basedir}/../target</distribution.root>
+        <distribution.multi.platform>${distribution.root}/javamm-distribution</distribution.multi.platform>
+        <distribution.windows>${distribution.root}/javamm-distribution-windows</distribution.windows>
+        <distribution.linux>${distribution.root}/javamm-distribution-linux</distribution.linux>
+        <distribution.macos>${distribution.root}/javamm-distribution-macos</distribution.macos>
+        <distribution.source.code>${distribution.root}/javamm-source-code</distribution.source.code>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <configuration>
+                            <target>
+                                <ant antfile="${project.basedir}/build.xml">
+                                    <property name="root" value="${project.basedir}/../"/>
+                                    <property name="distribution.multi.platform" value="${distribution.multi.platform}"/>
+                                    <property name="distribution.windows" value="${distribution.windows}"/>
+                                    <property name="distribution.linux" value="${distribution.linux}"/>
+                                    <property name="distribution.macos" value="${distribution.macos}"/>
+                                    <property name="distribution.source.code" value="${distribution.source.code}"/>
+                                    <property name="javafx.version" value="${javafx.version}"/>
+
+                                    <target name="build"/>
+                                </ant>
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>ant-contrib</groupId>
+                        <artifactId>ant-contrib</artifactId>
+                        <version>1.0b3</version>
+                        <exclusions>
+                            <exclusion>
+                                <groupId>ant</groupId>
+                                <artifactId>ant</artifactId>
+                            </exclusion>
+                        </exclusions>
+                    </dependency>
+                </dependencies>
+            </plugin>
+        </plugins>
+    </build>
+
     <reporting>
         <plugins>
             <plugin>

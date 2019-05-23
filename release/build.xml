@@ -1,0 +1,458 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (c) 2019. http://devonline.academy
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<!--
+ !IMPORTANT: This ant build script should be invoked from maven. See ./pom.xml fo details
+
+ Ant tasks: https://ant.apache.org/manual/tasksoverview.html
+ Ant contrib: http://ant-contrib.sourceforge.net/tasks/tasks/index.html
+-->
+<project default="build" name="Ant javamm distribution build script">
+
+    <!-- The following properties will be overridden by properties from maven. See ./pom.xml fo details -->
+    <property name="root" value="${basedir}/../"/>
+    <property name="distribution.multi.platform" value="${root}/target/javamm-distribution"/>
+    <property name="distribution.windows" value="${root}/target/javamm-distribution-windows"/>
+    <property name="distribution.linux" value="${root}/target/javamm-distribution-linux"/>
+    <property name="distribution.macos" value="${root}/target/javamm-distribution-macos"/>
+    <property name="distribution.source.code" value="${root}/target/javamm-source-code"/>
+    <property name="javafx.version" value="11.0.2"/>
+
+    <!-- *********************************** FOR IDE SUPPORT *********************************** -->
+    <taskdef resource="net/sf/antcontrib/antlib.xml">
+        <classpath>
+            <pathelement location="${user.home}/.m2/repository/ant-contrib/ant-contrib/1.0b3/ant-contrib-1.0b3.jar"/>
+        </classpath>
+    </taskdef>
+    <!-- ******************************* LOCAL CONFIG PROPERTIES ******************************* -->
+    <property environment="env"/>
+
+    <property name="cmd.script.name" value="javamm"/>
+    <property name="ide.script.name" value="ide"/>
+
+    <!-- *************************************** TARGETS *************************************** -->
+
+    <target name="build" depends="build-multi-platform-distribution,
+                                  build-current-platform-distribution,
+                                  build-windows-platform-distribution,
+                                  build-linux-platform-distribution,
+                                  build-macos-platform-distribution,
+                                  build-source-code-archive"/>
+
+    <target name="build-multi-platform-distribution">
+        <copy-project-files dest="${distribution.multi.platform}"/>
+        <copy-run-scripts dest="${distribution.multi.platform}" with.jre="no" platform="windows"/>
+        <copy-run-scripts dest="${distribution.multi.platform}" with.jre="no" platform="linux"/>
+        <copy-run-scripts dest="${distribution.multi.platform}" with.jre="no" platform="macos"/>
+        <customize-readme dest="${distribution.multi.platform}" platform="all"/>
+
+        <zip destfile="${distribution.multi.platform}.zip"
+             basedir="${distribution.multi.platform}"
+             preserve0permissions="true"
+             level="9"/>
+    </target>
+
+    <target name="build-current-platform-distribution" depends="detect-platform">
+        <build-platform-distribution platform="${current.platform}"
+                                     jdk.jmods.path="${env.JAVA_HOME}/jmods"/>
+    </target>
+
+    <target name="build-windows-platform-distribution" depends="build-current-platform-distribution">
+        <build-other-platform-distribution platform="windows"
+                                           dest="${distribution.windows}"
+                                           jdk.jmods.path="${env.JDK_WIN_JMODS}"/>
+
+    </target>
+
+    <target name="build-linux-platform-distribution" depends="build-current-platform-distribution">
+        <build-other-platform-distribution platform="linux"
+                                           dest="${distribution.linux}"
+                                           jdk.jmods.path="${env.JDK_LIN_JMODS}"/>
+    </target>
+
+    <target name="build-macos-platform-distribution" depends="build-current-platform-distribution">
+        <build-other-platform-distribution platform="macos"
+                                           dest="${distribution.macos}"
+                                           jdk.jmods.path="${env.JDK_MAC_JMODS}"/>
+    </target>
+
+    <target name="build-source-code-archive">
+        <mkdir dir="${distribution.source.code}"/>
+        <copy todir="${distribution.source.code}">
+            <fileset dir="${root}/code/target/src"/>
+            <fileset dir="${root}/compiler/target/src"/>
+            <fileset dir="${root}/interpreter/target/src"/>
+            <fileset dir="${root}/library/target/src"/>
+            <fileset dir="${root}/cmd/target/src"/>
+            <fileset dir="${root}/ide/target/src"/>
+        </copy>
+
+        <zip destfile="${distribution.source.code}.zip"
+             basedir="${distribution.source.code}"
+             preserve0permissions="true"
+             level="9"/>
+    </target>
+
+    <target name="detect-platform">
+        <!-- https://ant.apache.org/manual/Tasks/conditions.html#os -->
+        <!-- https://github.com/apache/ant/blob/master/src/main/org/apache/tools/ant/taskdefs/condition/Os.java -->
+        <if>
+            <os family="windows"/>
+            <then>
+                <property name="current.platform" value="windows"/>
+            </then>
+            <elseif>
+                <os family="mac"/>
+                <then>
+                    <property name="current.platform" value="macos"/>
+                </then>
+            </elseif>
+            <elseif>
+                <os family="unix"/>
+                <then>
+                    <property name="current.platform" value="linux"/>
+                </then>
+            </elseif>
+            <else>
+                <fail message="Unsupported platform: ${os.name}"/>
+            </else>
+        </if>
+        <echo message="Current platform: ${current.platform}"/>
+    </target>
+
+    <!-- ********************************* MACRO DEFINITIONS ************************************* -->
+
+    <macrodef name="copy-project-files">
+        <attribute name="dest"/>
+        <sequential>
+            <mkdir dir="@{dest}"/>
+            <copy todir="@{dest}">
+                <fileset dir="${root}/cmd/target">
+                    <include name="*.jar"/>
+                </fileset>
+                <fileset dir="${root}/ide/target">
+                    <include name="*.jar"/>
+                    <include name="modules/*.jar"/>
+                    <include name="lib/*.jar"/>
+                </fileset>
+            </copy>
+            <copy todir="@{dest}/examples">
+                <fileset dir="${root}/release/src/examples"/>
+            </copy>
+            <copy todir="@{dest}">
+                <fileset file="${root}/LICENSE"/>
+                <fileset file="${root}/NOTICE"/>
+            </copy>
+            <copy todir="@{dest}">
+                <fileset file="${root}/release/src/scripts/README.txt"/>
+            </copy>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="copy-run-scripts">
+        <attribute name="dest"/>
+        <attribute name="platform"/>
+        <attribute name="with.jre" default="no"/>
+        <sequential>
+            <local name="ext"/>
+            <local name="eol"/>
+            <if>
+                <equals arg1="@{platform}" arg2="windows"/>
+                <then>
+                    <property name="ext" value="cmd"/>
+                    <property name="eol" value="dos"/>
+                </then>
+                <elseif>
+                    <equals arg1="@{platform}" arg2="linux"/>
+                    <then>
+                        <property name="ext" value="sh"/>
+                        <property name="eol" value="unix"/>
+                    </then>
+                </elseif>
+                <elseif>
+                    <equals arg1="@{platform}" arg2="macos"/>
+                    <then>
+                        <property name="ext" value="command"/>
+                        <property name="eol" value="unix"/>
+                    </then>
+                </elseif>
+                <else>
+                    <fail message="Unsupported platform: @{platform}"/>
+                </else>
+            </if>
+
+            <copy file="${root}/release/src/scripts/@{platform}/javamm-@{with.jre}-jre.${ext}"
+                  tofile="@{dest}/${cmd.script.name}.${ext}"/>
+            <fixcrlf eol="${eol}" file="@{dest}/${cmd.script.name}.${ext}"/>
+
+            <copy file="${root}/release/src/scripts/@{platform}/ide-@{with.jre}-jre.${ext}"
+                  tofile="@{dest}/${ide.script.name}.${ext}"/>
+            <fixcrlf eol="${eol}" file="@{dest}/${ide.script.name}.${ext}"/>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="build-platform-distribution">
+        <attribute name="platform"/>
+        <attribute name="jdk.jmods.path"/>
+        <sequential>
+            <local name="dir"/>
+            <local name="jfx.libs"/>
+            <local name="classifier"/>
+            <if>
+                <equals arg1="@{platform}" arg2="windows"/>
+                <then>
+                    <property name="dir" value="${distribution.windows}"/>
+                    <property name="jfx.libs" value="${root}/release/target/jfx/win"/>
+                    <property name="classifier" value="win"/>
+                </then>
+                <elseif>
+                    <equals arg1="@{platform}" arg2="linux"/>
+                    <then>
+                        <property name="dir" value="${distribution.linux}"/>
+                        <property name="jfx.libs" value="${root}/release/target/jfx/linux"/>
+                        <property name="classifier" value="linux"/>
+                    </then>
+                </elseif>
+                <elseif>
+                    <equals arg1="@{platform}" arg2="macos"/>
+                    <then>
+                        <property name="dir" value="${distribution.macos}"/>
+                        <property name="jfx.libs" value="${root}/release/target/jfx/macos"/>
+                        <property name="classifier" value="mac"/>
+                    </then>
+                </elseif>
+                <else>
+                    <fail message="Unsupported platform: @{platform}"/>
+                </else>
+            </if>
+
+            <copy-project-files dest="${dir}"/>
+            <copy-run-scripts dest="${dir}" with.jre="with" platform="@{platform}"/>
+            <customize-readme dest="${dir}" platform="@{platform}"/>
+            <if>
+                <equals arg1="@{platform}" arg2="${current.platform}"/>
+                <then>
+                    <copy-current-jfx-libs dir="${jfx.libs}" classifier="${classifier}"/>
+                </then>
+                <else>
+                    <copy-platform-jfx-libs dir="${jfx.libs}" classifier="${classifier}"/>
+                </else>
+            </if>
+            <build-custom-jre dest="${dir}" jdk.jmods.path="@{jdk.jmods.path}" jfx.jmods.path="${jfx.libs}"/>
+
+            <zip destfile="${dir}.zip"
+                 basedir="${dir}"
+                 preserve0permissions="true"
+                 level="9"/>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="copy-current-jfx-libs">
+        <attribute name="dir"/>
+        <attribute name="classifier"/>
+        <sequential>
+            <mkdir dir="@{dir}"/>
+            <copy todir="@{dir}">
+                <fileset
+                        file="${user.home}/.m2/repository/org/openjfx/javafx-base/${javafx.version}/javafx-base-${javafx.version}-@{classifier}.jar"/>
+                <fileset
+                        file="${user.home}/.m2/repository/org/openjfx/javafx-controls/${javafx.version}/javafx-controls-${javafx.version}-@{classifier}.jar"/>
+                <fileset
+                        file="${user.home}/.m2/repository/org/openjfx/javafx-graphics/${javafx.version}/javafx-graphics-${javafx.version}-@{classifier}.jar"/>
+                <fileset
+                        file="${user.home}/.m2/repository/org/openjfx/javafx-fxml/${javafx.version}/javafx-fxml-${javafx.version}-@{classifier}.jar"/>
+            </copy>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="copy-platform-jfx-libs">
+        <attribute name="dir"/>
+        <attribute name="classifier"/>
+        <sequential>
+            <mkdir dir="@{dir}"/>
+            <copy-platform-jfx-lib dir="@{dir}" classifier="@{classifier}" artifact="javafx-base"/>
+            <copy-platform-jfx-lib dir="@{dir}" classifier="@{classifier}" artifact="javafx-controls"/>
+            <copy-platform-jfx-lib dir="@{dir}" classifier="@{classifier}" artifact="javafx-graphics"/>
+            <copy-platform-jfx-lib dir="@{dir}" classifier="@{classifier}" artifact="javafx-fxml"/>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="copy-platform-jfx-lib">
+        <attribute name="artifact"/>
+        <attribute name="dir"/>
+        <attribute name="classifier"/>
+        <sequential>
+            <property name="temp.jfx.dir" value="${java.io.tmpdir}/jfx-libs"/>
+            <if>
+                <available file="${temp.jfx.dir}/@{artifact}-${javafx.version}-@{classifier}.jar"/>
+                <then>
+                    <echo message="JFX lib already exists: ${temp.jfx.dir}/@{artifact}-${javafx.version}-@{classifier}.jar"/>
+                </then>
+                <else>
+                    <mkdir dir="${temp.jfx.dir}"/>
+                    <get src="http://central.maven.org/maven2/org/openjfx/@{artifact}/${javafx.version}/@{artifact}-${javafx.version}-@{classifier}.jar"
+                         dest="${temp.jfx.dir}/@{artifact}-${javafx.version}-@{classifier}.jar"/>
+                </else>
+            </if>
+            <copy todir="@{dir}" file="${temp.jfx.dir}/@{artifact}-${javafx.version}-@{classifier}.jar"/>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="build-other-platform-distribution">
+        <attribute name="platform"/>
+        <attribute name="dest"/>
+        <attribute name="jdk.jmods.path"/>
+        <sequential>
+            <if>
+                <available file="@{dest}" type="dir"/>
+                <then>
+                    <echo message="Platform distribution already exists: @{dest}"/>
+                </then>
+                <else>
+                    <if>
+                        <available type="dir" file="@{jdk.jmods.path}"/>
+                        <then>
+                            <build-platform-distribution platform="@{platform}"
+                                                         jdk.jmods.path="@{jdk.jmods.path}"/>
+                        </then>
+                        <else>
+                            <echo message="Java @{platform} SDK not available"/>
+                        </else>
+                    </if>
+                </else>
+            </if>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="build-custom-jre">
+        <attribute name="dest"/>
+        <attribute name="jdk.jmods.path"/>
+        <attribute name="jfx.jmods.path"/>
+        <sequential>
+            <if>
+                <available file="@{dest}/jre" type="dir"/>
+                <then>
+                    <echo message="JRE directory already exists: @{dest}/jre"/>
+                </then>
+                <else>
+                    <exec executable="${env.JAVA_HOME}/bin/jlink" failonerror="true">
+                        <arg line='--module-path "@{jdk.jmods.path}${path.separator}@{dest}/modules${path.separator}@{dest}${path.separator}@{jfx.jmods.path}"'/>
+                        <arg line='--add-modules "javamm.code,javamm.compiler,javamm.interpreter,javamm.library,javafx.controls,javafx.graphics,javafx.fxml"'/>
+                        <arg line='--output @{dest}/jre'/>
+                        <arg line='--no-header-files --no-man-pages --compress 2'/>
+                    </exec>
+                </else>
+            </if>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="customize-readme">
+        <attribute name="dest"/>
+        <attribute name="platform"/>
+        <sequential>
+            <local name="indent"/>
+            <property name="indent" value="    "/>
+            <if>
+                <equals arg1="@{platform}" arg2="windows"/>
+                <then>
+                    <replace file="@{dest}/README.txt" token="javamm.script" value="javamm.cmd"/>
+                    <replace file="@{dest}/README.txt" token="ide.script" value="ide.cmd"/>
+
+                    <fixcrlf eol="dos" file="@{dest}/README.txt"/>
+                </then>
+                <elseif>
+                    <equals arg1="@{platform}" arg2="linux"/>
+                    <then>
+                        <replace file="@{dest}/README.txt" token="javamm.script" value="javamm.sh"/>
+                        <replace file="@{dest}/README.txt" token="ide.script" value="ide.sh"/>
+
+                        <echo append="true" file="@{dest}/README.txt"
+                              message="${line.separator}${line.separator}"/>
+                        <echo append="true" file="@{dest}/README.txt"
+                              message="${indent}Setup instructions${line.separator}"/>
+                        <echo append="true" file="@{dest}/README.txt"
+                              message="${indent}---------${line.separator}"/>
+                        <echo append="true" file="@{dest}/README.txt"
+                              message="${indent}chmod 755 javamm.sh${line.separator}"/>
+                        <echo append="true" file="@{dest}/README.txt"
+                              message="${indent}chmod 755 ide.sh${line.separator}"/>
+                        <echo append="true" file="@{dest}/README.txt"
+                              message="${indent}chmod 755 jre/bin/java${line.separator}"/>
+
+                        <fixcrlf eol="unix" file="@{dest}/README.txt"/>
+                    </then>
+                </elseif>
+                <elseif>
+                    <equals arg1="@{platform}" arg2="macos"/>
+                    <then>
+                        <replace file="@{dest}/README.txt" token="javamm.script" value="javamm.command"/>
+                        <replace file="@{dest}/README.txt" token="ide.script" value="ide.command"/>
+
+                        <echo append="true" file="@{dest}/README.txt"
+                              message="${line.separator}${line.separator}"/>
+                        <echo append="true" file="@{dest}/README.txt"
+                              message="${indent}Setup instructions${line.separator}"/>
+                        <echo append="true" file="@{dest}/README.txt"
+                              message="${indent}---------${line.separator}"/>
+                        <echo append="true" file="@{dest}/README.txt"
+                              message="${indent}chmod 755 javamm.command${line.separator}"/>
+                        <echo append="true" file="@{dest}/README.txt"
+                              message="${indent}chmod 755 ide.command${line.separator}"/>
+                        <echo append="true" file="@{dest}/README.txt"
+                              message="${indent}chmod 755 jre/bin/java${line.separator}"/>
+
+                        <fixcrlf eol="mac" file="@{dest}/README.txt"/>
+                    </then>
+                </elseif>
+                <elseif>
+                    <equals arg1="@{platform}" arg2="all"/>
+                    <then>
+                        <replace file="@{dest}/README.txt" token="javamm.script"
+                                 value="javamm.cmd (Windows) or javamm.sh (Linux) or javamm.command (MacOS)${line.separator}"/>
+                        <replace file="@{dest}/README.txt" token="ide.script"
+                                 value="ide.cmd (Windows) or ide.sh (Linux) or ide.command (MacOS)"/>
+
+                        <echo append="true" file="@{dest}/README.txt"
+                              message="${line.separator}${line.separator}"/>
+                        <echo append="true" file="@{dest}/README.txt"
+                              message="${indent}Setup instructions${line.separator}"/>
+                        <echo append="true" file="@{dest}/README.txt"
+                              message="${indent}---------${line.separator}"/>
+                        <echo append="true" file="@{dest}/README.txt"
+                              message="${indent}For Linux:${line.separator}"/>
+                        <echo append="true" file="@{dest}/README.txt"
+                              message="${indent}chmod 755 javamm.sh${line.separator}"/>
+                        <echo append="true" file="@{dest}/README.txt"
+                              message="${indent}chmod 755 ide.sh${line.separator}"/>
+                        <echo append="true" file="@{dest}/README.txt"
+                              message="${line.separator}"/>
+                        <echo append="true" file="@{dest}/README.txt"
+                              message="${indent}For Mac OS:${line.separator}"/>
+                        <echo append="true" file="@{dest}/README.txt"
+                              message="${indent}chmod 755 javamm.command${line.separator}"/>
+                        <echo append="true" file="@{dest}/README.txt"
+                              message="${indent}chmod 755 ide.command${line.separator}"/>
+
+                        <fixcrlf eol="dos" file="@{dest}/README.txt"/>
+                    </then>
+                </elseif>
+                <else>
+                    <fail message="Unsupported platform: @{platform}"/>
+                </else>
+            </if>
+        </sequential>
+    </macrodef>
+</project>

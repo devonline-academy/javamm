@@ -47,6 +47,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <javafx.version>11.0.2</javafx.version>
+
         <junit.version>5.5.0-M1</junit.version>
         <mockito.version>2.27.0</mockito.version>
         <apache.common.lang3.version>3.9</apache.common.lang3.version>
