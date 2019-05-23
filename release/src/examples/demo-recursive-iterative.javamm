@@ -1,0 +1,54 @@
+function main() {
+	final a = 5
+	println(factorialRecursive(a))
+	println(factorialRecursive(a, 1))
+	println(factorialIterative(a))
+	testStackOverflow1()
+}
+
+function factorialRecursive(value) {
+	if(value <= 1) {
+		return 1
+	}
+	else {
+		var prev = factorialRecursive(value - 1)
+		return value * prev
+	}
+}
+
+function factorialRecursive(value, initResult) {
+	if(value <= 1) {
+		return initResult
+	}
+	else {
+		return factorialRecursive(value - 1, initResult * value)
+	}
+}
+
+function factorialIterative(value) {
+	var res = 1
+	for(var i = 1; i <= value; i ++) {
+		res *= i
+	}
+	return res
+}
+
+function testStackOverflow1() {
+	testStackOverflow2()
+}
+
+function testStackOverflow2() {
+	testStackOverflow3()
+}
+
+function testStackOverflow3() {
+	testStackOverflow4()
+}
+
+function testStackOverflow4() {
+	testStackOverflow5()
+}
+
+function testStackOverflow5() {
+	testStackOverflow5()
+}
