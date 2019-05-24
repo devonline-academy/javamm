@@ -7,7 +7,7 @@
     <groupId>academy.devonline</groupId>
     <artifactId>javamm</artifactId>
     <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
 
     <modules>
         <module>code</module>
