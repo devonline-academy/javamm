@@ -368,16 +368,16 @@
             <if>
                 <equals arg1="@{platform}" arg2="windows"/>
                 <then>
-                    <replace file="@{dest}/README.txt" token="javamm.script" value="javamm.cmd"/>
-                    <replace file="@{dest}/README.txt" token="ide.script" value="ide.cmd"/>
+                    <replace file="@{dest}/README.txt" token="(javamm.script)" value="(javamm.cmd)"/>
+                    <replace file="@{dest}/README.txt" token="(ide.script)" value="(ide.cmd)"/>
 
                     <fixcrlf eol="dos" file="@{dest}/README.txt"/>
                 </then>
                 <elseif>
                     <equals arg1="@{platform}" arg2="linux"/>
                     <then>
-                        <replace file="@{dest}/README.txt" token="javamm.script" value="javamm.sh"/>
-                        <replace file="@{dest}/README.txt" token="ide.script" value="ide.sh"/>
+                        <replace file="@{dest}/README.txt" token="(javamm.script)" value="(javamm.sh)"/>
+                        <replace file="@{dest}/README.txt" token="(ide.script)" value="(ide.sh)"/>
 
                         <echo append="true" file="@{dest}/README.txt"
                               message="${line.separator}${line.separator}"/>
@@ -398,8 +398,8 @@
                 <elseif>
                     <equals arg1="@{platform}" arg2="macos"/>
                     <then>
-                        <replace file="@{dest}/README.txt" token="javamm.script" value="javamm.command"/>
-                        <replace file="@{dest}/README.txt" token="ide.script" value="ide.command"/>
+                        <replace file="@{dest}/README.txt" token="(javamm.script)" value="(javamm.command)"/>
+                        <replace file="@{dest}/README.txt" token="(ide.script)" value="(ide.command)"/>
 
                         <echo append="true" file="@{dest}/README.txt"
                               message="${line.separator}${line.separator}"/>
@@ -420,10 +420,10 @@
                 <elseif>
                     <equals arg1="@{platform}" arg2="all"/>
                     <then>
-                        <replace file="@{dest}/README.txt" token="javamm.script"
-                                 value="javamm.cmd (Windows) or javamm.sh (Linux) or javamm.command (MacOS)${line.separator}"/>
-                        <replace file="@{dest}/README.txt" token="ide.script"
-                                 value="ide.cmd (Windows) or ide.sh (Linux) or ide.command (MacOS)"/>
+                        <replace file="@{dest}/README.txt" token="(javamm.script)"
+                                 value="(javamm.cmd (Windows) or javamm.sh (Linux) or javamm.command (MacOS))${line.separator}${indent}"/>
+                        <replace file="@{dest}/README.txt" token="(ide.script)"
+                                 value="(ide.cmd (Windows) or ide.sh (Linux) or ide.command (MacOS))"/>
 
                         <echo append="true" file="@{dest}/README.txt"
                               message="${line.separator}${line.separator}"/>
@@ -431,6 +431,16 @@
                               message="${indent}Setup instructions${line.separator}"/>
                         <echo append="true" file="@{dest}/README.txt"
                               message="${indent}---------${line.separator}"/>
+
+                        <echo append="true" file="@{dest}/README.txt"
+                              message="${indent}Before run, set environment variables:${line.separator}"/>
+                        <echo append="true" file="@{dest}/README.txt"
+                              message="${indent}- JAVA_HOME - a location of OpenJDK 11 or later;${line.separator}"/>
+                        <echo append="true" file="@{dest}/README.txt"
+                              message="${indent}- OPENJFX_HOME - a location of JavaFX SDK 11 or later;${line.separator}"/>
+                        <echo append="true" file="@{dest}/README.txt"
+                              message="${line.separator}"/>
+
                         <echo append="true" file="@{dest}/README.txt"
                               message="${indent}For Linux:${line.separator}"/>
                         <echo append="true" file="@{dest}/README.txt"
