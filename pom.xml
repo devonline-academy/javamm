@@ -51,7 +51,7 @@
 
         <junit.version>5.6.2</junit.version>
         <mockito.version>3.3.3</mockito.version>
-        <apache.common.lang3.version>3.10</apache.common.lang3.version>
+        <apache.common.lang3.version>3.18.0</apache.common.lang3.version>
     </properties>
 
     <build>
